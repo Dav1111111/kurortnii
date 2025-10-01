@@ -25,7 +25,7 @@ interface Tour {
   seatsLeft: number;
   category: string;
   includes: string[];
-  excludes: string[];
+  excludes?: string[];
   slug: string;
 }
 
