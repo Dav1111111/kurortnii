@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kurortny-sochi.ru/sitemap.xml

@@ -1,0 +1,179 @@
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+import { CalendarIcon, Clock } from "lucide-react";
+import { cn } from "@/lib/utils";
+import toursData from "@/data/tours.json";
+
+const tourTypes = [
+  { value: "all", label: "Все экскурсии" },
+  { value: "sightseeing", label: "Обзорные" },
+  { value: "nature", label: "Природа" },
+  { value: "adventure", label: "Приключения" },
+  { value: "gastronomy", label: "Гастрономические" },
+  { value: "cultural", label: "Культурные" },
+] as const;
+
+const formSchema = z.object({
+  date: z.date({
+    required_error: "Пожалуйста, выберите дату",
+  }),
+  tourType: z.string({
+    required_error: "Пожалуйста, выберите тип экскурсии",
+  }),
+  duration: z.array(z.number()).length(1),
+});
+
+type FilterValues = z.infer<typeof formSchema>;
+
+interface TourFilterProps {
+  onFilter: (values: FilterValues) => void;
+}
+
+export function TourFilter({ onFilter }: TourFilterProps) {
+  const allDurations = (toursData.tours.map(t => t.durationHours).filter(Boolean) as number[]);
+  const minDuration = Math.max(1, Math.min(...allDurations));
+  const maxDuration = Math.max(...allDurations, 1);
+  const [duration, setDuration] = useState([maxDuration]);
+
+  const form = useForm<FilterValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      tourType: "all",
+      duration: [maxDuration],
+    },
+  });
+
+  function onSubmit(values: FilterValues) {
+    onFilter(values);
+    const element = document.getElementById("tours-list");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  return (
+    <div className="bg-white dark:bg-card rounded-lg shadow-lg p-6">
+      <h2 className="text-2xl font-bold mb-6">Поиск экскурсий</h2>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Дата</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP", { locale: ru })
+                          ) : (
+                            <span>Выберите дату</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => {
+                          const threeMonthsFromNow = new Date();
+                          threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3);
+                          return date < new Date() || date > threeMonthsFromNow;
+                        }}
+                        initialFocus
+                        locale={ru}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="tourType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Тип экскурсии</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите тип экскурсии" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {tourTypes.map((type) => (
+                        <SelectItem key={type.value} value={type.value}>
+                          {type.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="duration"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Длительность (до, часов)</FormLabel>
+                  <div className="flex items-center gap-4">
+                    <Clock className="h-4 w-4 text-muted-foreground" />
+                    <Slider
+                      min={minDuration}
+                      max={maxDuration}
+                      step={1}
+                      value={duration}
+                      onValueChange={(value) => {
+                        setDuration(value);
+                        field.onChange(value);
+                      }}
+                      className="flex-1"
+                    />
+                    <span className="min-w-[3ch] text-right">{duration}</span>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="flex justify-center">
+            <Button 
+              type="submit" 
+              size="lg"
+              className="bg-coral-500 hover:bg-coral-600 text-white px-8"
+            >
+              Найти
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+}
