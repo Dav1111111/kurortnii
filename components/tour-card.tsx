@@ -133,8 +133,8 @@ export function TourCard({ tour }: TourCardProps) {
               )}
             </AnimatePresence>
             
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <div className="text-center sm:text-left">
                 <span className="text-2xl font-bold text-turquoise-500">
                   {tour.priceRub} ₽
                 </span>
@@ -147,7 +147,7 @@ export function TourCard({ tour }: TourCardProps) {
                   variant="outline"
                   size="icon"
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="h-9 w-9"
+                  className="h-11 w-11 flex-shrink-0"
                 >
                   {isExpanded ? (
                     <ChevronUp className="h-4 w-4" />
@@ -155,8 +155,8 @@ export function TourCard({ tour }: TourCardProps) {
                     <ChevronDown className="h-4 w-4" />
                   )}
                 </Button>
-                <Link href={`/tours/${tour.slug}`}>
-                  <Button className="bg-coral-500 hover:bg-coral-600">
+                <Link href={`/tours/${tour.slug}`} className="flex-1 sm:flex-none">
+                  <Button className="w-full bg-coral-500 hover:bg-coral-600 h-11">
                     Забронировать
                   </Button>
                 </Link>

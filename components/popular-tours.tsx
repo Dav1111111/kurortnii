@@ -62,24 +62,24 @@ export function PopularTours() {
               Самые востребованные экскурсии и туры по Сочи и окрестностям
             </p>
           </div>
-          <div className="hidden md:flex gap-2">
+          <div className="hidden sm:flex gap-2">
             <Button
               variant="outline"
               size="icon"
               onClick={scrollPrev}
               disabled={!canScrollPrev}
-              className="h-10 w-10"
+              className="h-11 w-11"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-5 w-5" />
             </Button>
             <Button
               variant="outline"
               size="icon"
               onClick={scrollNext}
               disabled={!canScrollNext}
-              className="h-10 w-10"
+              className="h-11 w-11"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function PopularTours() {
                               /чел.
                             </span>
                           </div>
-                          <Button className="bg-coral-500 hover:bg-coral-600">
+                          <Button className="bg-coral-500 hover:bg-coral-600 h-11 px-4">
                             Забронировать
                           </Button>
                         </div>
@@ -151,24 +151,24 @@ export function PopularTours() {
           </div>
         </div>
 
-        <div className="flex justify-center mt-8 md:hidden gap-2">
+        <div className="flex justify-center mt-8 sm:hidden gap-2">
           <Button
             variant="outline"
             size="icon"
             onClick={scrollPrev}
             disabled={!canScrollPrev}
-            className="h-10 w-10"
+            className="h-11 w-11"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-5 w-5" />
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={scrollNext}
             disabled={!canScrollNext}
-            className="h-10 w-10"
+            className="h-11 w-11"
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
       </div>

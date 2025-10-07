@@ -1,6 +1,6 @@
 {
-  "name": "Курортный Сочи",
-  "short_name": "Курортный Сочи",
+  "name": "Южный Континент",
+  "short_name": "Южный Континент",
   "description": "Премиум отдых на Черном море",
   "start_url": "/",
   "display": "standalone",
@@ -8,13 +8,7 @@
   "theme_color": "#40E0D0",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
+      "src": "/ChatGPT%20Image%20Sep%2021,%202025,%2006_54_42%20PM.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

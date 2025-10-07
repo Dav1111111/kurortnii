@@ -32,10 +32,10 @@ export default function TourPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="min-h-screen pb-20">
-      <div className="container pt-8">
-        <Link href="/tours" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6">
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Назад к списку
+      <div className="container pt-8 px-4 sm:px-6">
+        <Link href="/tours" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6 text-base sm:text-sm touch-manipulation">
+          <ChevronLeft className="mr-1 h-5 w-5 sm:mr-2 sm:h-4 sm:w-4" />
+          <span>Назад к списку</span>
         </Link>
 
         <div className="space-y-12">
@@ -170,8 +170,8 @@ export default function TourPage({ params }: { params: { slug: string } }) {
           })()}
 
           <div>
-            <h1 className="text-4xl font-bold mb-4">{tour.title}</h1>
-            <div className="flex items-center gap-6 mb-6">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4">{tour.title}</h1>
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 mb-6">
               <div className="flex items-center gap-2">
                 <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
                 <span className="font-medium">{tour.rating}</span>
@@ -193,8 +193,8 @@ export default function TourPage({ params }: { params: { slug: string } }) {
               <p>{tour.description}</p>
             </div>
 
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="flex items-center gap-3 bg-muted/30 dark:bg-muted/20 rounded-lg px-4 py-3">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-start gap-3 bg-muted/30 dark:bg-muted/20 rounded-lg p-4">
                 <CalendarIcon className="h-5 w-5 text-primary" />
                 <div>
                   <div className="text-xs text-muted-foreground uppercase">Дни проведения</div>
@@ -208,7 +208,7 @@ export default function TourPage({ params }: { params: { slug: string } }) {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-muted/30 dark:bg-muted/20 rounded-lg px-4 py-3">
+              <div className="flex items-start gap-3 bg-muted/30 dark:bg-muted/20 rounded-lg p-4">
                 <Clock className="h-5 w-5 text-primary" />
                 <div>
                   <div className="text-xs text-muted-foreground uppercase">Время выезда</div>
@@ -231,8 +231,8 @@ export default function TourPage({ params }: { params: { slug: string } }) {
 
             {(tour as any).program && (tour as any).program.length > 0 && (
               <div className="dark:text-white">
-                <h2 className="text-2xl font-bold mb-4">Программа</h2>
-                <ul className="list-disc pl-6 space-y-2">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4">Программа</h2>
+                <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
                   {(tour as any).program.map((item: string, idx: number) => (
                     <li key={idx}>{item}</li>
                   ))}
@@ -263,11 +263,11 @@ export default function TourPage({ params }: { params: { slug: string } }) {
               });
 
               return (
-                <div className="dark:text-white space-y-10">
+                <div className="dark:text-white space-y-8 sm:space-y-10">
                   {baseItems.length > 0 && (
                     <div>
-                      <h2 className="text-2xl font-bold mb-4">{baseTitle}</h2>
-                      <ul className="list-disc pl-6 space-y-2">
+                      <h2 className="text-2xl sm:text-3xl font-bold mb-4">{baseTitle}</h2>
+                      <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
                         {baseItems.map((line, idx) => (
                           <li key={idx}>{line}</li>
                         ))}
@@ -278,8 +278,8 @@ export default function TourPage({ params }: { params: { slug: string } }) {
                   {sections.map((sec, i) => (
                     sec.items.length > 0 ? (
                       <div key={i}>
-                        <h2 className="text-2xl font-bold mb-4">{sec.title}</h2>
-                        <ul className="list-disc pl-6 space-y-2">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-4">{sec.title}</h2>
+                        <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
                           {sec.items.map((item, j) => (
                             <li key={j}>{item}</li>
                           ))}
@@ -293,8 +293,8 @@ export default function TourPage({ params }: { params: { slug: string } }) {
 
             {(tour as any).importantInfo && (tour as any).importantInfo.length > 0 && (
               <div className="dark:text-white">
-                <h2 className="text-2xl font-bold mb-4">Важная информация</h2>
-                <ul className="list-disc pl-6 space-y-2">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4">Важная информация</h2>
+                <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
                   {(tour as any).importantInfo.map((item: string, idx: number) => <li key={idx}>{item}</li>)}
                 </ul>
               </div>
@@ -306,8 +306,8 @@ export default function TourPage({ params }: { params: { slug: string } }) {
           {/* Точки встречи убраны по запросу */}
 
           {/* Бронирование внизу */}
-          <section className="bg-white dark:bg-card rounded-lg shadow-lg p-6">
-            <div className="text-3xl font-bold text-primary mb-2">
+          <section className="bg-white dark:bg-card rounded-lg shadow-lg p-4 sm:p-6">
+            <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">
               {tour.priceRub} ₽
               <span className="text-sm text-muted-foreground ml-1">/чел.</span>
             </div>

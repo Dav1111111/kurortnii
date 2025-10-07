@@ -40,8 +40,8 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
-        <div className="container">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
+        <div className="container px-4 sm:px-6">
           <motion.div 
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -75,15 +75,15 @@ export default function ContactPage() {
                         <a href="tel:89885007418" className="hover:text-foreground transition-colors">Андрей: 8 988 500-74-18</a>
                       </div>
                     </div>
-                    <div className="flex gap-2 mt-2">
-                      <a href="tel:89891668631">
-                        <Button asChild variant="outline" size="sm" className="gap-2">
-                          <span className="inline-flex items-center"><Phone className="h-4 w-4 mr-1" /> Позвонить</span>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <a href="tel:89891668631" className="flex-shrink-0">
+                        <Button variant="outline" size="sm" className="h-11 px-4">
+                          <Phone className="h-4 w-4 mr-2" /> Позвонить
                         </Button>
                       </a>
-                      <a href="https://wa.me/79891668631" target="_blank" rel="noopener noreferrer">
-                        <Button variant="outline" size="sm" className="gap-2">
-                          <MessageSquare className="h-4 w-4" />
+                      <a href="https://wa.me/79891668631" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+                        <Button variant="outline" size="sm" className="h-11 px-4">
+                          <MessageSquare className="h-4 w-4 mr-2" />
                           WhatsApp
                         </Button>
                       </a>
@@ -119,15 +119,15 @@ export default function ContactPage() {
               <div className="mt-8">
                 <h3 className="font-semibold text-lg mb-4">Мы в соцсетях</h3>
                 <div className="flex gap-4">
-                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
                     <Facebook className="h-5 w-5" />
                     <span className="sr-only">Facebook</span>
                   </Button>
-                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
                     <Instagram className="h-5 w-5" />
                     <span className="sr-only">Instagram</span>
                   </Button>
-                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
                     <Telegram className="h-5 w-5" />
                     <span className="sr-only">Telegram</span>
                   </Button>
@@ -136,7 +136,7 @@ export default function ContactPage() {
               
               <div className="mt-8">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2891.5758419455877!2d39.72655661744384!3d43.58481999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40f5bfd15ac66c05%3A0x8f8021d132f97c4f!2z0JrRg9GA0L7RgNGC0L3Ri9C5INC_0YDQvtGB0L_QtdC60YIsINCh0L7Rh9C4!5e0!3m2!1sru!2sru!4v1709913439943!5m2!1sru!2sru"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d23132.606367647095!2d39.72655661744384!3d43.58481999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2sru!4v1709913439943!5m2!1sru!2sru"
                   width="100%"
                   height="300"
                   style={{ border: 0 }}
@@ -205,7 +205,7 @@ export default function ContactPage() {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-coral-500 hover:bg-coral-600 text-white"
+                    className="w-full bg-coral-500 hover:bg-coral-600 text-white h-11"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Отправка..." : "Отправить сообщение"}

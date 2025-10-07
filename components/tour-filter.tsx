@@ -8,11 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
-import { CalendarIcon, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toursData from "@/data/tours.json";
 
@@ -26,9 +22,6 @@ const tourTypes = [
 ] as const;
 
 const formSchema = z.object({
-  date: z.date({
-    required_error: "Пожалуйста, выберите дату",
-  }),
   tourType: z.string({
     required_error: "Пожалуйста, выберите тип экскурсии",
   }),
@@ -68,51 +61,7 @@ export function TourFilter({ onFilter }: TourFilterProps) {
       <h2 className="text-2xl font-bold mb-6">Поиск экскурсий</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Дата</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP", { locale: ru })
-                          ) : (
-                            <span>Выберите дату</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => {
-                          const threeMonthsFromNow = new Date();
-                          threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3);
-                          return date < new Date() || date > threeMonthsFromNow;
-                        }}
-                        initialFocus
-                        locale={ru}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </FormItem>
-              )}
-            />
-
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <FormField
               control={form.control}
               name="tourType"
@@ -167,7 +116,7 @@ export function TourFilter({ onFilter }: TourFilterProps) {
             <Button 
               type="submit" 
               size="lg"
-              className="bg-coral-500 hover:bg-coral-600 text-white px-8"
+              className="bg-coral-500 hover:bg-coral-600 text-white px-8 h-11 sm:h-12 w-full sm:w-auto"
             >
               Найти
             </Button>

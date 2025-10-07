@@ -51,8 +51,8 @@ const licenses = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
-      <section className="py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
-        <div className="container">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
+        <div className="container px-4 sm:px-6">
           <div className="text-center mb-12">
             <motion.h1 
               className="text-4xl md:text-5xl font-bold mb-4"
@@ -79,7 +79,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <p className="text-center text-xl leading-relaxed">
-              Курортный Сочи - это локальное экскурсионное агентство, основанное в 2010 году группой 
+              Южный Континент - это локальное экскурсионное агентство, основанное в 2010 году группой 
               профессиональных гидов и энтузиастов. Мы специализируемся на авторских экскурсиях, 
               которые раскрывают уникальную красоту и богатую историю Сочи и его окрестностей. 
               Наша миссия - создавать незабываемые впечатления и помогать гостям города увидеть 

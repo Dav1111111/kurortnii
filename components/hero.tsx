@@ -3,22 +3,27 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Hero() {
   return (
-    <section className="relative h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+    <section className="relative h-[70vh] sm:h-[80vh] lg:h-[90vh] min-h-[500px] sm:min-h-[600px] flex items-center justify-center overflow-hidden">
       {/* Background image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-        style={{ 
-          backgroundImage: `url("https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg")` 
-        }}
-      >
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/zastavki-gas-kvas-com-ejm6-p-zastavki-na-rabochii-stol-sochi-5.jpg"
+          alt="Сочи"
+          fill
+          priority
+          className="object-cover object-center sm:object-center"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
+          quality={90}
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-turquoise-950/70 to-turquoise-900/30" />
       </div>
       
       {/* Content */}
-      <div className="container relative z-10 mx-auto px-4 pt-16">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 pt-8 sm:pt-16">
         <div className="max-w-3xl">
           <motion.h1 
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
@@ -45,7 +50,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <Link href="/tours">
-              <Button className="bg-coral-500 hover:bg-coral-600 text-white text-lg px-8 py-6">
+              <Button className="bg-coral-500 hover:bg-coral-600 text-white text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-14">
                 Выбрать экскурсию
               </Button>
             </Link>

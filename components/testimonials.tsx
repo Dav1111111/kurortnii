@@ -185,9 +185,9 @@ export function Testimonials() {
               variant="outline"
               size="icon"
               onClick={scrollPrev}
-              className="h-10 w-10 rounded-full"
+              className="h-11 w-11 rounded-full"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-5 w-5" />
             </Button>
             <div className="flex gap-2">
               {testimonials.map((_, index) => (
@@ -204,9 +204,9 @@ export function Testimonials() {
               variant="outline"
               size="icon"
               onClick={scrollNext}
-              className="h-10 w-10 rounded-full"
+              className="h-11 w-11 rounded-full"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-5 w-5" />
             </Button>
           </div>
         </div>

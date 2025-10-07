@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
 import {
   NavigationMenu,
   NavigationMenuLink,
@@ -21,6 +20,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 0);
@@ -29,6 +29,10 @@ export function Header() {
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      // Сбросить скролл меню в начало при открытии
+      if (mobileMenuRef.current) {
+        mobileMenuRef.current.scrollTop = 0;
+      }
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -39,6 +43,7 @@ export function Header() {
   }, [mobileMenuOpen]);
 
   return (
+    <>
     <header 
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
@@ -48,19 +53,19 @@ export function Header() {
       )}
     >
       <div className="container">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-24 sm:h-28 lg:h-32">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
             className="flex items-center gap-8"
           >
-            <Link href="/" className="relative h-[56px] w-[300px]">
+            <Link href="/" className="relative h-[80px] w-[320px] sm:h-[90px] sm:w-[380px] lg:h-[100px] lg:w-[460px]">
               <Image
-                src="/ChatGPT%20Image%20Sep%2021,%202025,%2006_54_42%20PM.png"
-                alt="Курортный Сочи"
+                src="/logo-new.png"
+                alt="Южный Континент"
                 fill
-                className="object-contain"
+                className="object-contain object-left"
                 priority
               />
             </Link>
@@ -86,7 +91,6 @@ export function Header() {
           </motion.div>
           
           <div className="lg:hidden flex items-center gap-2">
-            <ThemeToggle />
             <Button 
               variant="ghost" 
               size="icon" 
@@ -181,7 +185,6 @@ export function Header() {
             </NavigationMenu>
 
             <div className="flex items-center gap-3">
-              <ThemeToggle />
               <Link href="/contact">
                 <Button className="bg-coral-500 hover:bg-coral-600">
                   Контакты
@@ -191,81 +194,82 @@ export function Header() {
           </div>
         </div>
       </div>
+    </header>
       
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            className="lg:hidden fixed inset-0 top-20 bg-background z-40 flex flex-col"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div className="flex-1 overflow-y-auto p-6">
-              <nav className="flex flex-col gap-4">
-                <Link 
-                  href="/" 
-                  className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Главная
-                </Link>
-                <Link 
-                  href="/tours" 
-                  className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Экскурсии
-                </Link>
-                <Link 
-                  href="/about" 
-                  className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  О нас
-                </Link>
-                <Link 
-                  href="/reviews" 
-                  className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Отзывы
-                </Link>
-                <Link 
-                  href="/faq" 
-                  className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  FAQ
-                </Link>
-              </nav>
-            </div>
-            
-            <div className="p-6 border-t bg-background/95 backdrop-blur-sm">
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full bg-coral-500 hover:bg-coral-600 text-white">
-                  Контакты
-                </Button>
+    {/* Mobile menu - вынесено за пределы header */}
+    <AnimatePresence>
+      {mobileMenuOpen && (
+        <motion.div 
+          className="lg:hidden fixed inset-0 top-24 sm:top-28 bg-background z-[60] flex flex-col"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div ref={mobileMenuRef} className="flex-1 overflow-y-auto p-6">
+            <nav className="flex flex-col gap-4">
+              <Link 
+                href="/" 
+                className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Главная
               </Link>
-              <div className="flex flex-col items-center gap-2 mt-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-turquoise-500" />
-                  <span>Сочи, Россия</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-turquoise-500" />
-                  <a href="tel:89891668631" className="hover:text-foreground" aria-label="Позвонить Дианита 8 989 166-86-31">Дианита: 8 989 166-86-31</a>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-turquoise-500" />
-                  <a href="tel:89885007418" className="hover:text-foreground" aria-label="Позвонить Андрей 8 988 500-74-18">Андрей: 8 988 500-74-18</a>
-                </div>
+              <Link 
+                href="/tours" 
+                className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Экскурсии
+              </Link>
+              <Link 
+                href="/about" 
+                className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                О нас
+              </Link>
+              <Link 
+                href="/reviews" 
+                className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Отзывы
+              </Link>
+              <Link 
+                href="/faq" 
+                className="text-xl font-semibold py-2 border-b hover:text-turquoise-500 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                FAQ
+              </Link>
+            </nav>
+          </div>
+          
+          <div className="p-6 border-t bg-background/95 backdrop-blur-sm">
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+              <Button className="w-full bg-coral-500 hover:bg-coral-600 text-white">
+                Контакты
+              </Button>
+            </Link>
+            <div className="flex flex-col items-center gap-2 mt-4 text-sm">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-turquoise-500" />
+                <span>Сочи, Россия</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-turquoise-500" />
+                <a href="tel:89891668631" className="hover:text-foreground" aria-label="Позвонить Дианита 8 989 166-86-31">Дианита: 8 989 166-86-31</a>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-turquoise-500" />
+                <a href="tel:89885007418" className="hover:text-foreground" aria-label="Позвонить Андрей 8 988 500-74-18">Андрей: 8 988 500-74-18</a>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 }

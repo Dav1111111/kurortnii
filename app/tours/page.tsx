@@ -7,7 +7,6 @@ import toursData from "@/data/tours.json";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface FilterValues {
-  date: Date;
   tourType: string;
   duration: number[];
 }
@@ -43,15 +42,6 @@ export default function ToursPage() {
       filtered = filtered.filter(tour => tour.durationHours <= values.duration[0]);
     }
 
-    // Filter by date
-    if (values.date) {
-      const selectedDay = new Intl.DateTimeFormat('ru-RU', { weekday: 'short' }).format(values.date).toLowerCase().replace('.', '');
-      filtered = filtered.filter(tour => 
-        tour.days.includes("ежедневно") || 
-        tour.days.includes(selectedDay)
-      );
-    }
-
     setFilteredTours(orderAquaparkLast(filtered));
 
     // Scroll to results
@@ -63,8 +53,8 @@ export default function ToursPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
-        <div className="container">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
+        <div className="container px-4 sm:px-6">
           <motion.div 
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}

@@ -84,6 +84,12 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Отступ для sticky header */
+  }
+  
   body {
     @apply bg-background text-foreground;
     background-image: linear-gradient(
@@ -117,6 +123,23 @@
   
   p {
     @apply leading-relaxed;
+  }
+  
+  /* Оптимизация для тач-устройств */
+  button, a, input, textarea, select {
+    -webkit-tap-highlight-color: rgba(64, 224, 208, 0.2);
+  }
+  
+  /* Улучшенная прокрутка на iOS */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Предотвращение масштабирования на iOS при фокусе на input */
+  @media screen and (max-width: 640px) {
+    input, textarea, select {
+      font-size: 16px;
+    }
   }
 }
 
