@@ -53,14 +53,14 @@ export function Header() {
       )}
     >
       <div className="container">
-        <div className="flex items-center justify-between h-24 sm:h-28 lg:h-32">
+        <div className="flex items-center justify-between h-16 sm:h-18 lg:h-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center gap-8"
+            className="flex items-center gap-8 -ml-4 sm:-ml-6"
           >
-            <Link href="/" className="relative h-[80px] w-[320px] sm:h-[90px] sm:w-[380px] lg:h-[100px] lg:w-[460px]">
+            <Link href="/" className="relative h-[70px] w-[280px] sm:h-[80px] sm:w-[340px] lg:h-[90px] lg:w-[400px]">
               <Image
                 src="/logo-new.png"
                 alt="Южный Континент"
@@ -200,7 +200,7 @@ export function Header() {
     <AnimatePresence>
       {mobileMenuOpen && (
         <motion.div 
-          className="lg:hidden fixed inset-0 top-24 sm:top-28 bg-background z-[60] flex flex-col"
+          className="lg:hidden fixed inset-0 top-16 sm:top-18 lg:top-20 bg-background z-[60] flex flex-col"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}

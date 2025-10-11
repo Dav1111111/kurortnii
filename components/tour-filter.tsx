@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,11 +14,12 @@ import toursData from "@/data/tours.json";
 
 const tourTypes = [
   { value: "all", label: "Все экскурсии" },
-  { value: "sightseeing", label: "Обзорные" },
-  { value: "nature", label: "Природа" },
-  { value: "adventure", label: "Приключения" },
-  { value: "gastronomy", label: "Гастрономические" },
-  { value: "cultural", label: "Культурные" },
+  { value: "city", label: "Городские экскурсии" },
+  { value: "abkhazia", label: "Туры в Абхазию" },
+  { value: "jeeping", label: "Джипинг туры" },
+  { value: "nature", label: "Горы и водопады" },
+  { value: "adventure", label: "Экстрим" },
+  { value: "family", label: "Для всей семьи" },
 ] as const;
 
 const formSchema = z.object({
@@ -32,9 +33,10 @@ type FilterValues = z.infer<typeof formSchema>;
 
 interface TourFilterProps {
   onFilter: (values: FilterValues) => void;
+  initialCategory?: string;
 }
 
-export function TourFilter({ onFilter }: TourFilterProps) {
+export function TourFilter({ onFilter, initialCategory = "all" }: TourFilterProps) {
   const allDurations = (toursData.tours.map(t => t.durationHours).filter(Boolean) as number[]);
   const minDuration = Math.max(1, Math.min(...allDurations));
   const maxDuration = Math.max(...allDurations, 1);
@@ -43,10 +45,15 @@ export function TourFilter({ onFilter }: TourFilterProps) {
   const form = useForm<FilterValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      tourType: "all",
+      tourType: initialCategory,
       duration: [maxDuration],
     },
   });
+
+  // Обновляем форму когда изменяется категория из URL
+  useEffect(() => {
+    form.setValue('tourType', initialCategory);
+  }, [initialCategory, form]);
 
   function onSubmit(values: FilterValues) {
     onFilter(values);

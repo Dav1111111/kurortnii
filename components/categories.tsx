@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { Waves as Beach, Mountain, UtensilsCrossed, Landmark, Bike, Camera } from "lucide-react";
+import { Building, MapPin, Mountain, Car, Users, Star, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface Category {
@@ -15,46 +15,46 @@ interface Category {
 
 const categories: Category[] = [
   {
-    id: "beach",
-    title: "Пляжный отдых",
-    count: 24,
-    icon: <Beach />,
-    color: "text-blue-500",
+    id: "city",
+    title: "Городские экскурсии",
+    count: 3,
+    icon: <Building />,
+    color: "text-turquoise-500",
   },
   {
-    id: "mountain",
-    title: "Горные туры",
-    count: 18,
+    id: "abkhazia",
+    title: "Туры в Абхазию",
+    count: 2,
+    icon: <MapPin />,
+    color: "text-coral-500",
+  },
+  {
+    id: "jeeping",
+    title: "Джипинг туры",
+    count: 4,
+    icon: <Car />,
+    color: "text-orange-500",
+  },
+  {
+    id: "nature",
+    title: "Горы и водопады",
+    count: 3,
     icon: <Mountain />,
     color: "text-emerald-500",
   },
   {
-    id: "gastronomy",
-    title: "Гастротуры",
-    count: 12,
-    icon: <UtensilsCrossed />,
-    color: "text-orange-500",
-  },
-  {
-    id: "cultural",
-    title: "Культурные",
-    count: 15,
-    icon: <Landmark />,
-    color: "text-purple-500",
-  },
-  {
-    id: "active",
-    title: "Активный отдых",
-    count: 21,
-    icon: <Bike />,
+    id: "adventure",
+    title: "Экстрим",
+    count: 1,
+    icon: <Zap />,
     color: "text-red-500",
   },
   {
-    id: "photo",
-    title: "Фототуры",
-    count: 9,
-    icon: <Camera />,
-    color: "text-pink-500",
+    id: "family",
+    title: "Для всей семьи",
+    count: 2,
+    icon: <Users />,
+    color: "text-purple-500",
   },
 ];
 

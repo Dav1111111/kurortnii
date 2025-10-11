@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { TourFilter } from "@/components/tour-filter";
 import { TourCard } from "@/components/tour-card";
 import toursData from "@/data/tours.json";
@@ -11,7 +12,10 @@ interface FilterValues {
   duration: number[];
 }
 
-export default function ToursPage() {
+function ToursContent() {
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get('category') || 'all';
+  
   const orderAquaparkLast = (list: typeof toursData.tours) => {
     return [...list].sort((a, b) => {
       const aIs = a.id === "aquapark-nautilus";
@@ -24,10 +28,17 @@ export default function ToursPage() {
 
   const [filteredTours, setFilteredTours] = useState(orderAquaparkLast(toursData.tours));
   const [isLoading, setIsLoading] = useState(true);
+  const [initialCategory, setInitialCategory] = useState(categoryFromUrl);
 
   useEffect(() => {
     setIsLoading(false);
-  }, []);
+    
+    // Автоматически фильтруем при загрузке если есть категория в URL
+    if (categoryFromUrl && categoryFromUrl !== 'all') {
+      const filtered = toursData.tours.filter(tour => tour.category === categoryFromUrl);
+      setFilteredTours(orderAquaparkLast(filtered));
+    }
+  }, [categoryFromUrl]);
 
   const handleFilter = (values: FilterValues) => {
     let filtered = toursData.tours;
@@ -67,7 +78,7 @@ export default function ToursPage() {
             </p>
           </motion.div>
           
-          <TourFilter onFilter={handleFilter} />
+          <TourFilter onFilter={handleFilter} initialCategory={initialCategory} />
           
           <div id="tours-list" className="mt-16">
             <AnimatePresence mode="wait">
@@ -106,5 +117,17 @@ export default function ToursPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function ToursPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-turquoise-500"></div>
+      </div>
+    }>
+      <ToursContent />
+    </Suspense>
   );
 }

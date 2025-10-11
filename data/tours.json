@@ -16,7 +16,7 @@
       "rating": 4.7,
       "reviewCount": 245,
       "seatsLeft": 8,
-      "category": "sightseeing",
+      "category": "city",
       "imagesFolder": "Обзороное Комбо",
       "includes": [
         "Трансфер",
@@ -67,7 +67,7 @@
       "imagesFolder": "Тур Ущелье ведьм",
       "includes": [
         "Трансфер",
-        "Сопровождение гида"
+        "Сопровождение водитель-гид"
       ],
       "program": [
         "Чайные плантации",
@@ -98,7 +98,7 @@
       "rating": 4.8,
       "reviewCount": 134,
       "seatsLeft": 10,
-      "category": "evening",
+      "category": "city",
       "imagesFolder": "Вечерний Сочи + Морская прогулка",
       "includes": [
         "Трансфер",
@@ -145,7 +145,7 @@
       "rating": 4.8,
       "reviewCount": 320,
       "seatsLeft": 12,
-      "category": "sightseeing",
+      "category": "abkhazia",
       "imagesFolder": "Золотое кольцо абхазии",
       "includes": [
         "Сопровождение профессионального экскурсовода",
@@ -195,7 +195,7 @@
       "rating": 4.8,
       "reviewCount": 210,
       "seatsLeft": 15,
-      "category": "sightseeing",
+      "category": "abkhazia",
       "imagesFolder": "ГОСТЕПРИИМНАЯ АБХАЗИЯ",
       "includes": [
         "Трансфер на комфортабельном автобусе",
@@ -241,7 +241,7 @@
       "rating": 4.9,
       "reviewCount": 180,
       "seatsLeft": 6,
-      "category": "adventure",
+      "category": "jeeping",
       "imagesFolder": "Джиппинг в Абхазию",
       "includes": [
         "Трансфер на джипе",
@@ -383,7 +383,7 @@
       "rating": 4.9,
       "reviewCount": 234,
       "seatsLeft": 5,
-      "category": "adventure",
+      "category": "jeeping",
       "imagesFolder": "Тур 33 водопадах на машинах повышенной проходимости + концерт",
       "includes": [
         "Джип УАЗ Патриот",
@@ -426,7 +426,7 @@
       "rating": 4.8,
       "reviewCount": 120,
       "seatsLeft": 8,
-      "category": "adventure",
+      "category": "jeeping",
       "imagesFolder": "Тур 33 водопадах на машинах повышенной проходимости",
       "includes": [
         "Джип УАЗ Патриот",
@@ -500,11 +500,11 @@
       "days": ["ежедневно"],
       "daysText": "Ежедневно",
       "startTime": "13:30",
-      "groupSize": "до 20 человек",
+      "groupSize": "8-10 человек в машину",
       "rating": 4.8,
       "reviewCount": 0,
       "seatsLeft": 20,
-      "category": "nature",
+      "category": "jeeping",
       "imagesFolder": "Джип Тур 6в1",
       "includes": [
         "Трансфер",
@@ -539,6 +539,7 @@
       "image": "/images/Бигфут%20Квадры/photo_2025-09-23%2014.04.30.jpeg",
       "durationHours": 2,
       "priceRub": 8000,
+      "priceUnit": "машина",
       "days": ["ежедневно"],
       "daysText": "Ежедневно",
       "startTime": "10:00, 14:40, 17:00",
@@ -550,7 +551,6 @@
       "imagesFolder": "Бигфут Квадры",
       "includes": [
         "Квадроцикл",
-        "Шлем",
         "Защита",
         "Инструктаж"
       ],
@@ -578,6 +578,7 @@
       "image": "/images/ОЛИМПИЙСКОЕ%20НАСЛЕДИЕ/photo_2025-09-21%2019.47.10.jpeg",
       "durationHours": 14,
       "priceRub": 400,
+      "priceNote": "Цена актуальна при покупке скипасса. Без скипасса + 800 ₽",
       "days": ["пн", "ср", "пт"],
       "daysText": "Пн, Ср, Пт",
       "startTime": "09:20",
@@ -585,7 +586,7 @@
       "rating": 4.7,
       "reviewCount": 110,
       "seatsLeft": 12,
-      "category": "sightseeing",
+      "category": "city",
       "imagesFolder": "ОЛИМПИЙСКОЕ НАСЛЕДИЕ",
       "includes": [
         "Трансфер",
@@ -633,6 +634,7 @@
       "image": "/images/ДЕНЬ%20В%20ГОРАХ/photo_2025-09-21%2019.39.32.jpeg",
       "durationHours": 12,
       "priceRub": 400,
+      "priceNote": "Цена актуальна при покупке скипасса. Без скипасса + 800 ₽",
       "days": ["вт", "чт", "сб", "вс"],
       "daysText": "Вторник, четверг, суббота, воскресенье",
       "startTime": { "weekday": "06:30", "weekend": "07:00" },
