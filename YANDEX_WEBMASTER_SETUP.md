@@ -23,7 +23,7 @@
 1. Перейдите на https://webmaster.yandex.ru
 2. Войдите с помощью Яндекс ID (или создайте новый)
 3. Нажмите **"Добавить сайт"**
-4. Введите адрес: `https://kurortny-sochi.ru`
+4. Введите адрес: `https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai`
 
 #### Шаг 2: Подтвердить владение сайтом
 **Выберите способ:** Meta-тег
@@ -55,7 +55,7 @@
 2. Нажмите **"Добавить счетчик"**
 3. Заполните:
    - **Название:** Южный Континент
-   - **Адрес сайта:** https://kurortny-sochi.ru
+   - **Адрес сайта:** https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai
 4. Нажмите **"Создать счетчик"**
 
 #### Шаг 2: Получить ID счетчика
@@ -91,7 +91,7 @@ NEXT_PUBLIC_YANDEX_METRIKA_ID=12345678
 
 #### 3.1 Загрузить Sitemap
 1. В Вебмастере откройте **"Индексирование" → "Файлы Sitemap"**
-2. Добавьте: `https://kurortny-sochi.ru/sitemap.xml`
+2. Добавьте: `https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/sitemap.xml`
 3. Нажмите **"Добавить"**
 
 > **Примечание:** Sitemap нужно создать отдельно (см. инструкцию ниже)
@@ -109,10 +109,10 @@ NEXT_PUBLIC_YANDEX_METRIKA_ID=12345678
 #### 3.4 Важные страницы
 1. Откройте **"Индексирование" → "Важные страницы"**
 2. Добавьте:
-   - `https://kurortny-sochi.ru/`
-   - `https://kurortny-sochi.ru/tours`
-   - `https://kurortny-sochi.ru/about`
-   - `https://kurortny-sochi.ru/contact`
+   - `https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/`
+   - `https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/tours`
+   - `https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/about`
+   - `https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/contact`
 
 ---
 
@@ -127,7 +127,7 @@ npm install next-sitemap
 Создать файл `next-sitemap.config.js`:
 ```javascript
 module.exports = {
-  siteUrl: 'https://kurortny-sochi.ru',
+  siteUrl: 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai',
   generateRobotsTxt: false,
   exclude: ['/api/*'],
   changefreq: 'daily',
@@ -150,19 +150,19 @@ module.exports = {
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kurortny-sochi.ru/</loc>
+    <loc>https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/</loc>
     <lastmod>2025-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://kurortny-sochi.ru/tours</loc>
+    <loc>https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/tours</loc>
     <lastmod>2025-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kurortny-sochi.ru/about</loc>
+    <loc>https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/about</loc>
     <lastmod>2025-10-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

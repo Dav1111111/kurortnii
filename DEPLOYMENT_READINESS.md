@@ -69,7 +69,7 @@ TELEGRAM_CHAT_ID=789082318
 **Где добавить:** В настройках хостинга (Vercel/Netlify/etc)
 
 ### 2. ⚠️ Обновить URL в robots.txt
-**Текущий:** `https://kurortny-sochi.ru`  
+**Текущий:** `https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai`  
 **Нужно:** Заменить на актуальный домен
 
 ### 3. ⚠️ Создать sitemap.xml

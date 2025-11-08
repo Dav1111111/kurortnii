@@ -177,7 +177,7 @@ import { Waves as Beach, Mountain, ... } from "lucide-react";
    - [x] Favicon добавлен в layout.tsx ✅
 
 3. **Домен и URL**
-   - [ ] Обновить `url: 'https://kurortny-sochi.ru'` в `app/layout.tsx` если домен изменился
+   - [ ] Обновить `url: 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai'` в `app/layout.tsx` если домен изменился
 
 4. **Социальные сети**
    - [ ] Обновить превью изображение OpenGraph если нужно

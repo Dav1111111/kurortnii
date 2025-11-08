@@ -5,13 +5,14 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { YandexMetrika } from '@/components/yandex-metrika';
+import { OrganizationSchema } from '@/components/tour-schema';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Южный Континент | Премиум отдых на Черном море',
+    default: 'Экскурсии в Сочи 2025 — от 900 ₽ | Южный Континент',
     template: '%s | Южный Континент'
   },
-  description: 'Забронируйте идеальный отдых в курортном Сочи. Лучшие отели, пляжи и развлечения на побережье Черного моря. Экскурсии в Красную Поляну, туры по достопримечательностям.',
+  description: 'Лучшие экскурсии в Сочи и Адлере 2025 ⭐ Красная Поляна, 33 водопада, Абхазия, Роза Хутор. Групповые и индивидуальные туры. Без предоплаты. Бронирование онлайн от 900 ₽.',
   generator: 'Next.js',
   manifest: '/manifest.json',
   keywords: ['сочи', 'курорт', 'отдых', 'черное море', 'отель', 'бронирование', 'экскурсии в Сочи', 'туры в Красную Поляну', 'экскурсии Сочи', 'Красная Поляна', 'отдых в Сочи 2025', 'туры по Сочи'],
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
-    url: 'https://kurortny-sochi.ru',
+    url: 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai',
     siteName: 'Южный Континент',
     title: 'Южный Континент | Премиум отдых на Черном море',
     description: 'Забронируйте идеальный отдых в курортном Сочи. Лучшие отели, пляжи и развлечения на побережье Черного моря.',
@@ -71,6 +72,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body className="font-sans antialiased">
+        <OrganizationSchema />
         <Providers>
           <div className="flex min-h-screen flex-col">
             <Header />

@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
+import type { Metadata } from "next";
 import toursData from "@/data/tours.json";
 import { TourGallery } from "@/components/tour-gallery";
 import { TourChecklist } from "@/components/tour-checklist";
 import { BookingForm } from "@/components/booking-form";
+import { TourSchema, BreadcrumbSchema } from "@/components/tour-schema";
 import { Button } from "@/components/ui/button";
 import { Star, Clock, Users, ChevronLeft, CalendarIcon } from "lucide-react";
 import Link from "next/link";
@@ -13,6 +15,71 @@ export async function generateStaticParams() {
   return toursData.tours.map((tour) => ({
     slug: tour.slug,
   }));
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const tour = toursData.tours.find(t => t.slug === params.slug);
+  
+  if (!tour) {
+    return {
+      title: 'Тур не найден',
+    };
+  }
+
+  const baseUrl = 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai';
+  const tourUrl = `${baseUrl}/tours/${tour.slug}`;
+  
+  // Формируем SEO-оптимизированные title и description
+  const title = `${tour.title} - от ${tour.priceRub} ₽ | Экскурсии Сочи 2025`;
+  const description = `${tour.description} ⭐ Рейтинг ${tour.rating} (${tour.reviewCount} отзывов). Бронируйте экскурсию "${tour.title}" онлайн без предоплаты. Длительность ${tour.durationHours} часов.`;
+  
+  // Получаем первое изображение тура
+  let ogImage = tour.image;
+  if (ogImage && !ogImage.startsWith('http')) {
+    ogImage = `${baseUrl}${ogImage}`;
+  }
+
+  return {
+    title,
+    description,
+    keywords: [
+      tour.title,
+      'экскурсии в Сочи',
+      'туры Сочи 2025',
+      'бронирование экскурсий',
+      'экскурсии Адлер',
+      'Красная Поляна',
+      '33 водопада',
+      'Абхазия',
+      'Роза Хутор',
+      'экскурсии без предоплаты'
+    ],
+    openGraph: {
+      title,
+      description,
+      url: tourUrl,
+      siteName: 'Южный Континент',
+      images: [
+        {
+          url: ogImage || `${baseUrl}/logo.png`,
+          width: 1200,
+          height: 630,
+          alt: tour.title,
+        }
+      ],
+      locale: 'ru_RU',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage || `${baseUrl}/logo.png`],
+    },
+    alternates: {
+      canonical: tourUrl,
+    },
+  };
 }
 
 
@@ -31,12 +98,23 @@ export default function TourPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="min-h-screen pb-20">
-      <div className="container pt-8 px-4 sm:px-6">
-        <Link href="/tours" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6 text-base sm:text-sm touch-manipulation">
-          <ChevronLeft className="mr-1 h-5 w-5 sm:mr-2 sm:h-4 sm:w-4" />
-          <span>Назад к списку</span>
-        </Link>
+    <>
+      {/* JSON-LD структурированные данные для Яндекса */}
+      <TourSchema tour={tour} />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Главная', url: '/' },
+          { name: 'Экскурсии', url: '/tours' },
+          { name: tour.title, url: `/tours/${tour.slug}` }
+        ]} 
+      />
+      
+      <div className="min-h-screen pb-20">
+        <div className="container pt-8 px-4 sm:px-6">
+          <Link href="/tours" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6 text-base sm:text-sm touch-manipulation">
+            <ChevronLeft className="mr-1 h-5 w-5 sm:mr-2 sm:h-4 sm:w-4" />
+            <span>Назад к списку</span>
+          </Link>
 
         <div className="space-y-12">
           {(() => {
@@ -318,5 +396,6 @@ export default function TourPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
     </div>
+    </>
   );
 }

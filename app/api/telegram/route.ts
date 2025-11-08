@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     const lines: string[] = [];
     lines.push("Новая заявка на бронирование ✉️");
     if (body.tourTitle) lines.push(`Тур: ${body.tourTitle}`);
-    if (body.tourSlug) lines.push(`Ссылка: https://kurortny-sochi.ru/tours/${body.tourSlug}`);
+    if (body.tourSlug) lines.push(`Ссылка: https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/tours/${body.tourSlug}`);
     if (body.fullName) lines.push(`Имя: ${body.fullName}`);
     if (body.phone) lines.push(`Телефон: ${body.phone}`);
     if (body.email) lines.push(`Email: ${body.email}`);
