@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@118d8409ee88.vps.myjino.ru \"echo OK && uname -a && cat /etc/os-release | head -3\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"pm2 list && cd /kurortnii && git log --oneline -3 2>/dev/null || echo 'no git'\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && npm install 2>&1 | tail -5\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && NODE_OPTIONS='--max-old-space-size=512' npm install --prefer-offline --no-audit --no-fund 2>&1 | tail -10\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && pm2 restart kurortnii && sleep 3 && pm2 list\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"pm2 logs kurortnii --lines 30 --nostream 2>&1\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"ls /kurortnii/public/images/ 2>/dev/null | head -20 && echo '---' && du -sh /kurortnii/public/images/ 2>/dev/null\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(t['id'], '->', t['image']\\) for t in d['tours']]\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"ls '/kurortnii/public/images/Обзороное Комбо/' | head -3 && ls '/kurortnii/public/images/АКВАПАРК «НАУТИЛУС»/' | head -3\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"pm2 logs kurortnii --lines 20 --nostream 2>&1 | grep -E 'image|Image|jpeg|jpg|404|null'\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && git pull origin main && NODE_OPTIONS='--max-old-space-size=1024' npm run build 2>&1 | tail -10 && pm2 restart kurortnii\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && git pull origin main && NODE_OPTIONS='--max-old-space-size=1024' npm run build 2>&1 | tail -8 && pm2 restart kurortnii\")",
+      "Read(//Users/davidgevorgan/.claude/skills/seo-audit/**)",
+      "Bash(curl -s -L --max-time 15 -A \"Mozilla/5.0 \\(compatible; SEOBot/1.0\\)\" \"https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/\" -o /tmp/homepage.html)",
+      "Bash(python3 -c ':*)",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"curl -s -I http://localhost:3000/ 2>&1 | grep -iE 'x-frame|cache|content-type-opt|strict-trans|x-content'\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"which nginx && nginx -v 2>&1; systemctl status nginx 2>/dev/null | head -5; ls /etc/nginx/sites-enabled/ 2>/dev/null\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"ss -tlnp | grep LISTEN && cat /etc/nginx/nginx.conf 2>/dev/null | head -5\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"ls /etc/apache2/sites-enabled/ && cat /etc/apache2/sites-enabled/*.conf 2>/dev/null || ls /etc/apache2/conf-enabled/\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"a2enmod headers && apache2ctl -M 2>/dev/null | grep headers\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"curl -s -I https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/ 2>&1 | grep -iE 'x-frame|x-content|strict-trans|referrer|cache'\")",
+      "Bash(npm uninstall:*)",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key -o StrictHostKeyChecking=no root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && git pull origin main && yarn install --frozen-lockfile 2>&1 | tail -5 && NODE_OPTIONS='--max-old-space-size=1024' npm run build 2>&1 | tail -8 && pm2 restart kurortnii\")"
+    ]
+  }
+}
