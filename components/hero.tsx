@@ -40,7 +40,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            50+ авторских экскурсий по Сочи и окрестностям
+            15 авторских экскурсий по Сочи и окрестностям
           </motion.p>
           
           <motion.div 

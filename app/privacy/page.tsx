@@ -1,3 +1,11 @@
+export const metadata = {
+  title: "Политика конфиденциальности | Южный Континент",
+  description: "Политика конфиденциальности сайта Южный Континент — как мы обрабатываем персональные данные пользователей.",
+  alternates: {
+    canonical: "https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/privacy"
+  }
+};
+
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen py-20">

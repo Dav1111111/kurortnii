@@ -30,8 +30,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const tourUrl = `${baseUrl}/tours/${tour.slug}`;
   
   // Формируем SEO-оптимизированные title и description
-  const title = `${tour.title} - от ${tour.priceRub} ₽ | Экскурсии Сочи 2025`;
-  const description = `${tour.description} ⭐ Рейтинг ${tour.rating} (${tour.reviewCount} отзывов). Бронируйте экскурсию "${tour.title}" онлайн без предоплаты. Длительность ${tour.durationHours} часов.`;
+  const title = `${tour.title} - от ${tour.priceRub} ₽ | Экскурсии Сочи 2026`;
+  const ratingPart = tour.reviewCount > 0 ? ` ⭐ Рейтинг ${tour.rating} (${tour.reviewCount} отзывов).` : "";
+  const description = `${tour.description}${ratingPart} Бронируйте экскурсию "${tour.title}" онлайн. Предоплата 20%, остаток на месте. Длительность ${tour.durationHours} часов.`;
   
   // Получаем первое изображение тура
   let ogImage = tour.image;

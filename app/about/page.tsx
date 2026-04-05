@@ -5,7 +5,9 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { AboutPageSchema } from "@/components/tour-schema";
 
+// TODO: замените на реальные данные команды перед публикацией
 const teamMembers = [
   {
     name: "Анна Петрова",
@@ -51,10 +53,18 @@ const licenses = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
+      {/*
+        AboutPageSchema — серверный компонент, вставляет JSON-LD с данными
+        организации и сотрудников (Person schema).
+        "use client" на странице не мешает: скрипт рендерится на сервере
+        при SSR и остаётся в HTML для краулеров.
+      */}
+      <AboutPageSchema />
+
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
         <div className="container px-4 sm:px-6">
           <div className="text-center mb-12">
-            <motion.h1 
+            <motion.h1
               className="text-4xl md:text-5xl font-bold mb-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -62,7 +72,7 @@ export default function AboutPage() {
             >
               О нас
             </motion.h1>
-            <motion.p 
+            <motion.p
               className="text-lg text-muted-foreground max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -72,23 +82,23 @@ export default function AboutPage() {
             </motion.p>
           </div>
 
-          <motion.div 
+          <motion.div
             className="prose prose-lg dark:prose-invert mx-auto mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <p className="text-center text-xl leading-relaxed">
-              Южный Континент - это локальное экскурсионное агентство, основанное в 2010 году группой 
-              профессиональных гидов и энтузиастов. Мы специализируемся на авторских экскурсиях, 
-              которые раскрывают уникальную красоту и богатую историю Сочи и его окрестностей. 
-              Наша миссия - создавать незабываемые впечатления и помогать гостям города увидеть 
+              Южный Континент — это локальное экскурсионное агентство, основанное в 2010 году группой
+              профессиональных гидов и энтузиастов. Мы специализируемся на авторских экскурсиях,
+              которые раскрывают уникальную красоту и богатую историю Сочи и его окрестностей.
+              Наша миссия — создавать незабываемые впечатления и помогать гостям города увидеть
               его глазами местных жителей.
             </p>
           </motion.div>
 
           <div className="mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-3xl font-bold text-center mb-12"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

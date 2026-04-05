@@ -16,13 +16,18 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as BookingPayload;
     const token = process.env.TELEGRAM_BOT_TOKEN;
-    // Фолбэк по chat_id: берём из переменной окружения или используем предоставленный ID
-    const fallbackChatId = "789082318"; // цифры из запроса, игнорируя лишние символы
-    const chatId = (process.env.TELEGRAM_CHAT_ID || fallbackChatId).replace(/[^0-9-]/g, "");
+    const chatId = (process.env.TELEGRAM_CHAT_ID || "").replace(/[^0-9-]/g, "");
 
     if (!token) {
       return NextResponse.json(
         { ok: false, error: "TELEGRAM_BOT_TOKEN is not set" },
+        { status: 500 }
+      );
+    }
+
+    if (!chatId) {
+      return NextResponse.json(
+        { ok: false, error: "TELEGRAM_CHAT_ID is not set" },
         { status: 500 }
       );
     }

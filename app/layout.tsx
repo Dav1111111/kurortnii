@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
+import { Raleway } from 'next/font/google';
 import { Providers } from '@/components/providers';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -7,66 +8,64 @@ import { ScrollToTop } from '@/components/scroll-to-top';
 import { YandexMetrika } from '@/components/yandex-metrika';
 import { OrganizationSchema } from '@/components/tour-schema';
 
+const raleway = Raleway({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-raleway',
+});
+
+const BASE_URL = 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai';
+
 export const metadata: Metadata = {
   title: {
-    default: 'Экскурсии в Сочи 2025 — от 900 ₽ | Южный Континент',
+    default: 'Экскурсии в Сочи 2026 — от 900 ₽ | Южный Континент',
     template: '%s | Южный Континент'
   },
-  description: 'Лучшие экскурсии в Сочи и Адлере 2025 ⭐ Красная Поляна, 33 водопада, Абхазия, Роза Хутор. Групповые и индивидуальные туры. Без предоплаты. Бронирование онлайн от 900 ₽.',
-  generator: 'Next.js',
+  description: 'Лучшие экскурсии в Сочи и Адлере 2026 ⭐ Красная Поляна, 33 водопада, Абхазия, Роза Хутор. Групповые и индивидуальные туры. Предоплата 20%, остаток на месте. Бронирование онлайн от 900 ₽.',
   manifest: '/manifest.json',
   keywords: [
-    // Основные запросы
-    'экскурсии в Сочи', 'туры в Сочи', 'отдых в Сочи 2025', 'экскурсии Сочи 2025', 'экскурсии Адлер',
-    
-    // Направления и достопримечательности
-    'Красная Поляна', 'Роза Хутор', 'Олимпийский парк', '33 водопада', 'Абхазия', 'озеро Рица', 
+    'экскурсии в Сочи', 'туры в Сочи', 'отдых в Сочи 2026', 'экскурсии Сочи 2026', 'экскурсии Адлер',
+    'Красная Поляна', 'Роза Хутор', 'Олимпийский парк', '33 водопада', 'Абхазия', 'озеро Рица',
     'Новый Афон', 'Гагра', 'Ущелье ведьм', 'Гегский водопад', 'парк Ривьера',
-    
-    // Типы туров
-    'джипинг Сочи', 'джиппинг в Абхазию', 'джип туры', 'морская прогулка Сочи', 
+    'джипинг Сочи', 'джиппинг в Абхазию', 'джип туры', 'морская прогулка Сочи',
     'обзорная экскурсия Сочи', 'вечерний Сочи', 'шоу фонтанов Сочи',
-    
-    // Семейные развлечения
     'аквапарк Наутилус', 'дельфинарий Сочи', 'океанариум Сочи', 'экскурсии для детей',
-    
-    // Абхазия
     'экскурсии в Абхазию', 'Золотое кольцо Абхазии', 'Гостеприимная Абхазия',
     'Новоафонская пещера', 'Голубое озеро', 'Юпшарский каньон',
-    
-    // Водопады и природа
     'водопад Девичьи слёзы', 'водопад Любви', 'чайные плантации Сочи',
     'горы Сочи', 'горные туры', 'каньоны Сочи',
-    
-    // Общие
-    'групповые экскурсии', 'индивидуальные туры', 'без предоплаты', 
+    'групповые экскурсии', 'индивидуальные туры',
     'бронирование экскурсий', 'цены на экскурсии Сочи'
   ],
   authors: [{ name: 'Южный Континент' }],
   verification: {
-    yandex: 'YANDEX_VERIFICATION_CODE', // Заменить на реальный код из Яндекс Вебмастера
+    yandex: 'YANDEX_VERIFICATION_CODE',
+  },
+  alternates: {
+    canonical: BASE_URL,
   },
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
-    url: 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai',
+    url: BASE_URL,
     siteName: 'Южный Континент',
-    title: 'Экскурсии в Сочи 2025 — от 900 ₽ | Южный Континент',
-    description: 'Лучшие экскурсии в Сочи и Адлере 2025 ⭐ Красная Поляна, 33 водопада, Абхазия, Роза Хутор. Групповые и индивидуальные туры. Без предоплаты. Бронирование онлайн от 900 ₽.',
+    title: 'Экскурсии в Сочи 2026 — от 900 ₽ | Южный Континент',
+    description: 'Лучшие экскурсии в Сочи и Адлере 2026 ⭐ Красная Поляна, 33 водопада, Абхазия, Роза Хутор. Групповые и индивидуальные туры. Предоплата 20%, остаток на месте. Бронирование онлайн от 900 ₽.',
     images: [
       {
-        url: 'https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg',
+        url: `${BASE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: 'Южный Континент - Премиум отдых на Черном море'
+        alt: 'Южный Континент — Экскурсии в Сочи'
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Экскурсии в Сочи 2025 — от 900 ₽ | Южный Континент',
-    description: 'Лучшие экскурсии в Сочи и Адлере 2025 ⭐ Красная Поляна, 33 водопада, Абхазия, Роза Хутор. Групповые и индивидуальные туры. Без предоплаты.',
-    images: ['https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg']
+    title: 'Экскурсии в Сочи 2026 — от 900 ₽ | Южный Континент',
+    description: 'Лучшие экскурсии в Сочи и Адлере 2026 ⭐ Красная Поляна, 33 водопада, Абхазия, Роза Хутор. Групповые и индивидуальные туры.',
+    images: [`${BASE_URL}/og-image.jpg`]
   },
   icons: {
     icon: '/favicon.ico',
@@ -88,14 +87,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" suppressHydrationWarning>
+    <html lang="ru" className={raleway.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body className="font-sans antialiased">
         <OrganizationSchema />

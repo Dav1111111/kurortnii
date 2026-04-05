@@ -19,7 +19,9 @@ const formSchema = z.object({
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,11 +33,29 @@ export default function ContactPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log(values);
-    setIsSubmitting(false);
-    form.reset();
+    setError("");
+    try {
+      const res = await fetch("/api/telegram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: values.name,
+          email: values.email,
+          message: values.message,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || "Ошибка отправки");
+      }
+      setIsSuccess(true);
+      form.reset();
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (e) {
+      setError("Не удалось отправить сообщение. Позвоните нам: 8 989 166-86-31");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -203,13 +223,22 @@ export default function ContactPage() {
                     )}
                   />
                   
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full bg-coral-500 hover:bg-coral-600 text-white h-11"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Отправка..." : "Отправить сообщение"}
                   </Button>
+
+                  {isSuccess && (
+                    <p className="text-green-600 text-sm text-center font-medium">
+                      Сообщение отправлено! Мы свяжемся с вами в ближайшее время.
+                    </p>
+                  )}
+                  {error && (
+                    <p className="text-red-500 text-sm text-center">{error}</p>
+                  )}
                 </form>
               </Form>
             </motion.div>
