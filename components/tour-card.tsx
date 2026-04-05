@@ -3,11 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Star, Clock, Users, ChevronDown, ChevronUp, Check, ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Star, Clock, Users, ChevronRight, ImageIcon, Check, AlertCircle } from "lucide-react";
 import { ImageGallery } from "@/components/image-gallery";
 
 interface Tour {
@@ -33,224 +30,219 @@ interface Tour {
   slug: string;
 }
 
-interface TourCardProps {
-  tour: Tour;
-}
+const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
+  city:      { label: "Городские",  color: "bg-turquoise-100 text-turquoise-700" },
+  abkhazia:  { label: "Абхазия",    color: "bg-emerald-100 text-emerald-700" },
+  jeeping:   { label: "Джипинг",    color: "bg-orange-100 text-orange-700" },
+  nature:    { label: "Горы",       color: "bg-blue-100 text-blue-700" },
+  family:    { label: "Семейное",   color: "bg-purple-100 text-purple-700" },
+  adventure: { label: "Экстрим",    color: "bg-red-100 text-red-700" },
+};
 
-export function TourCard({ tour }: TourCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+export function TourCard({ tour }: { tour: Tour }) {
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [galleryImages, setGalleryImages] = useState<string[]>([tour.image]);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   useEffect(() => {
-    // Загружаем все изображения из папки тура
     if (tour.imagesFolder) {
-      const fetchImages = async () => {
-        try {
-          const response = await fetch(`/api/tour-images?folder=${encodeURIComponent(tour.imagesFolder!)}`);
-          if (response.ok) {
-            const images = await response.json();
-            if (images.length > 0) {
-              setGalleryImages(images);
-            }
-          }
-        } catch (error) {
-          console.error('Ошибка загрузки изображений:', error);
-        }
-      };
-      fetchImages();
+      fetch(`/api/tour-images?folder=${encodeURIComponent(tour.imagesFolder)}`)
+        .then((r) => r.ok ? r.json() : [])
+        .then((imgs) => imgs.length > 0 && setGalleryImages(imgs))
+        .catch(() => {});
     }
   }, [tour.imagesFolder]);
 
+  const cat = CATEGORY_LABELS[tour.category];
+  const isLowSeats = tour.seatsLeft > 0 && tour.seatsLeft <= 5;
+  const isSoldOut = tour.seatsLeft === 0;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      layout
-    >
-      <Card className="h-full overflow-hidden group">
-        <CardContent className="p-0">
-          <div 
-            className="relative h-48 overflow-hidden cursor-pointer group/image"
-            onClick={() => setGalleryOpen(true)}
+    <>
+      <motion.article
+        layout
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -12 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="group relative rounded-3xl bg-white dark:bg-card border border-border overflow-hidden flex flex-col"
+        style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.06)" }}
+        whileHover={{ y: -4, boxShadow: "0 4px 6px rgba(0,0,0,0.04), 0 20px 48px rgba(0,0,0,0.12)" }}
+      >
+
+        {/* Image */}
+        <div
+          className="relative h-52 overflow-hidden cursor-pointer"
+          onClick={() => setGalleryOpen(true)}
+        >
+          <motion.div
+            className="absolute inset-0"
+            whileHover={{ scale: 1.06 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <Image
               src={tour.image}
               alt={tour.title}
-              className="object-cover transition-transform duration-500 group-hover/image:scale-110"
               fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-            {/* Overlay при наведении */}
-            <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/30 transition-all duration-300 flex items-center justify-center">
-              <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-300">
-                <ImageIcon className="h-12 w-12 text-white drop-shadow-lg" />
-              </div>
+          </motion.div>
+
+          {/* Gradient bottom */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+
+          {/* Price badge */}
+          <div className="absolute bottom-3 left-3">
+            <div className="inline-flex items-baseline gap-0.5 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-black/80 backdrop-blur-sm">
+              <span className="text-lg font-extrabold text-[#0A1628] dark:text-white" style={{ letterSpacing: "-0.03em" }}>
+                {tour.priceRub.toLocaleString("ru-RU")} ₽
+              </span>
+              <span className="text-xs text-muted-foreground ml-0.5">/{tour.priceUnit || "чел."}</span>
             </div>
-            {galleryImages.length > 1 && (
-              <Badge className="absolute bottom-2 right-2 bg-black/70 text-white border-none">
-                <ImageIcon className="h-3 w-3 mr-1" />
-                {galleryImages.length}
-              </Badge>
-            )}
           </div>
-          
-          <div className="p-4">
-            <h3 className="font-semibold text-lg mb-2 line-clamp-2">
-              {tour.title}
-            </h3>
-            <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-              {tour.description}
-            </p>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="flex items-center">
-                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                <span className="ml-1 font-medium">{tour.rating}</span>
-              </div>
-              <span className="text-sm text-muted-foreground">
-                ({tour.reviewCount} отзывов)
+
+          {/* Category tag */}
+          {cat && (
+            <div className="absolute top-3 left-3">
+              <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold ${cat.color}`}>
+                {cat.label}
               </span>
             </div>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>{tour.durationHours} часов</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                <span>{tour.groupSize}</span>
-              </div>
-            </div>
-            
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="mb-4"
-                >
-                  <div className="space-y-6 border-t border-b py-4 my-4">
-                    <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
-                      <h4 className="font-semibold mb-3 text-amber-900 dark:text-amber-100 flex items-center gap-2">
-                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        Важная информация
-                      </h4>
-                      <ul className="space-y-2 text-sm text-amber-900 dark:text-amber-100">
-                        <li className="flex items-start gap-2">
-                          <span className="font-semibold mt-0.5">•</span>
-                          <span>Экскурсия состоится в любую погоду</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="font-semibold mt-0.5">•</span>
-                          <span>Возврат билета возможен не менее, чем за 1 сутки до начала экскурсии</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="font-semibold mt-0.5">•</span>
-                          <span>В день проведения экскурсии билет возврату не подлежит</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="font-semibold mt-0.5">•</span>
-                          <span>При опоздании на посадку стоимость билета не возвращается, перенос даты не производится</span>
-                        </li>
-                      </ul>
-                    </div>
+          )}
 
-                    <div>
-                      <h4 className="font-semibold mb-2">В стоимость входит:</h4>
-                      <ul className="space-y-2">
-                        {tour.includes.map((item, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm">
-                            <Check className="h-4 w-4 text-green-500" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-semibold mb-2">Дни проведения:</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {tour.daysText ?? tour.days.join(", ")}
-                      </p>
-                    </div>
-                    {(() => {
-                      const start: any = tour.startTime as any;
-                      if (!start) return null;
-                      let text: string | null = null;
-                      if (typeof start === 'string') {
-                        text = start;
-                      } else if (start?.weekday && start?.weekend) {
-                        text = start.weekday === start.weekend
-                          ? start.weekday
-                          : `будни ${start.weekday}, выходные ${start.weekend}`;
-                      }
-                      return text ? (
-                        <div>
-                          <h4 className="font-semibold mb-2">Время выезда:</h4>
-                          <p className="text-sm text-muted-foreground">{text}</p>
-                        </div>
-                      ) : null;
-                    })()}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-            
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-              <div className="text-center sm:text-left">
-                <div>
-                  <span className="text-2xl font-bold text-turquoise-500">
-                    {tour.priceRub} ₽
-                  </span>
-                  <span className="text-sm text-muted-foreground ml-1">
-                    /{tour.priceUnit || "чел."}
-                  </span>
-                </div>
-                {tour.priceNote && (
-                  <p className="text-xs text-amber-600 dark:text-amber-500 mt-1 font-medium">
-                    ⓘ {tour.priceNote}
-                  </p>
-                )}
-              </div>
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline"
-                  onClick={() => setIsExpanded(!isExpanded)}
-                  className="h-11 px-4 flex-shrink-0 font-semibold border-2 hover:bg-turquoise-50 hover:border-turquoise-500 transition-colors"
-                >
-                  {isExpanded ? (
-                    <>
-                      <ChevronUp className="h-4 w-4 mr-2" />
-                      Свернуть
-                    </>
-                  ) : (
-                    <>
-                      <ChevronDown className="h-4 w-4 mr-2" />
-                      Подробнее
-                    </>
-                  )}
-                </Button>
-                <Link href={`/tours/${tour.slug}`} className="flex-1 sm:flex-none">
-                  <Button className="w-full bg-coral-500 hover:bg-coral-600 h-11">
-                    Забронировать
-                  </Button>
-                </Link>
-              </div>
+          {/* Gallery count */}
+          {galleryImages.length > 1 && (
+            <div className="absolute top-3 right-3">
+              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-xs font-medium">
+                <ImageIcon className="h-3 w-3" />
+                {galleryImages.length}
+              </span>
             </div>
+          )}
+
+          {/* Seats warning */}
+          {isLowSeats && (
+            <div className="absolute bottom-3 right-3">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-coral-500 text-white text-xs font-semibold">
+                <AlertCircle className="h-3 w-3" />
+                Осталось {tour.seatsLeft}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col flex-1 p-5">
+          {/* Rating */}
+          {tour.reviewCount > 0 && (
+            <div className="flex items-center gap-1.5 mb-2">
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <span className="text-sm font-semibold">{tour.rating}</span>
+              <span className="text-xs text-muted-foreground">({tour.reviewCount})</span>
+            </div>
+          )}
+
+          {/* Title */}
+          <h3 className="font-bold text-base leading-snug mb-2 line-clamp-2 group-hover:text-turquoise-600 dark:group-hover:text-turquoise-400 transition-colors">
+            {tour.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 mb-4 flex-1">
+            {tour.description}
+          </p>
+
+          {/* Meta row */}
+          <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
+            <span className="flex items-center gap-1">
+              <Clock className="h-3.5 w-3.5" />
+              {tour.durationHours} ч
+            </span>
+            <span className="flex items-center gap-1">
+              <Users className="h-3.5 w-3.5" />
+              {tour.groupSize}
+            </span>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* Gallery Modal */}
-      <ImageGallery
-        images={galleryImages}
-        isOpen={galleryOpen}
-        onClose={() => setGalleryOpen(false)}
-      />
-    </motion.div>
+          {/* Details toggle */}
+          <AnimatePresence initial={false}>
+            {detailsOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="overflow-hidden mb-4"
+              >
+                <div className="border-t pt-4 space-y-3">
+                  {/* Important info */}
+                  <div className="rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-800 p-3">
+                    <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-1.5">Важно знать</p>
+                    <ul className="space-y-1 text-xs text-amber-700 dark:text-amber-400">
+                      <li>• В любую погоду</li>
+                      <li>• Возврат за 24 ч до начала</li>
+                      <li>• При опоздании — без возврата</li>
+                    </ul>
+                  </div>
+                  {/* Includes */}
+                  <div>
+                    <p className="text-xs font-semibold mb-1.5">Включено:</p>
+                    <ul className="space-y-1">
+                      {tour.includes.slice(0, 4).map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+                          <Check className="h-3.5 w-3.5 text-turquoise-500 mt-0.5 flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  {/* Days */}
+                  <div>
+                    <p className="text-xs font-semibold mb-1">Дни:</p>
+                    <p className="text-xs text-muted-foreground">{tour.daysText ?? tour.days.join(", ")}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Buttons */}
+          <div className="flex gap-2 mt-auto">
+            <button
+              onClick={() => setDetailsOpen(!detailsOpen)}
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-border hover:border-turquoise-300 dark:hover:border-turquoise-700 hover:text-turquoise-600 dark:hover:text-turquoise-400 transition-colors"
+            >
+              {detailsOpen ? "Свернуть" : "Детали"}
+            </button>
+            <Link href={`/tours/${tour.slug}`} className="flex-1">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                disabled={isSoldOut}
+                className="w-full py-2.5 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50"
+                style={{
+                  background: isSoldOut
+                    ? "#9ca3af"
+                    : "linear-gradient(135deg, #FF7F50 0%, #f05d29 100%)",
+                  boxShadow: isSoldOut ? "none" : "0 3px 12px rgba(255,127,80,0.3)",
+                }}
+              >
+                {isSoldOut ? "Нет мест" : "Забронировать"}
+                {!isSoldOut && <ChevronRight className="h-3.5 w-3.5" />}
+              </motion.button>
+            </Link>
+          </div>
+
+          {tour.priceNote && (
+            <p className="text-xs text-amber-600 dark:text-amber-500 mt-2 text-center">
+              ⓘ {tour.priceNote}
+            </p>
+          )}
+        </div>
+      </motion.article>
+
+      <ImageGallery images={galleryImages} isOpen={galleryOpen} onClose={() => setGalleryOpen(false)} />
+    </>
   );
 }

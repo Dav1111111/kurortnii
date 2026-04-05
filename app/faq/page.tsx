@@ -1,8 +1,6 @@
 import { FAQ } from "@/components/faq";
 import { FAQSchema } from "@/components/tour-schema";
 
-// Вопросы продублированы здесь, чтобы FAQSchema рендерилась на сервере
-// и не зависела от клиентского компонента FAQ
 const faqItems = [
   {
     question: "Важные условия участия в экскурсиях",
@@ -45,21 +43,31 @@ export const metadata = {
 export default function FAQPage() {
   return (
     <div className="min-h-screen">
-      {/*
-        FAQPage schema: Google rich results для коммерческих сайтов ограничены
-        (август 2023), однако разметка улучшает видимость в AI-поиске
-        (Яндекс ИИ, Google SGE, Perplexity, ChatGPT).
-      */}
       <FAQSchema items={faqItems} />
 
-      <section className="py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Вопрос–Ответ</h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Ответы на популярные вопросы о наших экскурсиях и сервисе
-            </p>
+      {/* Hero */}
+      <section className="relative pt-32 pb-16 bg-[#0A1628] overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-turquoise-500/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-coral-500/15 rounded-full blur-3xl" />
+        </div>
+        <div className="container relative z-10">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-0.5 bg-turquoise-400 rounded-full" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-turquoise-400">
+              Поддержка
+            </span>
           </div>
+          <h1
+            className="text-white font-extrabold mb-3 text-balance"
+            style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", lineHeight: 1.05, letterSpacing: "-0.03em" }}
+          >
+            Часто задаваемые{" "}
+            <span className="text-gradient">вопросы</span>
+          </h1>
+          <p className="text-white/50 max-w-lg">
+            Не нашли ответ? Напишите нам в WhatsApp — ответим за 5 минут.
+          </p>
         </div>
       </section>
 

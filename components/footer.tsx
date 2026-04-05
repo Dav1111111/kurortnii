@@ -1,76 +1,182 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Umbrella, Mail, Phone } from "lucide-react";
+import { Phone, MapPin, Clock, MessageSquare, Instagram, Send } from "lucide-react";
+
+const tourLinks = [
+  { href: "/tours?category=city", label: "Городские экскурсии" },
+  { href: "/tours?category=abkhazia", label: "Туры в Абхазию" },
+  { href: "/tours?category=jeeping", label: "Джипинг туры" },
+  { href: "/tours?category=nature", label: "Горы и водопады" },
+  { href: "/tours?category=family", label: "Для всей семьи" },
+];
+
+const companyLinks = [
+  { href: "/about", label: "О компании" },
+  { href: "/reviews", label: "Отзывы" },
+  { href: "/faq", label: "Вопрос–Ответ" },
+  { href: "/contact", label: "Контакты" },
+  { href: "/privacy", label: "Политика конфиденциальности" },
+  { href: "/terms", label: "Условия использования" },
+];
 
 export function Footer() {
   return (
-    <footer className="bg-turquoise-950 text-turquoise-50 pt-16 pb-6">
-      <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-white">
-              <Umbrella className="h-8 w-8" />
-              <span>Южный Континент</span>
-            </Link>
-            <p className="text-turquoise-200">
-              Лучший премиальный отдых на Черном море. Наслаждайтесь комфортом, сервисом и природой Сочи.
-            </p>
+    <footer className="bg-[#0A1628] text-white relative overflow-hidden">
+      {/* Decorative blobs */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-turquoise-500/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-coral-500/8 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="container relative z-10">
+        {/* Top: brand marquee */}
+        <div className="py-12 border-b border-white/10 overflow-hidden">
+          <div className="marquee-track select-none" aria-hidden="true">
+            {["Экскурсии в Сочи", "·", "Абхазия", "·", "Красная Поляна", "·", "Джипинг", "·", "Морские прогулки", "·",
+              "Экскурсии в Сочи", "·", "Абхазия", "·", "Красная Поляна", "·", "Джипинг", "·", "Морские прогулки", "·"].map(
+              (item, i) => (
+                <span
+                  key={i}
+                  className={item === "·" ? "text-turquoise-500 text-2xl font-bold" : "text-2xl font-bold text-white/20 whitespace-nowrap"}
+                >
+                  {item}
+                </span>
+              )
+            )}
           </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Контакты</h3>
+        </div>
+
+        {/* Main grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 py-16">
+
+          {/* Brand */}
+          <div className="lg:col-span-1 space-y-6">
+            <div>
+              <p className="text-2xl font-bold tracking-tight">Южный Континент</p>
+              <p className="text-white/40 text-sm mt-1">Экскурсионное бюро, Сочи</p>
+            </div>
+            <p className="text-white/55 text-sm leading-relaxed">
+              Авторские экскурсии по Сочи, Абхазии и Красной Поляне с профессиональными гидами с 2014 года.
+            </p>
+            {/* Social */}
+            <div className="flex gap-3">
+              <a
+                href="https://wa.me/79891668631"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-turquoise-400 hover:text-turquoise-400 transition-colors"
+              >
+                <MessageSquare className="h-4 w-4" />
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-coral-400 hover:text-coral-400 transition-colors"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="#"
+                aria-label="Telegram"
+                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-turquoise-400 hover:text-turquoise-400 transition-colors"
+              >
+                <Send className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Tours */}
+          <div className="space-y-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/30">Экскурсии</p>
             <ul className="space-y-3">
-              <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-turquoise-400" />
-                <a href="tel:89891668631" className="text-turquoise-200 hover:text-white transition-colors">
-                  Дианита: 8 989 166-86-31
+              {tourLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/55 hover:text-white transition-colors link-underline"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div className="space-y-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/30">Компания</p>
+            <ul className="space-y-3">
+              {companyLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/55 hover:text-white transition-colors link-underline"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contacts */}
+          <div className="space-y-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/30">Контакты</p>
+            <ul className="space-y-4">
+              <li>
+                <a href="tel:89891668631" className="group flex items-start gap-3">
+                  <Phone className="h-4 w-4 text-turquoise-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-white/30 mb-0.5">Дианита</p>
+                    <p className="text-sm text-white/70 group-hover:text-white transition-colors">8 989 166-86-31</p>
+                  </div>
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-turquoise-400" />
-                <a href="tel:89885007418" className="text-turquoise-200 hover:text-white transition-colors">
-                  Андрей: 8 988 500-74-18
+              <li>
+                <a href="tel:89885007418" className="group flex items-start gap-3">
+                  <Phone className="h-4 w-4 text-turquoise-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-white/30 mb-0.5">Андрей</p>
+                    <p className="text-sm text-white/70 group-hover:text-white transition-colors">8 988 500-74-18</p>
+                  </div>
                 </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="h-4 w-4 text-turquoise-400 mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-white/55">Курортный проспект 47,<br />Сочи, Россия</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <Clock className="h-4 w-4 text-turquoise-400 mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-white/55">
+                  <p>Пн–Пт: 9:00 — 20:00</p>
+                  <p>Сб–Вс: 10:00 — 18:00</p>
+                </div>
               </li>
             </ul>
           </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Новости и акции</h3>
-            <p className="text-turquoise-200 mb-4">
-              Подпишитесь на нашу рассылку, чтобы первыми узнавать о специальных предложениях.
+        </div>
+
+        {/* WhatsApp CTA */}
+        <div className="py-8 border-t border-white/10">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <p className="text-white/40 text-sm">
+              Есть вопросы? Напишите нам в WhatsApp — ответим быстро.
             </p>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Input 
-                type="email" 
-                placeholder="Ваш email" 
-                className="bg-turquoise-900 text-white border-turquoise-800 focus-visible:ring-turquoise-400 h-11" 
-              />
-              <Button className="bg-coral-500 hover:bg-coral-600 text-white h-11 sm:px-6">
-                <Mail className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline ml-2 sm:ml-0">Подписаться</span>
-                <span className="sm:hidden ml-2">Подписаться</span>
-              </Button>
-            </div>
+            <a
+              href="https://wa.me/79891668631"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)" }}
+            >
+              <MessageSquare className="h-4 w-4" />
+              Написать в WhatsApp
+            </a>
           </div>
         </div>
-        
-        <Separator className="my-6 bg-turquoise-800" />
-        
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-turquoise-300 text-center md:text-left">
-            © 2025 Южный Континент. Все права защищены.
-          </p>
-          <div className="flex gap-4 text-sm text-turquoise-300">
-            <Link href="/privacy" className="hover:text-white transition-colors">
-              Политика конфиденциальности
-            </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
-              Условия использования
-            </Link>
-          </div>
+
+        {/* Bottom */}
+        <div className="py-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/25">
+          <p>© 2026 Южный Континент. Все права защищены.</p>
+          <p>Сочи, Краснодарский край, Россия</p>
         </div>
       </div>
     </footer>

@@ -7,396 +7,347 @@ import { TourGallery } from "@/components/tour-gallery";
 import { TourChecklist } from "@/components/tour-checklist";
 import { BookingForm } from "@/components/booking-form";
 import { TourSchema, BreadcrumbSchema } from "@/components/tour-schema";
-import { Button } from "@/components/ui/button";
-import { Star, Clock, Users, ChevronLeft, CalendarIcon } from "lucide-react";
+import { Star, Clock, Users, ChevronLeft, CalendarIcon, MapPin, Check, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
 export async function generateStaticParams() {
-  return toursData.tours.map((tour) => ({
-    slug: tour.slug,
-  }));
+  return toursData.tours.map((tour) => ({ slug: tour.slug }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const tour = toursData.tours.find(t => t.slug === params.slug);
-  
-  if (!tour) {
-    return {
-      title: 'Тур не найден',
-    };
-  }
+  const tour = toursData.tours.find((t) => t.slug === params.slug);
+  if (!tour) return { title: "Тур не найден" };
 
-  const baseUrl = 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai';
+  const baseUrl = "https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai";
   const tourUrl = `${baseUrl}/tours/${tour.slug}`;
-  
-  // Формируем SEO-оптимизированные title и description
-  const title = `${tour.title} - от ${tour.priceRub} ₽ | Экскурсии Сочи 2026`;
+  const title = `${tour.title} — от ${tour.priceRub} ₽ | Экскурсии Сочи 2026`;
   const ratingPart = tour.reviewCount > 0 ? ` ⭐ Рейтинг ${tour.rating} (${tour.reviewCount} отзывов).` : "";
-  const description = `${tour.description}${ratingPart} Бронируйте экскурсию "${tour.title}" онлайн. Предоплата 20%, остаток на месте. Длительность ${tour.durationHours} часов.`;
-  
-  // Получаем первое изображение тура
+  const description = `${tour.description}${ratingPart} Бронируйте онлайн. Предоплата 20%, остаток на месте. Длительность ${tour.durationHours} часов.`;
   let ogImage = tour.image;
-  if (ogImage && !ogImage.startsWith('http')) {
-    ogImage = `${baseUrl}${ogImage}`;
-  }
+  if (ogImage && !ogImage.startsWith("http")) ogImage = `${baseUrl}${ogImage}`;
 
   return {
     title,
     description,
-    keywords: [
-      tour.title,
-      'экскурсии в Сочи',
-      'туры Сочи 2025',
-      'бронирование экскурсий',
-      'экскурсии Адлер',
-      'Красная Поляна',
-      '33 водопада',
-      'Абхазия',
-      'Роза Хутор',
-      'экскурсии без предоплаты'
-    ],
-    openGraph: {
-      title,
-      description,
-      url: tourUrl,
-      siteName: 'Южный Континент',
-      images: [
-        {
-          url: ogImage || `${baseUrl}/logo.png`,
-          width: 1200,
-          height: 630,
-          alt: tour.title,
-        }
-      ],
-      locale: 'ru_RU',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [ogImage || `${baseUrl}/logo.png`],
-    },
-    alternates: {
-      canonical: tourUrl,
-    },
+    keywords: [tour.title, "экскурсии в Сочи", "туры Сочи 2026", "бронирование экскурсий", "Абхазия", "Красная Поляна"],
+    openGraph: { title, description, url: tourUrl, siteName: "Южный Континент", images: [{ url: ogImage || `${baseUrl}/logo.png`, width: 1200, height: 630, alt: tour.title }], locale: "ru_RU", type: "website" },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage || `${baseUrl}/logo.png`] },
+    alternates: { canonical: tourUrl },
   };
 }
-
 
 const mockGallery = [
   "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg",
   "https://images.pexels.com/photos/5257534/pexels-photo-5257534.jpeg",
   "https://images.pexels.com/photos/5088748/pexels-photo-5088748.jpeg",
-  "https://images.pexels.com/photos/6143369/pexels-photo-6143369.jpeg"
+  "https://images.pexels.com/photos/6143369/pexels-photo-6143369.jpeg",
 ];
 
-export default function TourPage({ params }: { params: { slug: string } }) {
-  const tour = toursData.tours.find(t => t.slug === params.slug);
+// Resolve gallery images from filesystem
+function resolveImages(tour: (typeof toursData.tours)[number]): string[] {
+  const folder = (tour as any).imagesFolder as string | undefined;
+  if (folder) {
+    try {
+      const dirPath = path.join(process.cwd(), "public", "images", folder);
+      const files = fs.readdirSync(dirPath);
+      const allowed = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
+      const filtered = files.filter((f) => allowed.some((ext) => f.toLowerCase().endsWith(ext)));
+      filtered.sort();
+      const encFolder = encodeURIComponent(folder);
+      let images = filtered.map((f) => `/images/${encFolder}/${encodeURIComponent(f)}`);
 
-  if (!tour) {
-    notFound();
+      // Per-tour preferred first image
+      const prefer: Record<string, string> = {
+        "evening-sochi-boat-riviera": images[2],
+        "jeep-33-waterfalls-show": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 19.05.58.jpeg")}`,
+        "golden-ring-abkhazia": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 18.00.24.jpeg")}?v=2`,
+        "olympic-legacy": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 19.47.10.jpeg")}`,
+        "witch-gorge-6in1": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 20.11.02.jpeg")}`,
+        "vip-tour-polyana": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 19.39.32.jpeg")}`,
+        "guest-abkhazia": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 18.12.38.jpeg")}?v=2`,
+        "jeeping-abkhazia": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 18.26.31.jpeg")}?v=2`,
+        "bigfoot-quads": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-23 14.04.30.jpeg")}`,
+        "witch-gorge": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-23 14.10.08.jpeg")}`,
+        "kids-park-9-in-1": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-21 18.38.48.jpeg")}?v=2`,
+        "bus-33-waterfalls": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-22 23.53.16.jpeg")}`,
+        "aquapark-nautilus": `/images/${encFolder}/${encodeURIComponent("photo_2025-09-26 13.34.56.jpeg")}`,
+      };
+      const pref = prefer[tour.slug];
+      if (pref) {
+        const idx = images.indexOf(pref);
+        if (idx > 0) images = [images[idx], ...images.slice(0, idx), ...images.slice(idx + 1)];
+        else if (idx === -1 && pref) images = [pref, ...images];
+      }
+      if (images.length) return images;
+    } catch {}
   }
+  const gallery = (tour as any).gallery as string[] | undefined;
+  if (gallery?.length) return gallery;
+  return [tour.image, ...mockGallery].filter(Boolean) as string[];
+}
+
+export default function TourPage({ params }: { params: { slug: string } }) {
+  const tour = toursData.tours.find((t) => t.slug === params.slug);
+  if (!tour) notFound();
+
+  const images = resolveImages(tour!);
+  const t = tour!;
+
+  const startTime = (() => {
+    const s = (t as any).startTime;
+    if (!s) return null;
+    if (typeof s === "string") return s;
+    if (s.weekday && s.weekend)
+      return s.weekday === s.weekend ? s.weekday : `будни ${s.weekday}, выходные ${s.weekend}`;
+    return null;
+  })();
+
+  const days: string[] = (t as any).days ?? String((t as any).daysText || "").split(",").map((s: string) => s.trim()).filter(Boolean);
 
   return (
     <>
-      {/* JSON-LD структурированные данные для Яндекса */}
-      <TourSchema tour={tour} />
-      <BreadcrumbSchema 
+      <TourSchema tour={t} />
+      <BreadcrumbSchema
         items={[
-          { name: 'Главная', url: '/' },
-          { name: 'Экскурсии', url: '/tours' },
-          { name: tour.title, url: `/tours/${tour.slug}` }
-        ]} 
+          { name: "Главная", url: "/" },
+          { name: "Экскурсии", url: "/tours" },
+          { name: t.title, url: `/tours/${t.slug}` },
+        ]}
       />
-      
-      <div className="min-h-screen pb-20">
-        <div className="container pt-8 px-4 sm:px-6">
-          <Link href="/tours" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6 text-base sm:text-sm touch-manipulation">
-            <ChevronLeft className="mr-1 h-5 w-5 sm:mr-2 sm:h-4 sm:w-4" />
-            <span>Назад к списку</span>
+
+      <div className="min-h-screen bg-background">
+        {/* ── Gallery hero ─────────────────────────── */}
+        <div className="pt-16 lg:pt-20">
+          <TourGallery images={images} title={t.title} />
+        </div>
+
+        <div className="container py-10 px-4 sm:px-6">
+          {/* Back link */}
+          <Link
+            href="/tours"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
+          >
+            <ChevronLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+            Все экскурсии
           </Link>
 
-        <div className="space-y-12">
-          {(() => {
-            const folder: string | undefined = (tour as any).imagesFolder;
-            let images: string[] = [];
-            if (folder) {
-              try {
-                const dirPath = path.join(process.cwd(), "public", "images", folder);
-                const files = fs.readdirSync(dirPath);
-                const allowed = [".jpg", ".jpeg", ".png", ".webp", ".gif"]; 
-                const filtered = files.filter((f) => allowed.some((ext) => f.toLowerCase().endsWith(ext)));
-                filtered.sort();
-                const encFolder = encodeURIComponent(folder);
-                images = filtered.map((f) => `/images/${encFolder}/${encodeURIComponent(f)}`);
-              } catch (e) {
-                // noop: fallback ниже
-              }
-            }
-            if (!images.length) {
-              const gallery = (tour as any).gallery as string[] | undefined;
-              if (gallery && gallery.length > 0) {
-                images = gallery;
-              } else {
-                const fallback = [tour.image, ...mockGallery].filter((v): v is string => Boolean(v));
-                images = fallback;
-              }
-            }
-            // Start carousel from specific images per tour
-            if ((tour as any).slug === 'evening-sochi-boat-riviera' && images.length >= 3) {
-              const third = images[2];
-              images = [third, ...images.slice(0, 2), ...images.slice(3)];
-            }
-            if ((tour as any).slug === 'jeep-33-waterfalls-show' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 19.05.58.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'golden-ring-abkhazia' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 18.00.24.jpeg') + '?v=2';
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'olympic-legacy' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 19.47.10.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'witch-gorge-6in1' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 20.11.02.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'vip-tour-polyana' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 19.39.32.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'guest-abkhazia' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 18.12.38.jpeg') + '?v=2';
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'jeeping-abkhazia' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 18.26.31.jpeg') + '?v=2';
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'bigfoot-quads' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-23 14.04.30.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'witch-gorge' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-23 14.10.08.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'kids-park-9-in-1' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-21 18.38.48.jpeg') + '?v=2';
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'bus-33-waterfalls' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-22 23.53.16.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            if ((tour as any).slug === 'aquapark-nautilus' && images.length >= 1) {
-              const prefer = '/images/' + encodeURIComponent((tour as any).imagesFolder) + '/' + encodeURIComponent('photo_2025-09-26 13.34.56.jpeg');
-              const idx = images.indexOf(prefer);
-              if (idx > 0) {
-                const preferred = images[idx];
-                images = [preferred, ...images.slice(0, idx), ...images.slice(idx + 1)];
-              }
-            }
-            // 33 водопада (без переупорядочивания) — старт с 1-го файла папки
-            return <TourGallery images={images} title={tour.title} />;
-          })()}
+          {/* ── Main layout: content + sidebar ───────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-12 xl:gap-16">
 
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4">{tour.title}</h1>
-            <div className="flex flex-wrap items-center gap-4 sm:gap-6 mb-6">
-              <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
-                <span className="font-medium">{tour.rating}</span>
-                <span className="text-muted-foreground">({tour.reviewCount} отзывов)</span>
+            {/* ── LEFT: content ──────────────────────── */}
+            <div className="space-y-10">
+
+              {/* Title & meta */}
+              <div>
+                <h1
+                  className="font-extrabold mb-5 text-balance"
+                  style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)", lineHeight: 1.1, letterSpacing: "-0.03em" }}
+                >
+                  {t.title}
+                </h1>
+
+                <div className="flex flex-wrap gap-4 text-sm">
+                  {t.reviewCount > 0 && (
+                    <span className="flex items-center gap-1.5">
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <strong>{t.rating}</strong>
+                      <span className="text-muted-foreground">({t.reviewCount} отзывов)</span>
+                    </span>
+                  )}
+                  <span className="flex items-center gap-1.5 text-muted-foreground">
+                    <Clock className="h-4 w-4" />
+                    {t.durationHours} часов
+                  </span>
+                  <span className="flex items-center gap-1.5 text-muted-foreground">
+                    <Users className="h-4 w-4" />
+                    {t.groupSize}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
+                    Сочи, Россия
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                <span>{tour.durationHours} часов</span>
+
+              {/* Description */}
+              <div>
+                <p className="text-muted-foreground leading-relaxed text-base">{t.description}</p>
               </div>
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                <span>{tour.groupSize}</span>
-              </div>
-            </div>
 
-            {/* Ценовой блок и форма бронирования перенесены вниз */}
-
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p>{tour.description}</p>
-            </div>
-
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-start gap-3 bg-muted/30 dark:bg-muted/20 rounded-lg p-4">
-                <CalendarIcon className="h-5 w-5 text-primary" />
-                <div>
-                  <div className="text-xs text-muted-foreground uppercase">Дни проведения</div>
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {(() => {
-                      const days: string[] = (tour as any).days ?? String((tour as any).daysText || '').split(',').map((s: string) => s.trim()).filter(Boolean);
-                      return days.map((d: string, idx: number) => (
-                        <span key={idx} className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-sm">{d}</span>
-                      ));
-                    })()}
+              {/* Schedule info */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 dark:bg-muted/20">
+                  <CalendarIcon className="h-5 w-5 text-turquoise-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1.5 font-medium">Дни проведения</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {days.map((d, i) => (
+                        <span key={i} className="px-2.5 py-0.5 rounded-full bg-turquoise-100 dark:bg-turquoise-900/40 text-turquoise-700 dark:text-turquoise-300 text-xs font-semibold">
+                          {d}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-3 bg-muted/30 dark:bg-muted/20 rounded-lg p-4">
-                <Clock className="h-5 w-5 text-primary" />
-                <div>
-                  <div className="text-xs text-muted-foreground uppercase">Время выезда</div>
-                  {(() => {
-                    const start: any = (tour as any).startTime;
-                    if (!start) return <div className="text-sm font-medium">—</div>;
-                    let text: string | null = null;
-                    if (typeof start === 'string') {
-                      text = start;
-                    } else if (start.weekday && start.weekend) {
-                      text = start.weekday === start.weekend
-                        ? start.weekday
-                        : `будни ${start.weekday}, выходные ${start.weekend}`;
-                    }
-                    return <div className="text-sm font-medium">{text}</div>;
-                  })()}
-                </div>
-              </div>
-            </div>
-
-            {(tour as any).program && (tour as any).program.length > 0 && (
-              <div className="dark:text-white">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-4">Программа</h2>
-                <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
-                  {(tour as any).program.map((item: string, idx: number) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {(() => {
-              const prices: string[] = (tour as any).prices || [];
-              if (!prices.length) return null;
-
-              const isHeading = (line: string) => line.startsWith('Льготные категории на канатную дорогу (');
-              const headingIndexes: number[] = prices
-                .map((p, i) => (isHeading(p) ? i : -1))
-                .filter((i) => i >= 0);
-
-              const firstHeading = headingIndexes.length ? headingIndexes[0] : prices.length;
-              const baseItems = prices.slice(0, firstHeading).filter((p) => !isHeading(p));
-              const hasParksIncluded = baseItems.some((p) => p.toLowerCase().includes('в стоимость входят все нац. парки'));
-              const baseTitle = hasParksIncluded ? 'Стоимость (входят все нац. парки)' : 'Стоимость';
-
-              const sections = headingIndexes.map((startIdx, idx) => {
-                const endIdx = idx + 1 < headingIndexes.length ? headingIndexes[idx + 1] : prices.length;
-                return {
-                  title: prices[startIdx],
-                  items: prices.slice(startIdx + 1, endIdx).filter((p) => !isHeading(p)),
-                };
-              });
-
-              return (
-                <div className="dark:text-white space-y-8 sm:space-y-10">
-                  {baseItems.length > 0 && (
+                {startTime && (
+                  <div className="flex items-start gap-3 p-4 rounded-2xl bg-muted/40 dark:bg-muted/20">
+                    <Clock className="h-5 w-5 text-turquoise-500 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-bold mb-4">{baseTitle}</h2>
-                      <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
-                        {baseItems.map((line, idx) => (
-                          <li key={idx}>{line}</li>
-                        ))}
-                      </ul>
+                      <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1.5 font-medium">Время выезда</p>
+                      <p className="text-sm font-semibold">{startTime}</p>
                     </div>
-                  )}
+                  </div>
+                )}
+              </div>
 
-                  {sections.map((sec, i) => (
-                    sec.items.length > 0 ? (
-                      <div key={i}>
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-4">{sec.title}</h2>
-                        <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
-                          {sec.items.map((item, j) => (
-                            <li key={j}>{item}</li>
+              {/* Program */}
+              {(t as any).program?.length > 0 && (
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Программа тура</h2>
+                  <ol className="space-y-2.5">
+                    {(t as any).program.map((item: string, idx: number) => (
+                      <li key={idx} className="flex gap-3 text-sm">
+                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-turquoise-100 dark:bg-turquoise-900/40 text-turquoise-700 dark:text-turquoise-300 text-xs font-bold flex items-center justify-center mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <span className="text-muted-foreground pt-0.5">{item}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {/* Prices breakdown */}
+              {(() => {
+                const prices: string[] = (t as any).prices || [];
+                if (!prices.length) return null;
+                const isHeading = (line: string) => line.startsWith("Льготные категории");
+                const headingIndexes = prices.map((p, i) => (isHeading(p) ? i : -1)).filter((i) => i >= 0);
+                const firstHeading = headingIndexes.length ? headingIndexes[0] : prices.length;
+                const baseItems = prices.slice(0, firstHeading).filter((p) => !isHeading(p));
+                const hasParks = baseItems.some((p) => p.toLowerCase().includes("нац. парки"));
+                const sections = headingIndexes.map((startIdx, idx) => ({
+                  title: prices[startIdx],
+                  items: prices.slice(startIdx + 1, idx + 1 < headingIndexes.length ? headingIndexes[idx + 1] : prices.length).filter((p) => !isHeading(p)),
+                }));
+
+                return (
+                  <div className="space-y-6">
+                    {baseItems.length > 0 && (
+                      <div>
+                        <h2 className="text-xl font-bold mb-3">{hasParks ? "Стоимость (вкл. нац. парки)" : "Стоимость"}</h2>
+                        <ul className="space-y-2">
+                          {baseItems.map((line, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                              <Check className="h-4 w-4 text-turquoise-500 mt-0.5 flex-shrink-0" />
+                              {line}
+                            </li>
                           ))}
                         </ul>
                       </div>
-                    ) : null
-                  ))}
-                </div>
-              );
-            })()}
+                    )}
+                    {sections.map((sec, i) =>
+                      sec.items.length ? (
+                        <div key={i}>
+                          <h3 className="text-base font-semibold mb-3">{sec.title}</h3>
+                          <ul className="space-y-2">
+                            {sec.items.map((item, j) => (
+                              <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-turquoise-500 mt-0.5 flex-shrink-0" />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null
+                    )}
+                  </div>
+                );
+              })()}
 
-            {(tour as any).importantInfo && (tour as any).importantInfo.length > 0 && (
-              <div className="dark:text-white">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-4">Важная информация</h2>
-                <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-sm sm:text-base">
-                  {(tour as any).importantInfo.map((item: string, idx: number) => <li key={idx}>{item}</li>)}
+              {/* Important info */}
+              {(t as any).importantInfo?.length > 0 && (
+                <div className="rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <AlertTriangle className="h-4 w-4 text-amber-600" />
+                    <h3 className="font-semibold text-amber-900 dark:text-amber-300 text-sm">Важная информация</h3>
+                  </div>
+                  <ul className="space-y-1.5">
+                    {(t as any).importantInfo.map((item: string, idx: number) => (
+                      <li key={idx} className="text-sm text-amber-800 dark:text-amber-400 flex items-start gap-2">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Includes / Excludes */}
+              <TourChecklist included={(t as any).includes ?? []} excluded={(t as any).excludes ?? []} />
+
+              {/* Standard rules */}
+              <div className="rounded-2xl bg-muted/40 dark:bg-muted/20 p-5">
+                <h3 className="font-semibold mb-3 text-sm">Условия участия</h3>
+                <ul className="space-y-1.5 text-sm text-muted-foreground">
+                  {["Экскурсия состоится в любую погоду", "Возврат билета — не позднее чем за 24 часа", "В день проведения возврат не предусмотрен", "При опоздании на посадку возврат не производится"].map((r, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 flex-shrink-0" />
+                      {r}
+                    </li>
+                  ))}
                 </ul>
               </div>
-            )}
-          </div>
 
-          <TourChecklist included={(tour as any).includes ?? []} excluded={(tour as any).excludes ?? []} />
-
-          {/* Точки встречи убраны по запросу */}
-
-          {/* Бронирование внизу */}
-          <section className="bg-white dark:bg-card rounded-lg shadow-lg p-4 sm:p-6">
-            <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">
-              {tour.priceRub} ₽
-              <span className="text-sm text-muted-foreground ml-1">/чел.</span>
+              {/* Mobile booking form */}
+              <div className="lg:hidden rounded-3xl bg-white dark:bg-card border border-border p-6 shadow-card">
+                <div className="mb-4">
+                  <span className="text-3xl font-extrabold" style={{ letterSpacing: "-0.04em" }}>
+                    {t.priceRub.toLocaleString("ru-RU")} ₽
+                  </span>
+                  <span className="text-muted-foreground text-sm ml-1">/{t.priceUnit || "чел."}</span>
+                  {t.priceNote && <p className="text-xs text-amber-600 mt-1">ⓘ {t.priceNote}</p>}
+                </div>
+                <BookingForm />
+              </div>
             </div>
-            {/* уведомление о количестве оставшихся мест скрыто по запросу */}
-            <BookingForm />
-            <p className="text-sm text-muted-foreground text-center mt-4">Бесплатная отмена за 24 часа до начала</p>
-          </section>
+
+            {/* ── RIGHT: sticky sidebar ──────────────── */}
+            <div className="hidden lg:block">
+              <div className="sticky top-24 rounded-3xl bg-white dark:bg-card border border-border shadow-card overflow-hidden">
+                {/* Price header */}
+                <div className="p-6 border-b border-border bg-[#F5EDD6]/60 dark:bg-ink/40">
+                  <div className="flex items-baseline gap-1 mb-1">
+                    <span className="text-4xl font-extrabold text-[#0A1628] dark:text-white" style={{ letterSpacing: "-0.04em" }}>
+                      {t.priceRub.toLocaleString("ru-RU")} ₽
+                    </span>
+                    <span className="text-muted-foreground text-sm">/{t.priceUnit || "чел."}</span>
+                  </div>
+                  {t.priceNote && <p className="text-xs text-amber-600 dark:text-amber-500">ⓘ {t.priceNote}</p>}
+
+                  <div className="flex flex-wrap gap-3 mt-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5" /> {t.durationHours} ч
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Users className="h-3.5 w-3.5" /> {t.groupSize}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Form */}
+                <div className="p-6">
+                  <BookingForm />
+                  <p className="text-center text-xs text-muted-foreground mt-4">
+                    Бесплатная отмена за 24 часа
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

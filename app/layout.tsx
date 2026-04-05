@@ -39,9 +39,11 @@ export const metadata: Metadata = {
     'бронирование экскурсий', 'цены на экскурсии Сочи'
   ],
   authors: [{ name: 'Южный Континент' }],
-  verification: {
-    yandex: 'YANDEX_VERIFICATION_CODE',
-  },
+  ...(process.env.YANDEX_VERIFICATION_CODE && {
+    verification: {
+      yandex: process.env.YANDEX_VERIFICATION_CODE,
+    },
+  }),
   alternates: {
     canonical: BASE_URL,
   },

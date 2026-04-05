@@ -1,77 +1,229 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { ChevronRight, ArrowDown, Star, Users, MapPin } from "lucide-react";
+
+const WORDS = ["Сочи", "Абхазию", "Красную Поляну", "горы"];
+
+const stats = [
+  { value: "10+", label: "лет опыта" },
+  { value: "500+", label: "довольных туристов" },
+  { value: "4.9", label: "средний рейтинг", icon: <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" /> },
+];
+
+const quickLinks = [
+  { href: "/tours?category=city", label: "Обзорные", icon: <MapPin className="h-3.5 w-3.5" /> },
+  { href: "/tours?category=jeeping", label: "Джипинг", icon: <ChevronRight className="h-3.5 w-3.5" /> },
+  { href: "/tours?category=abkhazia", label: "Абхазия", icon: <ChevronRight className="h-3.5 w-3.5" /> },
+];
 
 export function Hero() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % WORDS.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <section className="relative h-[70vh] sm:h-[80vh] lg:h-[90vh] min-h-[500px] sm:min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
+    <section
+      ref={containerRef}
+      className="relative h-screen min-h-[640px] max-h-[1000px] flex items-end overflow-hidden"
+    >
+      {/* ── Background photo with parallax ──────────── */}
+      <motion.div className="absolute inset-0 z-0" style={{ y: imgY }}>
         <Image
           src="/zastavki-gas-kvas-com-ejm6-p-zastavki-na-rabochii-stol-sochi-5.jpg"
-          alt="Сочи"
+          alt="Экскурсии в Сочи"
           fill
           priority
-          className="object-cover object-center sm:object-center"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
-          quality={90}
+          quality={92}
+          className="object-cover object-center"
+          sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-turquoise-950/70 to-turquoise-900/30" />
-      </div>
-      
-      {/* Content */}
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 pt-8 sm:pt-16">
-        <div className="max-w-3xl">
-          <motion.h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+      </motion.div>
+
+      {/* ── Gradient overlays ───────────────────────── */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/50 to-transparent" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#0A1628]/60 via-transparent to-transparent" />
+
+      {/* ── Content ─────────────────────────────────── */}
+      <motion.div
+        className="container relative z-20 pb-14 sm:pb-20"
+        style={{ y: contentY, opacity }}
+      >
+        <div className="max-w-4xl">
+
+          {/* Eyebrow tag */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-2 mb-6"
           >
-            Узнай Сочи как местный
-          </motion.h1>
-          
-          <motion.p 
-            className="text-xl text-turquoise-50 mb-8"
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-turquoise-400/20 border border-turquoise-400/30 text-turquoise-300 text-xs font-semibold tracking-widest uppercase backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-turquoise-400 animate-pulse" />
+              Экскурсионное бюро · Сочи
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <div className="overflow-hidden mb-4">
+            <motion.h1
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+              className="font-bold text-white leading-none"
+              style={{ fontSize: "clamp(2.8rem, 7vw, 6.5rem)", letterSpacing: "-0.03em" }}
+            >
+              Узнай{" "}
+              <span className="relative inline-block">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={wordIndex}
+                    initial={{ y: 40, opacity: 0, filter: "blur(8px)" }}
+                    animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                    exit={{ y: -40, opacity: 0, filter: "blur(8px)" }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="inline-block text-gradient"
+                  >
+                    {WORDS[wordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+            </motion.h1>
+            <motion.h1
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
+              className="font-bold text-white/90 leading-none"
+              style={{ fontSize: "clamp(2.8rem, 7vw, 6.5rem)", letterSpacing: "-0.03em" }}
+            >
+              как местный
+            </motion.h1>
+          </div>
+
+          {/* Subline */}
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
+            className="text-white/60 text-lg max-w-lg mb-10 leading-relaxed"
           >
-            15 авторских экскурсий по Сочи и окрестностям
+            15 авторских маршрутов по Сочи, Абхазии и горам. Бесплатный трансфер из любого отеля.
           </motion.p>
-          
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4"
+
+          {/* CTA row */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
+            className="flex flex-wrap items-center gap-3 mb-12"
           >
             <Link href="/tours">
-              <Button className="bg-coral-500 hover:bg-coral-600 text-white text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-14">
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base transition-all"
+                style={{
+                  background: "linear-gradient(135deg, #FF7F50 0%, #f05d29 100%)",
+                  boxShadow: "0 6px 28px rgba(255,127,80,0.45)",
+                }}
+              >
                 Выбрать экскурсию
-              </Button>
+                <ChevronRight className="h-4 w-4" />
+              </motion.button>
             </Link>
+
+            <a href="https://wa.me/79891668631" target="_blank" rel="noopener noreferrer">
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base border border-white/25 backdrop-blur-sm hover:border-white/50 transition-all"
+              >
+                Написать в WhatsApp
+              </motion.button>
+            </a>
+          </motion.div>
+
+          {/* Quick category pills */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}
+            className="flex flex-wrap gap-2 mb-12"
+          >
+            {quickLinks.map((q) => (
+              <Link key={q.href} href={q.href}>
+                <motion.span
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.96 }}
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold text-white/80 border border-white/20 hover:border-white/50 hover:text-white backdrop-blur-sm transition-all cursor-pointer"
+                >
+                  {q.icon}
+                  {q.label}
+                </motion.span>
+              </Link>
+            ))}
+          </motion.div>
+
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.65 }}
+            className="flex flex-wrap gap-8"
+          >
+            {stats.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.65 + i * 0.08 }}
+                className="flex items-baseline gap-1.5"
+              >
+                <span className="text-2xl sm:text-3xl font-extrabold text-white leading-none tracking-tight">
+                  {s.value}
+                </span>
+                <span className="text-white/45 text-xs flex items-center gap-1">
+                  {s.icon}
+                  {s.label}
+                </span>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
-      </div>
-      
-      {/* Wave divider */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 overflow-hidden">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 1200 120" 
-          preserveAspectRatio="none"
-          className="absolute bottom-0 w-full h-full"
+      </motion.div>
+
+      {/* ── Scroll indicator ────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        style={{ opacity }}
+        className="absolute bottom-8 right-8 z-20 hidden lg:flex flex-col items-center gap-2"
+      >
+        <span className="text-white/30 text-[10px] font-semibold tracking-widest uppercase rotate-90 origin-center mb-2">
+          Scroll
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+          className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center"
         >
-          <path 
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-            fill="#ffffff"
-          />
-        </svg>
-      </div>
+          <ArrowDown className="h-3.5 w-3.5 text-white/50" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

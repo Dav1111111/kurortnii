@@ -1,12 +1,8 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Star, ChevronLeft, ChevronRight, MessageSquare } from "lucide-react";
-import { motion } from "framer-motion";
-import useEmblaCarousel from "embla-carousel-react";
+import { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Star, Quote, ChevronRight, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
 interface Review {
@@ -19,198 +15,197 @@ interface Review {
 }
 
 function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+  return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 }
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star
+          key={s}
+          className={`h-3.5 w-3.5 ${s <= rating ? "fill-amber-400 text-amber-400" : "text-gray-200"}`}
+        />
+      ))}
+    </div>
+  );
+}
+
+const AVATAR_COLORS = [
+  "bg-turquoise-100 text-turquoise-700",
+  "bg-coral-100 text-coral-700",
+  "bg-amber-100 text-amber-700",
+  "bg-purple-100 text-purple-700",
+  "bg-emerald-100 text-emerald-700",
+];
 
 export function Testimonials() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    loop: true,
-    skipSnaps: false,
-    dragFree: true,
-  });
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setActiveIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  // Загружаем отзывы из API
   useEffect(() => {
     async function fetchReviews() {
       try {
-        const response = await fetch("/api/reviews");
-        if (response.ok) {
-          const data = await response.json();
-          setReviews(data);
-        }
-      } catch (error) {
-        console.error("Ошибка при загрузке отзывов:", error);
+        const res = await fetch("/api/reviews");
+        if (res.ok) setReviews(await res.json());
+      } catch {
+        // silently fail
       } finally {
         setIsLoading(false);
       }
     }
-
     fetchReviews();
   }, []);
 
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-
-    // Auto-scroll только если есть отзывы
-    let autoplay: NodeJS.Timeout | null = null;
-    if (reviews.length > 1) {
-      autoplay = setInterval(() => {
-        if (emblaApi.canScrollNext()) {
-          emblaApi.scrollNext();
-        } else {
-          emblaApi.scrollTo(0);
-        }
-      }, 5000);
-    }
-
-    return () => {
-      if (autoplay) clearInterval(autoplay);
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-    };
-  }, [emblaApi, onSelect, reviews.length]);
-
   return (
-    <section className="py-20 bg-gradient-to-b from-turquoise-50 to-white dark:from-turquoise-950/20 dark:to-background">
-      <div className="container">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Отзывы наших гостей</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Узнайте, что говорят путешественники о наших турах и экскурсиях
-          </p>
-        </motion.div>
+    <section ref={ref} className="section bg-[#0A1628] relative overflow-hidden">
+      {/* Background accents */}
+      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-turquoise-500/6 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-coral-500/6 rounded-full blur-3xl pointer-events-none" />
 
-        {isLoading ? (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-turquoise-500"></div>
+      <div className="container relative z-10">
+
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-2 mb-4"
+            >
+              <div className="w-8 h-0.5 bg-turquoise-400 rounded-full" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-turquoise-400">
+                Отзывы гостей
+              </span>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
+              className="text-white text-balance"
+              style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.03em" }}
+            >
+              Что говорят
+              <br />
+              <span className="text-gradient">наши гости</span>
+            </motion.h2>
           </div>
-        ) : reviews.length === 0 ? (
-          /* Показываем если нет отзывов */
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.3 }}
+          >
+            <Link
+              href="/reviews"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-white/50 hover:text-white transition-colors group"
+            >
+              Все отзывы
+              <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Loading */}
+        {isLoading && (
+          <div className="flex justify-center py-16">
+            <div className="w-8 h-8 border-2 border-turquoise-400/30 border-t-turquoise-400 rounded-full animate-spin" />
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!isLoading && reviews.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-12"
+            className="text-center py-16"
           >
-            <MessageSquare className="h-16 w-16 text-turquoise-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Пока нет отзывов</h3>
-            <p className="text-muted-foreground mb-6">
-              Будьте первым, кто оставит отзыв о наших экскурсиях!
-            </p>
+            <MessageSquare className="h-12 w-12 text-white/20 mx-auto mb-4" />
+            <p className="text-white/40 mb-6">Пока нет отзывов. Будьте первым!</p>
             <Link href="/reviews">
-              <Button className="bg-turquoise-500 hover:bg-turquoise-600">
+              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white border border-white/20 hover:border-turquoise-400 hover:text-turquoise-400 transition-all text-sm">
                 Оставить отзыв
-              </Button>
+              </button>
             </Link>
           </motion.div>
-        ) : (
-          <div className="relative px-4">
-            <div ref={emblaRef} className="overflow-hidden">
-              <div className="flex -ml-4">
-                {reviews.map((review) => (
-                  <div
-                    key={review.id}
-                    className="flex-[0_0_100%] min-w-0 pl-4 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
-                  >
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5 }}
-                      viewport={{ once: true }}
-                    >
-                      <Card className="h-full">
-                        <CardContent className="p-6">
-                          <div className="flex items-center gap-4 mb-4">
-                            <Avatar className="h-12 w-12 bg-turquoise-100 dark:bg-turquoise-900">
-                              <AvatarFallback className="text-turquoise-700 dark:text-turquoise-300">
-                                {getInitials(review.name)}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <p className="font-semibold">{review.name}</p>
-                              <p className="text-sm text-muted-foreground">{review.location}</p>
-                            </div>
-                            <div className="ml-auto flex">
-                              {Array.from({ length: 5 }).map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-4 w-4 ${i < review.rating
-                                    ? "text-amber-400 fill-amber-400"
-                                    : "text-gray-300"
-                                    }`}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                          <p className="text-muted-foreground italic">"{review.comment}"</p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  </div>
-                ))}
-              </div>
-            </div>
+        )}
 
-            {reviews.length > 1 && (
-              <div className="flex justify-center items-center gap-4 mt-8">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={scrollPrev}
-                  className="h-11 w-11 rounded-full"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </Button>
-                <div className="flex gap-2">
-                  {reviews.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`h-2 rounded-full transition-all ${activeIndex === index ? "w-6 bg-turquoise-500" : "w-2 bg-turquoise-200"
-                        }`}
-                      onClick={() => emblaApi?.scrollTo(index)}
-                    />
-                  ))}
+        {/* Reviews grid */}
+        {!isLoading && reviews.length > 0 && (
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
+            {reviews.slice(0, 6).map((review, i) => (
+              <motion.div
+                key={review.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.08 }}
+                className="break-inside-avoid mb-5"
+              >
+                <div className="group relative p-6 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/[0.15] transition-all duration-300">
+                  {/* Quote mark */}
+                  <Quote className="absolute top-4 right-5 h-8 w-8 text-turquoise-400/15 rotate-180" />
+
+                  {/* Stars */}
+                  <div className="flex items-center justify-between mb-4">
+                    <StarRating rating={review.rating} />
+                    <span className="text-white/20 text-xs">
+                      {new Date(review.created_at).toLocaleDateString("ru-RU", {
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+
+                  {/* Comment */}
+                  <p className="text-white/70 text-sm leading-relaxed mb-5">
+                    {review.comment}
+                  </p>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                        AVATAR_COLORS[i % AVATAR_COLORS.length]
+                      }`}
+                    >
+                      {getInitials(review.name)}
+                    </div>
+                    <div>
+                      <p className="text-white text-sm font-semibold leading-tight">{review.name}</p>
+                      {review.location && (
+                        <p className="text-white/35 text-xs">{review.location}</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={scrollNext}
-                  className="h-11 w-11 rounded-full"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </Button>
-              </div>
-            )}
+              </motion.div>
+            ))}
           </div>
         )}
+
+        {/* CTA bottom */}
+        {!isLoading && reviews.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-12"
+          >
+            <Link href="/reviews">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white border border-white/20 hover:border-turquoise-400/60 hover:bg-turquoise-400/10 transition-all duration-300"
+              >
+                Читать все отзывы
+                <ChevronRight className="h-4 w-4" />
+              </motion.button>
+            </Link>
+          </motion.div>
+        )}
+
       </div>
     </section>
   );
