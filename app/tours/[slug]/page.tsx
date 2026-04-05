@@ -37,10 +37,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 const mockGallery = [
-  "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg",
-  "https://images.pexels.com/photos/5257534/pexels-photo-5257534.jpeg",
-  "https://images.pexels.com/photos/5088748/pexels-photo-5088748.jpeg",
-  "https://images.pexels.com/photos/6143369/pexels-photo-6143369.jpeg",
+  "/zastavki-gas-kvas-com-ejm6-p-zastavki-na-rabochii-stol-sochi-5.jpg",
 ];
 
 // Resolve gallery images from filesystem

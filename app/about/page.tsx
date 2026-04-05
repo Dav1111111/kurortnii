@@ -110,7 +110,7 @@ export default function AboutPage() {
               <div className="relative">
                 <div className="aspect-[4/5] rounded-3xl overflow-hidden">
                   <Image
-                    src="/images/bigfoot3.jpg"
+                    src="/images/%D0%91%D0%B8%D0%B3%D1%84%D1%83%D1%82%20%D0%9A%D0%B2%D0%B0%D0%B4%D1%80%D1%8B/photo_2025-09-23%2014.04.23.jpeg"
                     alt="Команда Южный Континент"
                     fill
                     className="object-cover img-zoom"
