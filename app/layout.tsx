@@ -6,7 +6,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { YandexMetrika } from '@/components/yandex-metrika';
-import { OrganizationSchema } from '@/components/tour-schema';
+import { OrganizationSchema, WebSiteSchema } from '@/components/tour-schema';
 
 const raleway = Raleway({
   subsets: ['latin', 'cyrillic'],
@@ -97,6 +97,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <OrganizationSchema />
+        <WebSiteSchema />
         <Providers>
           <div className="flex min-h-screen flex-col">
             <Header />

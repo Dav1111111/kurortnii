@@ -1,9 +1,21 @@
+import toursData from "@/data/tours.json";
+
 const BASE_URL = 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai';
+const ORG_ID = `${BASE_URL}/#organization`;
 
 // Дата окончания действия цен: всегда конец текущего года
 function getPriceValidUntil(): string {
   const year = new Date().getFullYear();
   return `${year}-12-31`;
+}
+
+// Динамически вычисляем агрегированный рейтинг из tours.json
+function getAggregateRating() {
+  const tours = toursData.tours;
+  const total = tours.reduce((s, t) => s + (t.reviewCount ?? 0), 0);
+  const weightedSum = tours.reduce((s, t) => s + (t.rating * (t.reviewCount ?? 0)), 0);
+  const avg = total > 0 ? Math.round((weightedSum / total) * 10) / 10 : 4.8;
+  return { total, avg };
 }
 
 interface TourSchemaProps {
@@ -16,6 +28,7 @@ interface TourSchemaProps {
     durationHours: number;
     image: string;
     slug: string;
+    category?: string;
   };
 }
 
@@ -26,25 +39,36 @@ export function TourSchema({ tour }: TourSchemaProps) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "TouristTrip",
+    "@id": `${tourUrl}#trip`,
     "name": tour.title,
     "description": tour.description,
     "image": imageUrl,
     "url": tourUrl,
+    "touristType": [{ "@type": "Audience", "audienceType": "Туристы" }],
+    "location": {
+      "@type": "Place",
+      "name": "Сочи и окрестности",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Сочи",
+        "addressRegion": "Краснодарский край",
+        "addressCountry": "RU"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "43.585472",
+        "longitude": "39.723098"
+      }
+    },
     "offers": {
       "@type": "Offer",
       "price": tour.priceRub,
       "priceCurrency": "RUB",
       "availability": "https://schema.org/InStock",
       "url": tourUrl,
-      // Дата рассчитывается динамически — не протухнет при деплое
       "priceValidUntil": getPriceValidUntil(),
-      "seller": {
-        "@type": "Organization",
-        "name": "Южный Континент",
-        "url": BASE_URL
-      }
+      "seller": { "@type": "Organization", "@id": ORG_ID }
     },
-    // AggregateRating выводим только если есть хотя бы один отзыв
     ...(tour.reviewCount > 0 && {
       "aggregateRating": {
         "@type": "AggregateRating",
@@ -55,24 +79,7 @@ export function TourSchema({ tour }: TourSchemaProps) {
       }
     }),
     "duration": `PT${tour.durationHours}H`,
-    "provider": {
-      "@type": "TravelAgency",
-      "name": "Южный Континент",
-      "url": BASE_URL,
-      "telephone": "+79891668631", // TODO: заменить на реальный номер
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Сочи",
-        "addressRegion": "Краснодарский край",
-        "addressCountry": "RU"
-      }
-    },
-    "touristType": [
-      {
-        "@type": "Audience",
-        "audienceType": "Туристы"
-      }
-    ],
+    "provider": { "@type": "TravelAgency", "@id": ORG_ID },
     "isAccessibleForFree": false
   };
 
@@ -84,16 +91,16 @@ export function TourSchema({ tour }: TourSchemaProps) {
   );
 }
 
-// ─── OrganizationSchema (LocalBusiness / TravelAgency) ───────────────────────
-// Используется в app/layout.tsx — выводится на каждой странице сайта
+// ─── OrganizationSchema ───────────────────────────────────────────────────────
 
 export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
+    "@id": ORG_ID,
     "name": "Южный Континент",
     "alternateName": "Южный Континент Сочи",
-    "description": "Экскурсионное агентство в Сочи: групповые и индивидуальные туры по Сочи, Красной Поляне, Абхазии и Адлеру с 2010 года",
+    "description": "Экскурсионное агентство в Сочи — авторские маршруты по Сочи, Красной Поляне, Абхазии и Адлеру с 2014 года",
     "url": BASE_URL,
     "logo": {
       "@type": "ImageObject",
@@ -101,10 +108,9 @@ export function OrganizationSchema() {
       "width": 200,
       "height": 60
     },
-    "image": `${BASE_URL}/og-image.jpg`,
+    "image": `${BASE_URL}/logo-new.png`,
     "telephone": "+79891668631",
-    "email": "info@south-continent.ru",
-    "foundingDate": "2010",
+    "foundingDate": "2014",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Курортный проспект, 47",
@@ -121,37 +127,55 @@ export function OrganizationSchema() {
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday", "Tuesday", "Wednesday",
-          "Thursday", "Friday", "Saturday", "Sunday"
-        ],
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
         "opens": "09:00",
-        "closes": "21:00"
+        "closes": "20:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday","Sunday"],
+        "opens": "10:00",
+        "closes": "18:00"
       }
     ],
     "areaServed": [
-      {
-        "@type": "City",
-        "name": "Сочи"
-      },
-      {
-        "@type": "City",
-        "name": "Адлер"
-      },
-      {
-        "@type": "City",
-        "name": "Красная Поляна"
-      }
+      { "@type": "City", "name": "Сочи" },
+      { "@type": "City", "name": "Адлер" },
+      { "@type": "City", "name": "Красная Поляна" },
+      { "@type": "City", "name": "Абхазия" }
     ],
     "priceRange": "₽–₽₽₽",
     "currenciesAccepted": "RUB",
-    "paymentAccepted": "Cash, Credit Card, СБП",
-    // TODO: добавьте реальные ссылки на соцсети когда появятся
-    "sameAs": [
-      // "https://vk.com/yug_kontinent",
-      // "https://t.me/yug_kontinent",
-      // "https://www.instagram.com/yug_kontinent/"
-    ]
+    "paymentAccepted": "Cash, Credit Card, СБП"
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// ─── WebSiteSchema ────────────────────────────────────────────────────────────
+// SearchAction для Sitelinks Search Box
+
+export function WebSiteSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${BASE_URL}/#website`,
+    "url": BASE_URL,
+    "name": "Южный Континент",
+    "publisher": { "@type": "Organization", "@id": ORG_ID },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": `${BASE_URL}/tours?search={search_term_string}`
+      },
+      "query-input": "required name=search_term_string"
+    }
   };
 
   return (
@@ -165,10 +189,7 @@ export function OrganizationSchema() {
 // ─── BreadcrumbSchema ─────────────────────────────────────────────────────────
 
 interface BreadcrumbSchemaProps {
-  items: Array<{
-    name: string;
-    url: string;
-  }>;
+  items: Array<{ name: string; url: string }>;
 }
 
 export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
@@ -192,8 +213,6 @@ export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
 }
 
 // ─── ToursItemListSchema ──────────────────────────────────────────────────────
-// Используется на странице /tours для вывода всех туров списком
-// Позволяет Google показывать карусель туров в выдаче
 
 interface ToursListItem {
   title: string;
@@ -232,31 +251,20 @@ export function ToursItemListSchema({ tours }: ToursItemListSchemaProps) {
 }
 
 // ─── FAQSchema ────────────────────────────────────────────────────────────────
-// Используется на странице /faq
-// Google ограничил FAQPage rich results для коммерческих сайтов (август 2023),
-// однако schema.org FAQPage по-прежнему улучшает видимость в LLM/AI-поиске
-// (Яндекс ИИ, ChatGPT, Perplexity, Google SGE).
 
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-interface FAQSchemaProps {
-  items: FAQItem[];
-}
-
-export function FAQSchema({ items }: FAQSchemaProps) {
+export function FAQSchema({ items }: { items: FAQItem[] }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": items.map((item) => ({
       "@type": "Question",
       "name": item.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.answer
-      }
+      "acceptedAnswer": { "@type": "Answer", "text": item.answer }
     }))
   };
 
@@ -269,26 +277,22 @@ export function FAQSchema({ items }: FAQSchemaProps) {
 }
 
 // ─── ReviewsPageSchema ────────────────────────────────────────────────────────
-// Агрегированный рейтинг организации на странице /reviews
-// Опирается на суммарные данные по всем турам
+// Агрегированный рейтинг — динамически вычисляется из tours.json
 
 export function ReviewsPageSchema() {
-  // Суммарные данные по всем 15 турам из tours.json
-  // reviewCount = 245+134+320+210+180+90+60+234+120+110+56 (туры с ненулевыми reviewCount)
-  // Туры с reviewCount:0 (witch-gorge, bus-33-waterfalls, witch-gorge-6in1, bigfoot-quads) не учитываются
-  const totalReviewCount = 1759; // TODO: вычислять динамически из tours.json
-  const averageRating = 4.8;     // TODO: вычислять динамически
+  const { total, avg } = getAggregateRating();
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "TravelAgency",
+    "@type": "LocalBusiness",
+    "@id": ORG_ID,
     "name": "Южный Континент",
     "url": BASE_URL,
     "telephone": "+79891668631",
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": averageRating,
-      "reviewCount": totalReviewCount,
+      "ratingValue": avg,
+      "reviewCount": total,
       "bestRating": 5,
       "worstRating": 1
     }
@@ -303,48 +307,18 @@ export function ReviewsPageSchema() {
 }
 
 // ─── AboutPageSchema ──────────────────────────────────────────────────────────
-// Схема для страницы /about: организация + сотрудники (Person)
-// ВАЖНО: teamMembers в about/page.tsx содержат вымышленные данные.
-// Замените на реальные имена и фото перед публикацией.
+// Тип AboutPage — не дублирует TravelAgency из layout
 
 export function AboutPageSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "TravelAgency",
-    "name": "Южный Континент",
-    "url": BASE_URL,
-    "foundingDate": "2010",
-    "description": "Локальное экскурсионное агентство, основанное в 2010 году профессиональными гидами-энтузиастами Сочи",
-    "employee": [
-      // TODO: заменить на реальные данные команды
-      {
-        "@type": "Person",
-        "name": "Анна Петрова",
-        "jobTitle": "Генеральный директор",
-        "worksFor": {
-          "@type": "TravelAgency",
-          "name": "Южный Континент"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "Михаил Иванов",
-        "jobTitle": "Руководитель экскурсионного отдела",
-        "worksFor": {
-          "@type": "TravelAgency",
-          "name": "Южный Континент"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "Елена Смирнова",
-        "jobTitle": "Главный гид-экскурсовод",
-        "worksFor": {
-          "@type": "TravelAgency",
-          "name": "Южный Континент"
-        }
-      }
-    ]
+    "@type": "AboutPage",
+    "@id": `${BASE_URL}/about#aboutpage`,
+    "url": `${BASE_URL}/about`,
+    "name": "О компании Южный Континент",
+    "description": "Локальное экскурсионное агентство в Сочи. Авторские маршруты, малые группы, гиды — местные жители. С 2014 года.",
+    "about": { "@type": "TravelAgency", "@id": ORG_ID },
+    "publisher": { "@type": "Organization", "@id": ORG_ID }
   };
 
   return (

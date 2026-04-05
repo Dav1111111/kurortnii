@@ -67,14 +67,18 @@ export function Footer() {
                 <MessageSquare className="h-4 w-4" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/yug_kontinent/"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-coral-400 hover:text-coral-400 transition-colors"
               >
                 <Instagram className="h-4 w-4" />
               </a>
               <a
-                href="#"
+                href="https://t.me/yug_kontinent"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Telegram"
                 className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-turquoise-400 hover:text-turquoise-400 transition-colors"
               >
