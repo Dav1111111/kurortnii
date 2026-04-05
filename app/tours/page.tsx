@@ -8,7 +8,7 @@ import toursData from "@/data/tours.json";
 import ToursClient from "./tours-client";
 
 export const metadata = {
-  title: "Все экскурсии в Сочи | Южный Континент",
+  title: "Все экскурсии в Сочи",
   description: "Каталог экскурсий по Сочи, Абхазии и Красной Поляне: групповые и индивидуальные туры от 900 ₽. Джипинг, морские прогулки, семейные туры. Предоплата 20%, остаток на месте.",
   alternates: {
     canonical: "https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/tours"

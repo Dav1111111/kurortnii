@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Условия использования | Южный Континент",
+  title: "Условия использования",
   description: "Условия использования сайта Южный Континент — правила бронирования, оплаты, отмены и возврата экскурсий в Сочи.",
   alternates: {
     canonical: "https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/terms"

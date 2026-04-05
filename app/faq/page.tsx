@@ -33,7 +33,7 @@ const faqItems = [
 ];
 
 export const metadata = {
-  title: "Вопрос–Ответ | Южный Континент",
+  title: "Вопрос–Ответ об экскурсиях в Сочи",
   description: "Ответы на часто задаваемые вопросы об экскурсиях в Сочи: оплата, отмена, подготовка, трансфер и размер групп.",
   alternates: {
     canonical: "https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/faq"

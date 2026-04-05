@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Политика конфиденциальности | Южный Континент",
+  title: "Политика конфиденциальности",
   description: "Политика конфиденциальности сайта Южный Континент — как мы обрабатываем персональные данные пользователей.",
   alternates: {
     canonical: "https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/privacy"
