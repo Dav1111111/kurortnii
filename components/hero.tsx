@@ -8,7 +8,7 @@ import { ChevronRight, ArrowDown, Star, Users, MapPin } from "lucide-react";
 const WORDS = ["Сочи", "Абхазию", "Красную Поляну", "горы"];
 
 const stats = [
-  { value: "10+", label: "лет опыта" },
+  { value: "12+", label: "лет опыта" },
   { value: "500+", label: "довольных туристов" },
   { value: "4.9", label: "средний рейтинг", icon: <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" /> },
 ];
@@ -103,15 +103,15 @@ export function Hero() {
                   </motion.span>
                 </AnimatePresence>
               </span>
-            </motion.h1>
-            <motion.h1
-              initial={{ y: 80, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
-              className="font-bold text-white/90 leading-none"
-              style={{ fontSize: "clamp(2.8rem, 7vw, 6.5rem)", letterSpacing: "-0.03em" }}
-            >
-              как местный
+              <br />
+              <motion.span
+                initial={{ y: 80, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
+                className="inline-block text-white/90 leading-none"
+              >
+                как местный
+              </motion.span>
             </motion.h1>
           </div>
 

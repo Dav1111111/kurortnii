@@ -32,7 +32,13 @@
       "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"sleep 5 && pm2 list && pm2 logs kurortnii --lines 20 --nostream\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/tours\")",
-      "WebFetch(domain:xn----jtbbjdhsdbbg3ce9iub.xn--p1ai)"
+      "WebFetch(domain:xn----jtbbjdhsdbbg3ce9iub.xn--p1ai)",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && git pull && NODE_OPTIONS='--max-old-space-size=1024' yarn build 2>&1 | tail -25\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"pm2 restart kurortnii && sleep 4 && pm2 list\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"which cwebp || which convert || which ffmpeg || echo 'none available'\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"apt-get install -y webp 2>&1 | tail -5\")",
+      "Bash(ssh -p 49365 -i '~/.ssh/jino_key' root@118d8409ee88.vps.myjino.ru ':*)",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && git pull && NODE_OPTIONS='--max-old-space-size=1024' yarn build 2>&1 | tail -20\")"
     ]
   }
 }

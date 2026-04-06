@@ -2,7 +2,7 @@ import { ReviewsClient } from "./reviews-client";
 
 export const metadata = {
   title: "Отзывы об экскурсиях в Сочи",
-  description: "Читайте отзывы туристов об экскурсиях Южного Континента в Сочи, Абхазии и на Красной Поляне. Оставьте свой отзыв о туре.",
+  description: "4.8 из 5 — более 1700 отзывов о турах Южного Континента в Сочи, Абхазии и на Красной Поляне. Читайте реальные отзывы туристов и оставьте свой.",
   alternates: {
     canonical: "https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/reviews"
   }

@@ -7,7 +7,7 @@ import { motion, useInView } from "framer-motion";
 import { Check, MapPin, Award, Users, Star, ChevronRight, Quote } from "lucide-react";
 
 const stats = [
-  { number: "10+", label: "лет на рынке" },
+  { number: "12+", label: "лет на рынке" },
   { number: "500+", label: "туристов в год" },
   { number: "4.9", label: "рейтинг" },
   { number: "15+", label: "маршрутов" },
@@ -25,7 +25,7 @@ const values = [
   { icon: MapPin, title: "Местные эксперты", text: "Живём в Сочи, знаем каждый уголок. Не читаем по скрипту — рассказываем то, что знаем сами." },
   { icon: Star, title: "Авторские маршруты", text: "Ни одна экскурсия не повторяет другую. Подбираем программу под запросы группы." },
   { icon: Users, title: "Малые группы", text: "Максимум 8–12 человек. Индивидуальный подход, живое общение, без толпы." },
-  { icon: Award, title: "10 лет опыта", text: "Провели тысячи туров. Умеем работать с любыми ситуациями на маршруте." },
+  { icon: Award, title: "12 лет опыта", text: "Провели тысячи туров. Умеем работать с любыми ситуациями на маршруте." },
 ];
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
@@ -71,7 +71,7 @@ export default function AboutPage() {
               style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)", lineHeight: 1.05, letterSpacing: "-0.03em" }}
             >
               Южный Континент —{" "}
-              <span className="text-gradient">10 лет</span>{" "}
+              <span className="text-gradient">12 лет</span>{" "}
               в Сочи
             </h1>
             <p className="text-white/60 text-lg leading-relaxed max-w-xl">
@@ -146,7 +146,7 @@ export default function AboutPage() {
                   не найти в путеводителях.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  За 10 лет провели тысячи экскурсий, объездили горы и побережье Абхазии,
+                  За 12 лет провели тысячи экскурсий, объездили горы и побережье Абхазии,
                   собрали команду гидов, которые влюблены в свою работу. Каждый маршрут —
                   это личный опыт, а не чужой сценарий.
                 </p>
