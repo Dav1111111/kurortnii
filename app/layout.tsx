@@ -96,6 +96,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://mc.yandex.ru" />
+        <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="preload" as="image" href="/hero-828.webp" media="(max-width: 828px)" type="image/webp" />
         <link rel="preload" as="image" href="/hero-1920.webp" media="(min-width: 829px)" type="image/webp" />
       </head>

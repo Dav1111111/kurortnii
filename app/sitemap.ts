@@ -3,7 +3,7 @@ import toursData from '@/data/tours.json';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai';
-  const currentDate = new Date().toISOString();
+  const currentDate = '2026-04-07';
 
   // Статические страницы
   const staticPages = [
