@@ -153,8 +153,7 @@ export function OrganizationSchema() {
     "currenciesAccepted": "RUB",
     "paymentAccepted": "Cash, Credit Card, СБП",
     "sameAs": [
-      "https://t.me/yug_kontinent",
-      "https://www.instagram.com/yug_kontinent/"
+      "https://t.me/yug_kontinent"
     ],
     "aggregateRating": {
       "@type": "AggregateRating",

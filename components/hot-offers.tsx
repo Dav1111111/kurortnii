@@ -7,11 +7,13 @@ import { useRef } from "react";
 import { Star, Clock, ArrowRight, Flame } from "lucide-react";
 import toursData from "@/data/tours.json";
 
-// Топ-3 тура по score = rating × reviewCount
+// Топ-5 туров: 1 featured + 4 в сетке
 const TOP_SLUGS = [
+  "bigfoot-quads",
   "golden-ring-abkhazia",
   "olympic-evening-fountains",
   "jeep-33-waterfalls-show",
+  "guest-abkhazia",
 ];
 
 const topTours = TOP_SLUGS.map((slug) =>
