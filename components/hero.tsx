@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ChevronRight, ArrowDown, Star, MapPin, Phone } from "lucide-react";
 
-const WORDS = ["Сочи", "Абхазию", "Красную Поляну", "горы"];
+const WORDS = ["Сочи", "Абхазию", "Поляну", "горы"];
 
 const stats = [
   { value: "12+", label: "лет опыта" },
@@ -101,6 +101,11 @@ export function Hero() {
                     exit={{ y: -40, opacity: 0, filter: "blur(8px)" }}
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     className="inline-block text-gradient"
+                    style={{
+                      fontSize: WORDS[wordIndex].length > 8
+                        ? "clamp(2rem, 5.5vw, 5.2rem)"
+                        : undefined
+                    }}
                   >
                     {WORDS[wordIndex]}
                   </motion.span>
