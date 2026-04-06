@@ -94,6 +94,8 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <link rel="preload" as="image" href="/hero-828.webp" media="(max-width: 828px)" type="image/webp" />
+        <link rel="preload" as="image" href="/hero-1920.webp" media="(min-width: 829px)" type="image/webp" />
       </head>
       <body className="font-sans antialiased">
         <OrganizationSchema />

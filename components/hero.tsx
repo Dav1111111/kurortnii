@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ChevronRight, ArrowDown, Star, Users, MapPin } from "lucide-react";
 
@@ -42,15 +41,18 @@ export function Hero() {
     >
       {/* ── Background photo with parallax ──────────── */}
       <motion.div className="absolute inset-0 z-0" style={{ y: imgY }}>
-        <Image
-          src="/zastavki-gas-kvas-com-ejm6-p-zastavki-na-rabochii-stol-sochi-5.jpg"
-          alt="Экскурсии в Сочи"
-          fill
-          priority
-          quality={92}
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        <picture>
+          <source media="(max-width: 828px)" srcSet="/hero-828.webp" type="image/webp" />
+          <source srcSet="/hero-1920.webp" type="image/webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/zastavki-gas-kvas-com-ejm6-p-zastavki-na-rabochii-stol-sochi-5.jpg"
+            alt="Экскурсии в Сочи"
+            fetchPriority="high"
+            decoding="async"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+          />
+        </picture>
       </motion.div>
 
       {/* ── Gradient overlays ───────────────────────── */}

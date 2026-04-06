@@ -63,7 +63,6 @@ export function Header() {
                   alt="Южный Континент"
                   fill
                   className="object-contain object-left"
-                  priority
                 />
               </Link>
             </motion.div>
