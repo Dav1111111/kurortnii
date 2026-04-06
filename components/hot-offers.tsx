@@ -7,19 +7,18 @@ import { useRef } from "react";
 import { Star, Clock, ArrowRight, Flame } from "lucide-react";
 import toursData from "@/data/tours.json";
 
-// Топ-4 тура по score = rating × reviewCount
+// Топ-3 тура по score = rating × reviewCount
 const TOP_SLUGS = [
   "golden-ring-abkhazia",
   "olympic-evening-fountains",
   "jeep-33-waterfalls-show",
-  "guest-abkhazia",
 ];
 
 const topTours = TOP_SLUGS.map((slug) =>
   toursData.tours.find((t) => t.slug === slug)
 ).filter(Boolean) as typeof toursData.tours;
 
-function TourCard({ tour, index }: { tour: typeof toursData.tours[0]; index: number }) {
+function TourCard({ tour, index, featured }: { tour: typeof toursData.tours[0]; index: number; featured?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.15 });
 
@@ -29,19 +28,20 @@ function TourCard({ tour, index }: { tour: typeof toursData.tours[0]; index: num
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
+      className={featured ? "lg:col-span-2" : ""}
     >
       <Link
         href={`/tours/${tour.slug}`}
         className="group relative flex flex-col rounded-2xl overflow-hidden bg-white dark:bg-[#111827] shadow-md hover:shadow-xl transition-shadow duration-300 h-full"
       >
         {/* Image */}
-        <div className="relative h-52 sm:h-56 overflow-hidden flex-shrink-0">
+        <div className={`relative overflow-hidden flex-shrink-0 ${featured ? "h-64 sm:h-72 lg:h-80" : "h-56 sm:h-64"}`}>
           <Image
             src={tour.image}
             alt={tour.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            sizes={featured ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 66vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
@@ -63,15 +63,15 @@ function TourCard({ tour, index }: { tour: typeof toursData.tours[0]; index: num
         </div>
 
         {/* Content */}
-        <div className="flex flex-col flex-1 p-4 gap-2">
+        <div className={`flex flex-col flex-1 gap-2 ${featured ? "p-5 sm:p-6" : "p-4"}`}>
           <h3
             className="font-bold text-[#0A1628] dark:text-white leading-tight line-clamp-2"
-            style={{ fontSize: "clamp(0.95rem, 1.5vw, 1.05rem)" }}
+            style={{ fontSize: featured ? "clamp(1.1rem, 1.8vw, 1.35rem)" : "clamp(0.95rem, 1.5vw, 1.05rem)" }}
           >
             {tour.title}
           </h3>
 
-          <p className="text-muted-foreground text-sm line-clamp-2 flex-1">
+          <p className={`text-muted-foreground flex-1 ${featured ? "text-sm sm:text-base line-clamp-3" : "text-sm line-clamp-2"}`}>
             {tour.description}
           </p>
 
@@ -143,9 +143,9 @@ export function HotOffers() {
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
           {topTours.map((tour, i) => (
-            <TourCard key={tour.slug} tour={tour} index={i} />
+            <TourCard key={tour.slug} tour={tour} index={i} featured={i === 0} />
           ))}
         </div>
 
