@@ -52,7 +52,7 @@ export function AboutSection() {
             >
               <div className="flex items-center gap-4">
                 <div className="text-4xl font-extrabold text-gradient leading-none" style={{ letterSpacing: "-0.04em" }}>
-                  10+
+                  12+
                 </div>
                 <div>
                   <p className="font-semibold text-sm leading-tight">лет работы</p>

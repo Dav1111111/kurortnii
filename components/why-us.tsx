@@ -6,7 +6,7 @@ import { Award, Bus, Calendar, Zap, Shield, Star } from "lucide-react";
 
 const stats = [
   {
-    value: 10,
+    value: 12,
     suffix: "+",
     label: "лет на рынке",
     description: "Работаем с 2014 года, знаем каждый маршрут",
