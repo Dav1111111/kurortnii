@@ -57,7 +57,7 @@ export function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Link href="/" className="relative block h-14 w-52 lg:h-16 lg:w-64 -ml-2">
+              <Link href="/" className="relative block h-16 w-60 lg:h-20 lg:w-72 -ml-2">
                 <Image
                   src="/logo-new.png"
                   alt="Южный Континент"

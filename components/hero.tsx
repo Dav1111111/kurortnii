@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ChevronRight, ArrowDown, Star, Users, MapPin } from "lucide-react";
+import { ChevronRight, ArrowDown, Star, MapPin } from "lucide-react";
 
 const WORDS = ["Сочи", "Абхазию", "Красную Поляну", "горы"];
 
@@ -46,7 +46,7 @@ export function Hero() {
           <source srcSet="/hero-1920.webp" type="image/webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/zastavki-gas-kvas-com-ejm6-p-zastavki-na-rabochii-stol-sochi-5.jpg"
+            src="/hero-sochi.jpg"
             alt="Экскурсии в Сочи"
             fetchPriority="high"
             decoding="async"
