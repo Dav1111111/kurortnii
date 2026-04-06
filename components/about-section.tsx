@@ -34,7 +34,7 @@ export function AboutSection() {
             {/* Main photo */}
             <div className="relative h-[400px] sm:h-[500px] rounded-3xl overflow-hidden img-zoom">
               <Image
-                src="/zastavki-gas-kvas-com-ejm6-p-zastavki-na-rabochii-stol-sochi-5.jpg"
+                src="/hero-sochi.jpg"
                 alt="Наша команда на экскурсии в Сочи"
                 fill
                 className="object-cover"
