@@ -141,39 +141,18 @@ export function ReviewsClient() {
 
   return (
     <>
-      {/* ── Hero ─────────────────────────────────── */}
-      <section className="relative pt-32 pb-16 bg-[#0A1628] overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-turquoise-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-coral-500/15 rounded-full blur-3xl" />
-        </div>
-        <div className="container relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-0.5 bg-turquoise-400 rounded-full" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-turquoise-400">Отзывы</span>
+      {/* Dynamic rating bar — client only (depends on loaded reviews count) */}
+      <div className="bg-[#0A1628] pb-8">
+        <div className="container">
+          <div className="flex items-center gap-4">
+            <div className="flex gap-0.5">
+              {[1,2,3,4,5].map((s) => <Star key={s} className="h-5 w-5 fill-amber-400 text-amber-400" />)}
             </div>
-            <h1
-              className="text-white font-extrabold mb-3 text-balance"
-              style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", lineHeight: 1.05, letterSpacing: "-0.03em" }}
-            >
-              Что говорят{" "}
-              <span className="text-gradient">наши туристы</span>
-            </h1>
-            <div className="flex items-center gap-4 mt-4">
-              <div className="flex gap-0.5">
-                {[1,2,3,4,5].map((s) => <Star key={s} className="h-5 w-5 fill-amber-400 text-amber-400" />)}
-              </div>
-              <span className="text-white font-bold text-xl" style={{ letterSpacing: "-0.03em" }}>{avgRating}</span>
-              <span className="text-white/40 text-sm">· {reviews.length} {reviews.length === 1 ? "отзыв" : reviews.length < 5 ? "отзыва" : "отзывов"}</span>
-            </div>
-          </motion.div>
+            <span className="text-white font-bold text-xl" style={{ letterSpacing: "-0.03em" }}>{avgRating}</span>
+            <span className="text-white/40 text-sm">· {reviews.length} {reviews.length === 1 ? "отзыв" : reviews.length < 5 ? "отзыва" : "отзывов"}</span>
+          </div>
         </div>
-      </section>
+      </div>
 
       {/* ── Masonry reviews grid ──────────────────── */}
       <section className="section">

@@ -5,7 +5,7 @@ Disallow: /api/
 # Яндекс
 User-agent: Yandex
 Allow: /
-Host: южный-континент.рф
+Host: xn----jtbbjdhsdbbg3ce9iub.xn--p1ai
 
 # Sitemap
 Sitemap: https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/sitemap.xml

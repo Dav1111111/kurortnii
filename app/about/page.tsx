@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { Check, MapPin, Award, Users, Star, ChevronRight, Quote } from "lucide-react";
-import { AboutPageSchema } from "@/components/tour-schema";
 
 const stats = [
   { number: "10+", label: "лет на рынке" },
@@ -48,8 +47,6 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
-      <AboutPageSchema />
-
       {/* ── Hero ─────────────────────────────────── */}
       <section className="relative pt-32 pb-20 bg-[#0A1628] overflow-hidden">
         <div className="absolute inset-0 opacity-30">

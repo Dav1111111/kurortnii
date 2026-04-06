@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AboutPageSchema } from "@/components/tour-schema";
 
 export const metadata: Metadata = {
   title: "О нас — 10 лет экскурсий в Сочи",
@@ -9,5 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <AboutPageSchema />
+      {children}
+    </>
+  );
 }

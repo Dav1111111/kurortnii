@@ -108,7 +108,12 @@ export function OrganizationSchema() {
       "width": 200,
       "height": 60
     },
-    "image": `${BASE_URL}/logo-new.png`,
+    "image": {
+      "@type": "ImageObject",
+      "url": `${BASE_URL}/og-image.jpg`,
+      "width": 1200,
+      "height": 630
+    },
     "telephone": "+79891668631",
     "foundingDate": "2014",
     "address": {
@@ -142,11 +147,22 @@ export function OrganizationSchema() {
       { "@type": "City", "name": "Сочи" },
       { "@type": "City", "name": "Адлер" },
       { "@type": "City", "name": "Красная Поляна" },
-      { "@type": "City", "name": "Абхазия" }
+      { "@type": "Country", "name": "Абхазия" }
     ],
     "priceRange": "₽–₽₽₽",
     "currenciesAccepted": "RUB",
-    "paymentAccepted": "Cash, Credit Card, СБП"
+    "paymentAccepted": "Cash, Credit Card, СБП",
+    "sameAs": [
+      "https://t.me/yug_kontinent",
+      "https://www.instagram.com/yug_kontinent/"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": getAggregateRating().avg,
+      "reviewCount": getAggregateRating().total,
+      "bestRating": 5,
+      "worstRating": 1
+    }
   };
 
   return (
@@ -170,10 +186,7 @@ export function WebSiteSchema() {
     "publisher": { "@type": "Organization", "@id": ORG_ID },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": `${BASE_URL}/tours?search={search_term_string}`
-      },
+      "target": `${BASE_URL}/tours?search={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
   };
@@ -276,35 +289,8 @@ export function FAQSchema({ items }: { items: FAQItem[] }) {
   );
 }
 
-// ─── ReviewsPageSchema ────────────────────────────────────────────────────────
-// Агрегированный рейтинг — динамически вычисляется из tours.json
-
-export function ReviewsPageSchema() {
-  const { total, avg } = getAggregateRating();
-
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": ORG_ID,
-    "name": "Южный Континент",
-    "url": BASE_URL,
-    "telephone": "+79891668631",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": avg,
-      "reviewCount": total,
-      "bestRating": 5,
-      "worstRating": 1
-    }
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
-}
+// ReviewsPageSchema removed — aggregateRating now lives on TravelAgency in OrganizationSchema
+// to avoid @type conflict between LocalBusiness and TravelAgency sharing the same @id.
 
 // ─── AboutPageSchema ──────────────────────────────────────────────────────────
 // Тип AboutPage — не дублирует TravelAgency из layout
