@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ChevronRight, ArrowDown, Star, MapPin } from "lucide-react";
+import { ChevronRight, ArrowDown, Star, MapPin, Phone } from "lucide-react";
 
 const WORDS = ["Сочи", "Абхазию", "Красную Поляну", "горы"];
 
@@ -56,8 +56,11 @@ export function Hero() {
       </motion.div>
 
       {/* ── Gradient overlays ───────────────────────── */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/50 to-transparent" />
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#0A1628]/60 via-transparent to-transparent" />
+      {/* Top gradient — makes header always readable */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0A1628]/70 via-transparent to-transparent" style={{ height: "45%" }} />
+      {/* Bottom gradient — hero content area */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/55 to-transparent" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#0A1628]/50 via-transparent to-transparent" />
 
       {/* ── Content ─────────────────────────────────── */}
       <motion.div
@@ -147,13 +150,14 @@ export function Hero() {
               </motion.button>
             </Link>
 
-            <a href="https://wa.me/79891668631" target="_blank" rel="noopener noreferrer">
+            <a href="tel:89891668631">
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base border border-white/25 backdrop-blur-sm hover:border-white/50 transition-all"
               >
-                Написать в WhatsApp
+                <Phone className="h-4 w-4" />
+                Позвонить
               </motion.button>
             </a>
           </motion.div>
