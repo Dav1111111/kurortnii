@@ -10,7 +10,7 @@ import { OrganizationSchema, WebSiteSchema } from '@/components/tour-schema';
 
 const raleway = Raleway({
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '600', '800'],
   display: 'swap',
   variable: '--font-raleway',
 });
@@ -94,6 +94,8 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://mc.yandex.ru" />
         <link rel="preload" as="image" href="/hero-828.webp" media="(max-width: 828px)" type="image/webp" />
         <link rel="preload" as="image" href="/hero-1920.webp" media="(min-width: 829px)" type="image/webp" />
       </head>
