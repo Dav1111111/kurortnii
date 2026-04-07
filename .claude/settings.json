@@ -44,7 +44,9 @@
       "Read(//Users/davidgevorgan/Desktop/**)",
       "Bash(ls -lt ~/Downloads/*.jpg ~/Downloads/*.jpeg)",
       "Bash(cwebp -q 85 hero-sochi.jpg -o hero-1920.webp)",
-      "Bash(cwebp -q 78 -resize 828 0 hero-sochi.jpg -o hero-828.webp)"
+      "Bash(cwebp -q 78 -resize 828 0 hero-sochi.jpg -o hero-828.webp)",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && git pull && NODE_OPTIONS='--max-old-space-size=1024' yarn build 2>&1 | tail -20 && pm2 restart kurortnii && echo DONE\")",
+      "Bash(ssh -p 49365 -i ~/.ssh/jino_key root@118d8409ee88.vps.myjino.ru \"cd /kurortnii && rm -f public/hero-1920.webp public/hero-828.webp && git pull && NODE_OPTIONS='--max-old-space-size=1024' yarn build 2>&1 | tail -20 && pm2 restart kurortnii && echo DONE\")"
     ],
     "additionalDirectories": [
       "/Users/davidgevorgan/Downloads"
