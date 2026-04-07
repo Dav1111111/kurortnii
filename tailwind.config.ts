@@ -21,6 +21,9 @@ const config: Config = {
         '2xl': '1400px',
       },
     },
+    screens: {
+      xs: '480px',
+    },
     extend: {
       fontFamily: {
         sans: ['var(--font-raleway)', 'sans-serif'],

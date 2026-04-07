@@ -29,7 +29,7 @@ export function AboutSection() {
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative order-2 lg:order-1"
+            className="relative order-2 lg:order-1 pb-8 sm:pb-10 lg:pb-0"
           >
             {/* Main photo */}
             <div className="relative h-[400px] sm:h-[500px] rounded-3xl overflow-hidden img-zoom">
@@ -109,7 +109,7 @@ export function AboutSection() {
                 transition={{ delay: 0.2 }}
                 className="text-muted-foreground leading-relaxed"
               >
-                «Южный Континент» — экскурсионное бюро с более чем 10-летним опытом.
+                «Южный Континент» — экскурсионное бюро с более чем 12-летним опытом.
                 Мы создаём авторские маршруты по Сочи, Красной Поляне, Абхазии и горам —
                 сочетая инсайдерские знания, комфорт и живое общение.
               </motion.p>

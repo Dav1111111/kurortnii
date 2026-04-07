@@ -3,15 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ChevronRight, ArrowDown, Star, MapPin, Phone } from "lucide-react";
+import { ChevronRight, ArrowDown, MapPin, Phone } from "lucide-react";
 
 const WORDS = ["Сочи", "Абхазию", "Поляну", "горы"];
-
-const stats = [
-  { value: "12+", label: "лет опыта" },
-  { value: "500+", label: "довольных туристов" },
-  { value: "4.9", label: "средний рейтинг", icon: <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" /> },
-];
 
 const quickLinks = [
   { href: "/tours?category=city", label: "Обзорные", icon: <MapPin className="h-3.5 w-3.5" /> },
@@ -138,13 +132,13 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
-            className="flex flex-wrap items-center gap-3 mb-12"
+            className="flex flex-col xs:flex-row flex-wrap items-stretch xs:items-center gap-3 mb-10"
           >
-            <Link href="/tours">
+            <Link href="/tours" className="w-full xs:w-auto">
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base transition-all"
+                className="w-full xs:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base transition-all"
                 style={{
                   background: "linear-gradient(135deg, #FF7F50 0%, #f05d29 100%)",
                   boxShadow: "0 6px 28px rgba(255,127,80,0.45)",
@@ -155,11 +149,11 @@ export function Hero() {
               </motion.button>
             </Link>
 
-            <a href="tel:89891668631">
+            <a href="tel:89891668631" className="w-full xs:w-auto">
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base border border-white/25 backdrop-blur-sm hover:border-white/50 transition-all"
+                className="w-full xs:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base border border-white/25 backdrop-blur-sm hover:border-white/50 transition-all"
               >
                 <Phone className="h-4 w-4" />
                 Позвонить
@@ -188,31 +182,6 @@ export function Hero() {
             ))}
           </motion.div>
 
-          {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.65 }}
-            className="flex flex-wrap gap-8"
-          >
-            {stats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65 + i * 0.08 }}
-                className="flex items-baseline gap-1.5"
-              >
-                <span className="text-2xl sm:text-3xl font-extrabold text-white leading-none tracking-tight">
-                  {s.value}
-                </span>
-                <span className="text-white/45 text-xs flex items-center gap-1">
-                  {s.icon}
-                  {s.label}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </motion.div>
 
