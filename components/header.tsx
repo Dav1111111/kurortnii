@@ -55,7 +55,7 @@ export function Header() {
         )}
       >
         <div className="container">
-          <div className="flex items-center justify-between h-18 lg:h-22" style={{ height: isScrolled ? "4.5rem" : "5rem" }}>
+          <div className="flex items-center justify-between" style={{ height: isScrolled ? "4.5rem" : "5rem" }}>
 
             {/* Logo */}
             <motion.div
@@ -63,7 +63,7 @@ export function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Link href="/" className="relative block -ml-2" style={{ width: "clamp(10rem, 35vw, 14rem)", height: "3.5rem" }}>
+              <Link href="/" className="relative block -ml-2 overflow-hidden" style={{ width: "clamp(11rem, 38vw, 14rem)", height: "3.5rem" }}>
                 <Image
                   src="/logo-new.png"
                   alt="Южный Континент"
