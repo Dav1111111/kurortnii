@@ -31,7 +31,7 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen min-h-[520px] xs:min-h-[600px] max-h-[1000px] flex items-end overflow-hidden"
+      className="relative h-[85vh] sm:h-screen min-h-[480px] xs:min-h-[540px] max-h-[1000px] flex items-end overflow-hidden"
     >
       {/* ── Background photo with parallax ──────────── */}
       <motion.div className="absolute inset-0 z-0" style={{ y: imgY }}>
@@ -44,7 +44,7 @@ export function Hero() {
             alt="Экскурсии в Сочи"
             fetchPriority="high"
             decoding="sync"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 65%" }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "70% 65%" }}
           />
         </picture>
       </motion.div>
