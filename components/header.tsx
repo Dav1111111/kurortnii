@@ -63,12 +63,14 @@ export function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Link href="/" className="relative block -ml-2" style={{ width: "clamp(13rem, 42vw, 16rem)", height: "4rem" }}>
+              <Link href="/" className="relative block -ml-2" style={{ width: "clamp(14rem, 45vw, 18rem)", height: "4.5rem" }}>
                 <Image
-                  src="/logo-new.png"
+                  src="/logo-new.webp"
                   alt="Южный Континент"
-                  fill
-                  className="object-contain object-left"
+                  width={512}
+                  height={512}
+                  priority
+                  className="h-full w-auto object-contain object-left"
                   style={{ filter: isScrolled ? "none" : "brightness(0) invert(1)" }}
                 />
               </Link>
