@@ -21,10 +21,10 @@ const config: Config = {
         '2xl': '1400px',
       },
     },
-    screens: {
-      xs: '480px',
-    },
     extend: {
+      screens: {
+        xs: '480px',
+      },
       fontFamily: {
         sans: ['var(--font-raleway)', 'sans-serif'],
         display: ['var(--font-raleway)', 'sans-serif'],

@@ -31,7 +31,7 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen min-h-[640px] max-h-[1000px] flex items-end overflow-hidden"
+      className="relative h-screen min-h-[520px] xs:min-h-[600px] max-h-[1000px] flex items-end overflow-hidden"
     >
       {/* ── Background photo with parallax ──────────── */}
       <motion.div className="absolute inset-0 z-0" style={{ y: imgY }}>
@@ -44,7 +44,7 @@ export function Hero() {
             alt="Экскурсии в Сочи"
             fetchPriority="high"
             decoding="sync"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 65%" }}
           />
         </picture>
       </motion.div>
@@ -171,7 +171,7 @@ export function Hero() {
                 <motion.span
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.96 }}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold text-white/80 border border-white/20 hover:border-white/50 hover:text-white backdrop-blur-sm transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold text-white/80 border border-white/20 hover:border-white/50 hover:text-white backdrop-blur-sm transition-all cursor-pointer min-h-[44px]"
                 >
                   {q.icon}
                   {q.label}

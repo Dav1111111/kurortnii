@@ -37,7 +37,7 @@ export function AboutSection() {
                 src="/hero-sochi.jpg"
                 alt="Наша команда на экскурсии в Сочи"
                 fill
-                className="object-cover"
+                className="object-cover object-[center_65%]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/40 to-transparent" />
@@ -48,7 +48,7 @@ export function AboutSection() {
               initial={{ opacity: 0, scale: 0.85, y: 20 }}
               animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
-              className="absolute -bottom-6 -right-4 sm:-right-8 glass rounded-2xl p-5 shadow-card"
+              className="absolute -bottom-6 right-0 sm:-right-8 glass rounded-2xl p-5 shadow-card"
             >
               <div className="flex items-center gap-4">
                 <div className="text-4xl font-extrabold text-gradient leading-none" style={{ letterSpacing: "-0.04em" }}>
@@ -66,7 +66,7 @@ export function AboutSection() {
               initial={{ opacity: 0, scale: 0.85 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute top-5 -left-4 sm:-left-6 glass rounded-xl px-4 py-2.5 shadow-card"
+              className="absolute top-5 left-0 sm:-left-6 glass rounded-xl px-4 py-2.5 shadow-card"
             >
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-turquoise-500" />
