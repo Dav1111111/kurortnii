@@ -215,7 +215,7 @@ export function TourCard({ tour }: { tour: Tour }) {
           <div className="flex gap-2 mt-auto">
             <button
               onClick={() => setDetailsOpen(!detailsOpen)}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-border hover:border-turquoise-300 dark:hover:border-turquoise-700 hover:text-turquoise-600 dark:hover:text-turquoise-400 transition-colors"
+              className="px-4 py-3 rounded-xl text-xs font-semibold border border-border hover:border-turquoise-300 dark:hover:border-turquoise-700 hover:text-turquoise-600 dark:hover:text-turquoise-400 transition-colors min-h-[44px]"
             >
               {detailsOpen ? "Свернуть" : "Детали"}
             </button>
@@ -223,7 +223,7 @@ export function TourCard({ tour }: { tour: Tour }) {
               <motion.button
                 whileTap={{ scale: 0.97 }}
                 disabled={isSoldOut}
-                className="w-full py-2.5 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 hover:brightness-110"
+                className="w-full py-3 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 hover:brightness-110 min-h-[44px]"
                 style={{
                   background: isSoldOut
                     ? "#9ca3af"
