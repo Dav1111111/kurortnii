@@ -62,8 +62,10 @@ export function Header() {
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="relative"
+              style={{ width: "clamp(10rem, 30vw, 22rem)" }}
             >
-              <Link href="/" className="relative block -ml-2 flex-shrink-0" style={{ width: "clamp(10rem, 30vw, 22rem)", height: "4rem" }}>
+              <Link href="/" className="absolute top-1/2 -translate-y-1/2 left-0 -ml-2 block" style={{ width: "clamp(12rem, 35vw, 24rem)", height: "5rem" }}>
                 <Image
                   src="/logo-new.webp"
                   alt="Южный Континент"
