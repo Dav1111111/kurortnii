@@ -128,6 +128,11 @@
     -webkit-tap-highlight-color: rgba(64, 224, 208, 0.15);
   }
 
+  /* Cursor pointer на все интерактивные элементы */
+  button, [role="button"], a, summary, select {
+    cursor: pointer;
+  }
+
   /* iOS input zoom fix */
   @media screen and (max-width: 640px) {
     input, textarea, select { font-size: 16px; }
@@ -332,6 +337,19 @@
    UTILITY OVERRIDES
 ───────────────────────────────────────── */
 @layer utilities {
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .marquee-track {
+      animation: none !important;
+    }
+  }
+
   /* Delay utilities for staggered animations */
   .delay-75  { animation-delay: 75ms; }
   .delay-100 { animation-delay: 100ms; }

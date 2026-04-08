@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useMotionValueEvent, useScroll, motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,7 +28,7 @@ function WhatsAppIcon({ className, style }: { className?: string; style?: React.
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
+  const pathname = usePathname();
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -42,10 +43,6 @@ export function Header() {
     }
     return () => { document.body.style.overflow = ""; };
   }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    setActiveLink(window.location.pathname);
-  }, []);
 
   return (
     <>
@@ -90,7 +87,7 @@ export function Header() {
                   href={link.href}
                   className={cn(
                     "relative px-4 py-2 text-[0.9rem] font-semibold rounded-lg transition-colors duration-200 group",
-                    activeLink === link.href
+                    pathname === link.href
                       ? isScrolled
                         ? "text-turquoise-600 dark:text-turquoise-400"
                         : "text-turquoise-300"
@@ -98,13 +95,12 @@ export function Header() {
                         ? "text-[#0A1628]/75 dark:text-white/75 hover:text-[#0A1628] dark:hover:text-white"
                         : "text-white/90 hover:text-white"
                   )}
-                  onClick={() => setActiveLink(link.href)}
                 >
                   {link.label}
                   <span
                     className={cn(
                       "absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-turquoise-400 scale-x-0 transition-transform duration-300 origin-left",
-                      activeLink === link.href ? "scale-x-100" : "group-hover:scale-x-100"
+                      pathname === link.href ? "scale-x-100" : "group-hover:scale-x-100"
                     )}
                   />
                 </Link>
@@ -149,11 +145,10 @@ export function Header() {
               </a>
 
               {/* CTA */}
-              <Link href="/contact">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white transition-all duration-300"
+              <motion.div whileTap={{ scale: 0.97 }}>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white transition-all duration-300 hover:shadow-[0_6px_24px_rgba(255,127,80,0.55)]"
                   style={{
                     background: "linear-gradient(135deg, #FF7F50 0%, #f05d29 100%)",
                     boxShadow: "0 4px 16px rgba(255,127,80,0.4)",
@@ -161,8 +156,8 @@ export function Header() {
                 >
                   Бронировать
                   <ChevronRight className="h-3.5 w-3.5" />
-                </motion.button>
-              </Link>
+                </Link>
+              </motion.div>
             </motion.div>
 
             {/* Mobile right: WhatsApp icon + burger */}
@@ -239,10 +234,10 @@ export function Header() {
                   >
                     <Link
                       href={link.href}
-                      onClick={() => { setMobileMenuOpen(false); setActiveLink(link.href); }}
+                      onClick={() => setMobileMenuOpen(false)}
                       className={cn(
                         "group flex items-center justify-between py-4 border-b border-white/10 transition-colors",
-                        activeLink === link.href ? "text-turquoise-400" : "text-white/80 hover:text-white"
+                        pathname === link.href ? "text-turquoise-400" : "text-white/80 hover:text-white"
                       )}
                     >
                       <span className="text-3xl font-bold tracking-tight">{link.label}</span>

@@ -134,11 +134,10 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
             className="flex flex-col xs:flex-row flex-wrap items-stretch xs:items-center gap-3 mb-10"
           >
-            <Link href="/tours" className="w-full xs:w-auto">
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full xs:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base transition-all"
+            <motion.div whileTap={{ scale: 0.97 }}>
+              <Link
+                href="/tours"
+                className="w-full xs:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base transition-all hover:shadow-[0_8px_32px_rgba(255,127,80,0.55)]"
                 style={{
                   background: "linear-gradient(135deg, #FF7F50 0%, #f05d29 100%)",
                   boxShadow: "0 6px 28px rgba(255,127,80,0.45)",
@@ -146,19 +145,18 @@ export function Hero() {
               >
                 Выбрать экскурсию
                 <ChevronRight className="h-4 w-4" />
-              </motion.button>
-            </Link>
+              </Link>
+            </motion.div>
 
-            <a href="tel:89891668631" className="w-full xs:w-auto">
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
+            <motion.div whileTap={{ scale: 0.97 }}>
+              <a
+                href="tel:89891668631"
                 className="w-full xs:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-white text-base border border-white/25 backdrop-blur-sm hover:border-white/50 transition-all"
               >
                 <Phone className="h-4 w-4" />
                 Позвонить
-              </motion.button>
-            </a>
+              </a>
+            </motion.div>
           </motion.div>
 
           {/* Quick category pills */}

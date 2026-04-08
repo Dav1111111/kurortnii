@@ -73,7 +73,11 @@ export function TourCard({ tour }: { tour: Tour }) {
         {/* Image */}
         <div
           className="relative h-52 overflow-hidden cursor-pointer"
+          role="button"
+          tabIndex={0}
+          aria-label={`Открыть галерею: ${tour.title}`}
           onClick={() => setGalleryOpen(true)}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setGalleryOpen(true); } }}
         >
           <motion.div
             className="absolute inset-0"
@@ -217,10 +221,9 @@ export function TourCard({ tour }: { tour: Tour }) {
             </button>
             <Link href={`/tours/${tour.slug}`} className="flex-1">
               <motion.button
-                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 disabled={isSoldOut}
-                className="w-full py-2.5 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 hover:brightness-110"
                 style={{
                   background: isSoldOut
                     ? "#9ca3af"
