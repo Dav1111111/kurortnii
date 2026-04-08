@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/tours", label: "Экскурсии" },
   { href: "/about", label: "О нас" },
   { href: "/reviews", label: "Отзывы" },
+  { href: "/news", label: "Новости" },
   { href: "/faq", label: "FAQ" },
 ];
 

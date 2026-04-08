@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutGrid, Star, LogOut, Menu, X, Upload } from "lucide-react";
+import { LayoutGrid, Star, LogOut, Menu, X, FileText, Newspaper } from "lucide-react";
 import { useState } from "react";
 
 const NAV = [
   { href: "/admin/tours", label: "Туры", icon: LayoutGrid },
   { href: "/admin/reviews", label: "Отзывы", icon: Star },
+  { href: "/admin/content", label: "Контент", icon: FileText },
+  { href: "/admin/news", label: "Новости", icon: Newspaper },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
