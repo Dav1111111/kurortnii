@@ -152,7 +152,7 @@ export function BookingForm() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           >
-            <div className="bg-white dark:bg-card rounded-3xl p-8 shadow-card border border-border">
+            <div className="bg-white dark:bg-card rounded-3xl p-5 sm:p-8 shadow-card border border-border">
               <AnimatePresence mode="wait">
                 {success ? (
                   <motion.div

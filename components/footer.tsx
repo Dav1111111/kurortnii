@@ -71,7 +71,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
-                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-turquoise-400 hover:text-turquoise-400 transition-colors"
+                className="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-turquoise-400 hover:text-turquoise-400 transition-colors"
               >
                 <WhatsAppIcon className="h-4 w-4" />
               </a>
@@ -80,7 +80,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Telegram"
-                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-turquoise-400 hover:text-turquoise-400 transition-colors"
+                className="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-turquoise-400 hover:text-turquoise-400 transition-colors"
               >
                 <Send className="h-4 w-4" />
               </a>

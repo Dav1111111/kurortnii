@@ -63,7 +63,7 @@ export function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Link href="/" className="relative block -ml-2" style={{ width: "14rem", height: "3.5rem" }}>
+              <Link href="/" className="relative block -ml-2" style={{ width: "clamp(10rem, 35vw, 14rem)", height: "3.5rem" }}>
                 <Image
                   src="/logo-new.png"
                   alt="Южный Континент"
@@ -167,7 +167,7 @@ export function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#25D366]/20 text-[#25D366]"
+                className="flex items-center justify-center w-11 h-11 rounded-full bg-[#25D366]/20 text-[#25D366]"
               >
                 <WhatsAppIcon style={{ width: "1.1rem", height: "1.1rem" }} />
               </a>
@@ -175,7 +175,7 @@ export function Header() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
-                className="relative z-50 w-10 h-10 flex items-center justify-center rounded-full transition-colors"
+                className="relative z-50 w-11 h-11 flex items-center justify-center rounded-full transition-colors"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Меню"
               >
