@@ -42,7 +42,7 @@ function TourCard({ tour, index, featured }: { tour: typeof toursData.tours[0]; 
             src={tour.image}
             alt={tour.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes={featured ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 66vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
@@ -138,7 +138,7 @@ export function HotOffers() {
           {/* Desktop CTA */}
           <Link
             href="/tours"
-            className="hidden sm:inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A1628] dark:bg-white text-white dark:text-[#0A1628] font-semibold text-sm hover:opacity-90 transition-opacity flex-shrink-0"
+            className="hidden sm:inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A1628] dark:bg-white text-white dark:text-[#0A1628] font-semibold text-sm hover:shadow-md transition-all flex-shrink-0"
           >
             Все экскурсии <ArrowRight className="h-4 w-4" />
           </Link>
@@ -155,7 +155,7 @@ export function HotOffers() {
         <div className="mt-8 flex justify-center sm:hidden">
           <Link
             href="/tours"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#0A1628] dark:bg-white text-white dark:text-[#0A1628] font-semibold text-sm hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#0A1628] dark:bg-white text-white dark:text-[#0A1628] font-semibold text-sm hover:shadow-md transition-all"
           >
             Смотреть все экскурсии <ArrowRight className="h-4 w-4" />
           </Link>

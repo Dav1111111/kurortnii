@@ -65,9 +65,7 @@ export function TourCard({ tour }: { tour: Tour }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -12 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="group relative rounded-3xl bg-white dark:bg-card border border-border overflow-hidden flex flex-col"
-        style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.06)" }}
-        whileHover={{ y: -4, boxShadow: "0 4px 6px rgba(0,0,0,0.04), 0 20px 48px rgba(0,0,0,0.12)" }}
+        className="group relative rounded-3xl bg-white dark:bg-card border border-border overflow-hidden flex flex-col shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300"
       >
 
         {/* Image */}
@@ -223,7 +221,7 @@ export function TourCard({ tour }: { tour: Tour }) {
               <motion.button
                 whileTap={{ scale: 0.97 }}
                 disabled={isSoldOut}
-                className="w-full py-3 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 hover:brightness-110 min-h-[44px]"
+                className="w-full py-3 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 hover:shadow-[0_6px_24px_rgba(255,127,80,0.45)] min-h-[44px]"
                 style={{
                   background: isSoldOut
                     ? "#9ca3af"

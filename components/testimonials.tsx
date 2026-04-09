@@ -143,7 +143,7 @@ export function Testimonials() {
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.08 }}
                 className="break-inside-avoid mb-5"
               >
-                <div className="group relative p-6 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/[0.15] transition-all duration-300">
+                <div className="group relative p-6 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/[0.15] hover:shadow-[0_4px_24px_rgba(64,224,208,0.08)] transition-all duration-300">
                   {/* Quote mark */}
                   <Quote className="absolute top-4 right-5 h-8 w-8 text-turquoise-400/15 rotate-180" />
 
@@ -195,9 +195,8 @@ export function Testimonials() {
           >
             <Link href="/reviews">
               <motion.button
-                whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white border border-white/20 hover:border-turquoise-400/60 hover:bg-turquoise-400/10 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white border border-white/20 hover:border-turquoise-400/60 hover:bg-turquoise-400/10 hover:shadow-lg transition-all duration-300"
               >
                 Читать все отзывы
                 <ChevronRight className="h-4 w-4" />

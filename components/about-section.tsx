@@ -32,7 +32,7 @@ export function AboutSection() {
             className="relative order-2 lg:order-1 pb-8 sm:pb-10 lg:pb-0"
           >
             {/* Main photo */}
-            <div className="relative h-[400px] sm:h-[500px] rounded-3xl overflow-hidden img-zoom">
+            <div className="relative h-[400px] sm:h-[500px] lg:h-[540px] rounded-3xl overflow-hidden img-zoom">
               <Image
                 src="/hero-sochi.jpg"
                 alt="Наша команда на экскурсии в Сочи"
@@ -146,9 +146,8 @@ export function AboutSection() {
             >
               <Link href="/about">
                 <motion.button
-                  whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm border-2 border-[#0A1628] dark:border-white text-[#0A1628] dark:text-white hover:bg-[#0A1628] hover:text-white dark:hover:bg-white dark:hover:text-[#0A1628] transition-all duration-300"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm border-2 border-[#0A1628] dark:border-white text-[#0A1628] dark:text-white hover:bg-[#0A1628] hover:text-white dark:hover:bg-white dark:hover:text-[#0A1628] hover:shadow-md transition-all duration-300"
                 >
                   Подробнее о нас
                   <ChevronRight className="h-4 w-4" />

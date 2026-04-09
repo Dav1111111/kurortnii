@@ -126,7 +126,7 @@ export function Categories() {
       </div>
 
       {/* Horizontal scroll row */}
-      <div className="flex gap-4 overflow-x-auto px-4 sm:px-[max(1.25rem,calc((100vw-1400px)/2+1.25rem))] pb-4 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:overflow-visible lg:px-0 lg:container lg:mx-auto"
+      <div className="flex gap-4 overflow-x-auto px-4 sm:px-[max(1.25rem,calc((100vw-1400px)/2+1.25rem))] pb-4 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:overflow-visible lg:container lg:mx-auto"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {categories.map((cat, i) => (

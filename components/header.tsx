@@ -56,7 +56,7 @@ export function Header() {
         )}
       >
         <div className="container">
-          <div className="flex items-center justify-between" style={{ height: isScrolled ? "4.5rem" : "5rem" }}>
+          <div className={`flex items-center justify-between transition-all duration-500 ${isScrolled ? "h-[4.5rem]" : "h-20"}`}>
 
             {/* Logo */}
             <motion.div

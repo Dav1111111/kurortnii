@@ -95,7 +95,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/55 hover:text-white transition-colors link-underline"
+                    className="text-sm text-white/55 hover:text-white transition-colors link-underline inline-flex items-center min-h-[44px]"
                   >
                     {link.label}
                   </Link>
@@ -112,7 +112,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/55 hover:text-white transition-colors link-underline"
+                    className="text-sm text-white/55 hover:text-white transition-colors link-underline inline-flex items-center min-h-[44px]"
                   >
                     {link.label}
                   </Link>
@@ -168,7 +168,7 @@ export function Footer() {
               href="https://wa.me/79891668631"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
+              className="flex-shrink-0 inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:shadow-[0_6px_24px_rgba(37,211,102,0.4)]"
               style={{ background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)" }}
             >
               <WhatsAppIcon className="h-4 w-4" />

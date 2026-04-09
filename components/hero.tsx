@@ -169,7 +169,6 @@ export function Hero() {
             {quickLinks.map((q) => (
               <Link key={q.href} href={q.href}>
                 <motion.span
-                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.96 }}
                   className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold text-white/80 border border-white/20 hover:border-white/50 hover:text-white backdrop-blur-sm transition-all cursor-pointer min-h-[44px]"
                 >

@@ -13,7 +13,7 @@ export function FAQ() {
   const isInView = useInView(ref, { once: true, amount: 0.15 });
 
   return (
-    <section ref={ref} className="section">
+    <section ref={ref} className="section bg-[#F7F8FA] dark:bg-[#0d1520]">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 xl:gap-20">
 
@@ -62,7 +62,7 @@ export function FAQ() {
                 href="https://wa.me/79891668631"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white w-fit transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white w-fit transition-all hover:shadow-[0_6px_24px_rgba(37,211,102,0.4)]"
                 style={{ background: "linear-gradient(135deg, #25D366, #128C7E)" }}
               >
                 Написать в WhatsApp
