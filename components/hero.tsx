@@ -122,7 +122,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
-            className="text-white/60 text-lg max-w-lg mb-10 leading-relaxed"
+            className="text-white/60 text-lg max-w-2xl mb-10 leading-relaxed"
           >
             15 авторских маршрутов по Сочи, Абхазии и горам. Бесплатный трансфер из любого отеля.
           </motion.p>

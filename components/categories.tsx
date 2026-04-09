@@ -126,7 +126,7 @@ export function Categories() {
       </div>
 
       {/* Horizontal scroll row */}
-      <div className="flex gap-4 overflow-x-auto px-4 sm:px-[max(1.25rem,calc((100vw-1400px)/2+1.25rem))] pb-4 scrollbar-none snap-x snap-mandatory"
+      <div className="flex gap-4 overflow-x-auto px-4 sm:px-[max(1.25rem,calc((100vw-1400px)/2+1.25rem))] pb-4 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:overflow-visible lg:px-0 lg:container lg:mx-auto"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {categories.map((cat, i) => (
@@ -135,12 +135,12 @@ export function Categories() {
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.07 }}
-            className="flex-shrink-0 snap-start"
+            className="flex-shrink-0 snap-start lg:flex-shrink"
           >
             <Link href={`/tours?category=${cat.id}`} className="block">
               <motion.div
                 whileHover="hover"
-                className="relative w-[260px] sm:w-[300px] h-[380px] rounded-3xl overflow-hidden cursor-pointer group"
+                className="relative w-[260px] sm:w-[300px] lg:w-full h-[380px] rounded-3xl overflow-hidden cursor-pointer group"
               >
                 {/* Background image */}
                 <motion.div

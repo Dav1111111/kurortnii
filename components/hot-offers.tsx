@@ -30,7 +30,7 @@ function TourCard({ tour, index, featured }: { tour: typeof toursData.tours[0]; 
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
-      className={featured ? "sm:col-span-2" : ""}
+      className={featured ? "sm:col-span-2 lg:col-span-3" : ""}
     >
       <Link
         href={`/tours/${tour.slug}`}
@@ -145,7 +145,7 @@ export function HotOffers() {
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {topTours.map((tour, i) => (
             <TourCard key={tour.slug} tour={tour} index={i} featured={i === 0} />
           ))}
