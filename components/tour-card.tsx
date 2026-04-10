@@ -216,21 +216,20 @@ export function TourCard({ tour }: { tour: Tour }) {
             >
               {detailsOpen ? "Свернуть" : "Детали"}
             </button>
-            <Link href={`/tours/${tour.slug}`} className="flex-1">
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                disabled={isSoldOut}
-                className="w-full py-3 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 hover:shadow-[0_6px_24px_rgba(255,127,80,0.45)] min-h-[44px]"
-                style={{
-                  background: isSoldOut
-                    ? "#9ca3af"
-                    : "linear-gradient(135deg, #FF7F50 0%, #f05d29 100%)",
-                  boxShadow: isSoldOut ? "none" : "0 3px 12px rgba(255,127,80,0.3)",
-                }}
-              >
-                {isSoldOut ? "Нет мест" : "Забронировать"}
-                {!isSoldOut && <ChevronRight className="h-3.5 w-3.5" />}
-              </motion.button>
+            <Link
+              href={`/tours/${tour.slug}`}
+              className="flex-1 w-full py-3 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 transition-all min-h-[44px] hover:shadow-[0_6px_24px_rgba(255,127,80,0.45)]"
+              style={{
+                background: isSoldOut
+                  ? "#9ca3af"
+                  : "linear-gradient(135deg, #FF7F50 0%, #f05d29 100%)",
+                boxShadow: isSoldOut ? "none" : "0 3px 12px rgba(255,127,80,0.3)",
+                pointerEvents: isSoldOut ? "none" : undefined,
+                opacity: isSoldOut ? 0.5 : 1,
+              }}
+            >
+              {isSoldOut ? "Нет мест" : "Забронировать"}
+              {!isSoldOut && <ChevronRight className="h-3.5 w-3.5" />}
             </Link>
           </div>
 

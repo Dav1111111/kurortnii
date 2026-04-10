@@ -147,6 +147,10 @@
   }
   ::-webkit-scrollbar-thumb:hover { background: rgba(64, 224, 208, 0.6); }
 
+  /* Hide scrollbar for horizontal scroll sections */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+
   /* Selection */
   ::selection {
     background: rgba(64, 224, 208, 0.25);

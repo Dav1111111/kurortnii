@@ -66,7 +66,7 @@ export function Header() {
               className="relative"
               style={{ width: "clamp(10rem, 30vw, 16rem)" }}
             >
-              <Link href="/" className="absolute top-1/2 -translate-y-1/2 left-0 -ml-2 block" style={{ width: "clamp(12rem, 35vw, 18rem)", height: "5rem" }}>
+              <Link href="/" className="absolute top-1/2 -translate-y-1/2 left-0 -ml-2 block" style={{ width: "100%", height: "5rem" }}>
                 <Image
                   src="/logo-new.webp"
                   alt="Южный Континент"
@@ -146,7 +146,7 @@ export function Header() {
                     : "bg-white/15 hover:bg-[#25D366]/80 text-white hover:text-white"
                 )}
               >
-                <WhatsAppIcon className="h-4.5 w-4.5" style={{ width: "1.1rem", height: "1.1rem" }} />
+                <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
               </a>
 
               {/* CTA */}

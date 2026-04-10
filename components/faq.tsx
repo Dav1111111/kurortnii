@@ -87,7 +87,7 @@ export function FAQ() {
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.07 }}
               >
                 <div
-                  className={`rounded-2xl border transition-all duration-300 overflow-hidden cursor-pointer shadow-sm ${
+                  className={`rounded-2xl border transition-all duration-300 overflow-hidden shadow-sm ${
                     openId === faq.id
                       ? "border-turquoise-200 dark:border-turquoise-800 bg-turquoise-50/50 dark:bg-turquoise-950/20 shadow-md"
                       : "border-border bg-card hover:border-turquoise-200 dark:hover:border-turquoise-800 hover:shadow-md"
