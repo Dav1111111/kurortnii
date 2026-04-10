@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import toursData from "@/data/tours.json";
 import { TourGallery } from "@/components/tour-gallery";
 import { TourChecklist } from "@/components/tour-checklist";
-import { BookingForm } from "@/components/booking-form";
+import { ContactButtons } from "@/components/contact-buttons";
 import { TourSchema, BreadcrumbSchema } from "@/components/tour-schema";
 import { Star, Clock, Users, ChevronLeft, CalendarIcon, MapPin, Check, AlertTriangle } from "lucide-react";
 import Link from "next/link";
@@ -305,7 +305,7 @@ export default function TourPage({ params }: { params: { slug: string } }) {
                   <span className="text-muted-foreground text-sm ml-1">/{t.priceUnit || "чел."}</span>
                   {t.priceNote && <p className="text-xs text-amber-600 mt-1">ⓘ {t.priceNote}</p>}
                 </div>
-                <BookingForm />
+                <ContactButtons />
               </div>
             </div>
 
@@ -334,7 +334,7 @@ export default function TourPage({ params }: { params: { slug: string } }) {
 
                 {/* Form */}
                 <div className="p-6">
-                  <BookingForm />
+                  <ContactButtons />
                   <p className="text-center text-xs text-muted-foreground mt-4">
                     Бесплатная отмена за 24 часа
                   </p>
