@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, X, Plus, Minus } from "lucide-react";
+import { Upload, X, Plus, Minus, ChevronUp, ChevronDown } from "lucide-react";
 import type { Tour } from "@/lib/tours";
 
 type FormTour = Partial<Tour>;
@@ -53,11 +53,14 @@ function ListEditor({
               placeholder={placeholder}
               className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-turquoise-500"
             />
-            <button
-              type="button"
-              onClick={() => remove(i)}
-              className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-            >
+            <button type="button" disabled={i === 0}
+              onClick={() => { const next = [...value]; [next[i-1], next[i]] = [next[i], next[i-1]]; onChange(next); }}
+              className="p-1.5 text-gray-400 hover:text-gray-600 disabled:opacity-30"><ChevronUp className="h-3.5 w-3.5" /></button>
+            <button type="button" disabled={i === value.length - 1}
+              onClick={() => { const next = [...value]; [next[i], next[i+1]] = [next[i+1], next[i]]; onChange(next); }}
+              className="p-1.5 text-gray-400 hover:text-gray-600 disabled:opacity-30"><ChevronDown className="h-3.5 w-3.5" /></button>
+            <button type="button" onClick={() => remove(i)}
+              className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
               <Minus className="h-4 w-4" />
             </button>
           </div>
@@ -106,6 +109,7 @@ export function TourForm({ initialData, tourId }: Props) {
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [saved, setSaved] = useState(false);
 
   function set<K extends keyof FormTour>(k: K, v: FormTour[K]) {
     setForm((prev) => ({ ...prev, [k]: v }));
@@ -156,8 +160,9 @@ export function TourForm({ initialData, tourId }: Props) {
       });
 
       if (res.ok) {
-        router.push("/admin/tours");
-        router.refresh();
+        setSaved(true);
+        setTimeout(() => { router.push("/admin/tours"); router.refresh(); }, 800);
+        return;
       } else {
         const d = await res.json();
         setError(d.error ?? "Ошибка сохранения");
@@ -169,6 +174,12 @@ export function TourForm({ initialData, tourId }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
+      {saved && (
+        <div className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-3 rounded-xl text-sm font-medium">
+          Сохранено! Перенаправление...
+        </div>
+      )}
+
       {error && (
         <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl text-sm">
           {error}
@@ -293,7 +304,7 @@ export function TourForm({ initialData, tourId }: Props) {
       <section className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-6 space-y-5">
         <h2 className="font-semibold text-gray-900 dark:text-white text-base">Цена и логистика</h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           <Field label="Цена (₽) *">
             <input
               type="number"

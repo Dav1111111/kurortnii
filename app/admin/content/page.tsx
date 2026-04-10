@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Save, Plus, Minus, Upload, X } from "lucide-react";
+import { Save, Plus, Minus, Upload, X, ChevronUp, ChevronDown } from "lucide-react";
 
 interface Phone { name: string; number: string; raw: string; }
 interface WorkHours { days: string; time: string; }
@@ -34,8 +34,16 @@ export default function ContentEditorPage() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [dirty, setDirty] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploadTarget, setUploadTarget] = useState<string>("");
+
+  // Warn on unsaved changes
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => { if (dirty) { e.preventDefault(); e.returnValue = ""; } };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [dirty]);
 
   useEffect(() => {
     fetch("/api/admin/site-content")
@@ -45,6 +53,7 @@ export default function ContentEditorPage() {
   }, []);
 
   function update<K extends keyof SiteContent>(section: K, value: SiteContent[K]) {
+    setDirty(true);
     setData((prev) => prev ? { ...prev, [section]: value } : prev);
   }
 
@@ -57,7 +66,7 @@ export default function ContentEditorPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (res.ok) { setSaved(true); setTimeout(() => setSaved(false), 3000); }
+      if (res.ok) { setSaved(true); setDirty(false); setTimeout(() => setSaved(false), 3000); }
       else { const d = await res.json(); setError(d.error ?? "Ошибка"); }
     } finally { setSaving(false); }
   }
@@ -109,8 +118,8 @@ export default function ContentEditorPage() {
             onClick={() => setTab(t)}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
               tab === t
-                ? "bg-[#0A1628] text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-[#0A1628] dark:bg-white text-white dark:text-[#0A1628]"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
             }`}
           >
             {t}

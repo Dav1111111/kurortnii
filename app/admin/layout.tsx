@@ -63,7 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile header */}
       <div className="md:hidden fixed top-0 inset-x-0 z-50 bg-[#0A1628] text-white flex items-center justify-between px-4 h-14">
         <span className="font-bold text-sm">Админ-панель</span>
-        <button onClick={() => setOpen(!open)} className="p-1">
+        <button onClick={() => setOpen(!open)} className="p-2.5">
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>

@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock } from "lucide-react";
+import { Lock, Eye, EyeOff } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPw, setShowPw] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -57,15 +58,25 @@ export default function AdminLoginPage() {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               Пароль
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoFocus
-              className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent text-sm"
-              placeholder="Введите пароль"
-            />
+            <div className="relative">
+              <input
+                type={showPw ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoFocus
+                className="w-full px-4 py-2.5 pr-10 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent text-sm"
+                placeholder="Введите пароль"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw(!showPw)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                tabIndex={-1}
+              >
+                {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
 
           {error && (

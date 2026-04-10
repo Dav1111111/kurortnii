@@ -60,7 +60,7 @@ export function NewsForm({ initialData, articleId }: Props) {
       {error && <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm">{error}</div>}
 
       <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-6 space-y-5">
-        <h2 className="font-semibold text-base">Основное</h2>
+        <h2 className="font-semibold text-base text-gray-900 dark:text-white">Основное</h2>
         <Field label="Заголовок *">
           <input required className={inputCls} value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Новый маршрут на Красную Поляну" />
         </Field>
@@ -76,9 +76,9 @@ export function NewsForm({ initialData, articleId }: Props) {
       </div>
 
       <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-6 space-y-4">
-        <h2 className="font-semibold text-base">Обложка</h2>
+        <h2 className="font-semibold text-base text-gray-900 dark:text-white">Обложка</h2>
         <div
-          className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center gap-3 cursor-pointer hover:border-turquoise-400 transition-colors"
+          className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-6 flex flex-col items-center gap-3 cursor-pointer hover:border-turquoise-400 transition-colors"
           onClick={() => fileRef.current?.click()}
         >
           {form.image ? (
@@ -101,7 +101,7 @@ export function NewsForm({ initialData, articleId }: Props) {
       </div>
 
       <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-6 space-y-4">
-        <h2 className="font-semibold text-base">Публикация</h2>
+        <h2 className="font-semibold text-base text-gray-900 dark:text-white">Публикация</h2>
         <div className="flex items-center gap-4">
           <Field label="Дата">
             <input type="date" className={inputCls} value={form.publishedAt} onChange={(e) => set("publishedAt", e.target.value)} />
@@ -120,7 +120,7 @@ export function NewsForm({ initialData, articleId }: Props) {
           {saving ? "Сохранение..." : articleId ? "Сохранить" : "Создать"}
         </button>
         <button type="button" onClick={() => router.push("/admin/news")}
-          className="px-6 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl font-semibold text-sm transition-colors">Отмена</button>
+          className="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl font-semibold text-sm transition-colors">Отмена</button>
       </div>
     </form>
   );
