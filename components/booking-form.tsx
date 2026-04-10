@@ -60,7 +60,7 @@ export function BookingForm() {
   }
 
   return (
-    <section ref={ref} className="section bg-[#F5EDD6]/50 dark:bg-ink/50 relative overflow-hidden">
+    <section ref={ref} className="section bg-white dark:bg-card relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute -top-32 -right-32 w-96 h-96 bg-turquoise-200/40 dark:bg-turquoise-900/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-coral-200/30 dark:bg-coral-900/15 rounded-full blur-3xl pointer-events-none" />
@@ -152,7 +152,7 @@ export function BookingForm() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           >
-            <div className="bg-white dark:bg-card rounded-3xl p-5 sm:p-8 shadow-card border border-border">
+            <div className="bg-white dark:bg-card rounded-2xl p-5 sm:p-8 shadow-card border border-border">
               <AnimatePresence mode="wait">
                 {success ? (
                   <motion.div

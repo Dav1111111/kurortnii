@@ -140,7 +140,7 @@ export function Categories() {
             <Link href={`/tours?category=${cat.id}`} className="block">
               <motion.div
                 whileHover="hover"
-                className="relative w-[260px] sm:w-[300px] lg:w-full h-[380px] rounded-3xl overflow-hidden cursor-pointer group"
+                className="relative w-[260px] sm:w-[300px] lg:w-full h-[380px] lg:h-[340px] rounded-2xl overflow-hidden cursor-pointer group"
               >
                 {/* Background image */}
                 <motion.div

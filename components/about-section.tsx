@@ -20,7 +20,7 @@ export function AboutSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="section overflow-hidden">
+    <section ref={ref} className="section overflow-hidden bg-[#F5EDD6]/20 dark:bg-ink/30">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
@@ -32,7 +32,7 @@ export function AboutSection() {
             className="relative order-2 lg:order-1 pb-8 sm:pb-10 lg:pb-0"
           >
             {/* Main photo */}
-            <div className="relative h-[400px] sm:h-[500px] lg:h-[540px] rounded-3xl overflow-hidden img-zoom">
+            <div className="relative h-[400px] sm:h-[500px] lg:h-[540px] rounded-2xl overflow-hidden img-zoom">
               <Image
                 src="/hero-sochi.jpg"
                 alt="Наша команда на экскурсии в Сочи"

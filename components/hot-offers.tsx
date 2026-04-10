@@ -30,11 +30,11 @@ function TourCard({ tour, index, featured }: { tour: typeof toursData.tours[0]; 
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
-      className={featured ? "sm:col-span-2 lg:col-span-3" : ""}
+      className={featured ? "sm:col-span-2" : ""}
     >
       <Link
         href={`/tours/${tour.slug}`}
-        className="group relative flex flex-col rounded-2xl overflow-hidden bg-white dark:bg-[#111827] shadow-md hover:shadow-xl transition-shadow duration-300 h-full"
+        className="group relative flex flex-col rounded-2xl overflow-hidden bg-white dark:bg-[#111827] shadow-card hover:shadow-card-hover transition-shadow duration-300 h-full"
       >
         {/* Image */}
         <div className={`relative overflow-hidden flex-shrink-0 ${featured ? "h-64 sm:h-72 lg:h-80" : "h-56 sm:h-64"}`}>
@@ -106,7 +106,7 @@ export function HotOffers() {
   const headerInView = useInView(headerRef, { once: true, amount: 0.3 });
 
   return (
-    <section className="section bg-[#F7F8FA] dark:bg-[#0d1520]">
+    <section className="section bg-muted/50 dark:bg-[#0d1520]">
       <div className="container">
         {/* Header */}
         <motion.div
@@ -138,7 +138,8 @@ export function HotOffers() {
           {/* Desktop CTA */}
           <Link
             href="/tours"
-            className="hidden sm:inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A1628] dark:bg-white text-white dark:text-[#0A1628] font-semibold text-sm hover:shadow-md transition-all flex-shrink-0"
+            className="hidden sm:inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm text-white hover:shadow-[0_6px_24px_rgba(255,127,80,0.45)] transition-all flex-shrink-0"
+            style={{ background: "linear-gradient(135deg, #FF7F50, #f05d29)" }}
           >
             Все экскурсии <ArrowRight className="h-4 w-4" />
           </Link>
@@ -155,7 +156,8 @@ export function HotOffers() {
         <div className="mt-8 flex justify-center sm:hidden">
           <Link
             href="/tours"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#0A1628] dark:bg-white text-white dark:text-[#0A1628] font-semibold text-sm hover:shadow-md transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm text-white hover:shadow-[0_6px_24px_rgba(255,127,80,0.45)] transition-all"
+            style={{ background: "linear-gradient(135deg, #FF7F50, #f05d29)" }}
           >
             Смотреть все экскурсии <ArrowRight className="h-4 w-4" />
           </Link>

@@ -29,7 +29,7 @@ const companyLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#0A1628] text-white relative overflow-hidden">
+    <footer className="bg-ink text-white relative overflow-hidden">
       {/* Decorative blobs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-turquoise-500/8 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-coral-500/8 rounded-full blur-3xl pointer-events-none" />
@@ -43,7 +43,7 @@ export function Footer() {
               (item, i) => (
                 <span
                   key={i}
-                  className={item === "·" ? "text-turquoise-500 text-2xl font-bold" : "text-2xl font-bold text-white/20 whitespace-nowrap"}
+                  className={item === "·" ? "text-turquoise-500 text-2xl font-bold" : "text-2xl font-bold text-white/[0.12] whitespace-nowrap"}
                 >
                   {item}
                 </span>
