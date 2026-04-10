@@ -27,9 +27,24 @@ export async function GET() {
     }
 }
 
+// Rate limiting: 3 reviews per minute per IP
+const reviewAttempts = new Map<string, { count: number; resetAt: number }>();
+
 // POST - создать новый отзыв
 export async function POST(request: NextRequest) {
     try {
+        const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+        const now = Date.now();
+        const entry = reviewAttempts.get(ip);
+        if (entry && now < entry.resetAt && entry.count >= 3) {
+            return NextResponse.json({ error: 'Слишком много отзывов. Подождите минуту.' }, { status: 429 });
+        }
+        if (!entry || now > entry.resetAt) {
+            reviewAttempts.set(ip, { count: 1, resetAt: now + 60_000 });
+        } else {
+            entry.count++;
+        }
+
         const body = await request.json();
 
         const validatedData = reviewSchema.parse(body);
