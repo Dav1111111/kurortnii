@@ -4,8 +4,8 @@ export const SESSION_COOKIE = 'admin_session';
 const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 function getSecret(): string {
-  const s = process.env.ADMIN_PASSWORD;
-  if (!s) throw new Error('ADMIN_PASSWORD env var is not set');
+  const s = process.env.SESSION_SECRET || process.env.ADMIN_PASSWORD;
+  if (!s) throw new Error('SESSION_SECRET or ADMIN_PASSWORD env var is not set');
   return s;
 }
 

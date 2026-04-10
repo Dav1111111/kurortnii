@@ -39,3 +39,5 @@ dev.db*
 next-env.d.ts
 
 /lib/generated/prisma
+out/
+screenshots/
