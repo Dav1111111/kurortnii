@@ -34,10 +34,9 @@ export async function POST(request: NextRequest) {
 
     const token = signSession();
     const response = NextResponse.json({ ok: true });
-    const isHttps = request.headers.get('x-forwarded-proto') === 'https';
     response.cookies.set(SESSION_COOKIE, token, {
       httpOnly: true,
-      secure: isHttps,
+      secure: false,
       sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60,
       path: '/',
