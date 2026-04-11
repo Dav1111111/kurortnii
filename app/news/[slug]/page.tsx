@@ -16,9 +16,25 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const data = await readNews();
   const article = data.articles.find((a) => a.slug === params.slug && a.published);
   if (!article) return { title: "Не найдено" };
+  const baseUrl = 'https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai';
+  const url = `${baseUrl}/news/${article.slug}`;
   return {
     title: `${article.title} — Южный Континент`,
     description: article.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url,
+      type: 'article',
+      publishedTime: article.publishedAt,
+      ...(article.image && { images: [{ url: article.image.startsWith('http') ? article.image : `${baseUrl}${article.image}` }] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.excerpt,
+    },
   };
 }
 

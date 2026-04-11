@@ -1,11 +1,43 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
 
 # Яндекс
 User-agent: Yandex
 Allow: /
 Host: xn----jtbbjdhsdbbg3ce9iub.xn--p1ai
+
+# AI search crawlers — разрешены
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Training-only crawlers — заблокированы
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
 
 # Sitemap
 Sitemap: https://xn----jtbbjdhsdbbg3ce9iub.xn--p1ai/sitemap.xml

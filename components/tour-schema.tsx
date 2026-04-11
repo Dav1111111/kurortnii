@@ -62,7 +62,7 @@ export function TourSchema({ tour }: TourSchemaProps) {
     },
     "offers": {
       "@type": "Offer",
-      "price": tour.priceRub,
+      "price": String(tour.priceRub),
       "priceCurrency": "RUB",
       "availability": "https://schema.org/InStock",
       "url": tourUrl,
@@ -115,7 +115,7 @@ export function OrganizationSchema() {
       "height": 630
     },
     "telephone": "+79891668631",
-    "foundingDate": "2014",
+    "foundingDate": "2014-01-01",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Курортный проспект, 47",
