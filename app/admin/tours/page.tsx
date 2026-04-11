@@ -85,49 +85,45 @@ export default function AdminToursPage() {
       ) : tours.length === 0 ? (
         <div className="text-center py-20 text-gray-400">Туры не найдены</div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-3">
           {tours.filter(t => t.title.toLowerCase().includes(search.toLowerCase())).map((tour) => (
             <div
               key={tour.id}
-              className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-4 hover:shadow-md transition-shadow"
+              className="flex items-center gap-3 bg-white dark:bg-gray-900 rounded-xl shadow-sm p-3 hover:shadow-md transition-shadow"
             >
               {/* Image */}
-              <div className="w-20 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
+              <div className="w-14 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
                 {tour.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={tour.image}
-                    alt={tour.title}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={tour.image} alt={tour.title} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">
-                    Нет фото
-                  </div>
+                  <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">—</div>
                 )}
               </div>
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-gray-900 dark:text-white truncate">{tour.title}</h3>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="h-3 w-3" /> {tour.durationHours}ч
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm leading-snug line-clamp-2">
+                  {tour.title}
+                </h3>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+                  <span className="inline-flex items-center gap-0.5">
+                    <Clock className="h-3 w-3" />{tour.durationHours}ч
                   </span>
-                  <span className="inline-flex items-center gap-1">
-                    <Users className="h-3 w-3" /> {tour.seatsLeft} мест
+                  <span className="inline-flex items-center gap-0.5">
+                    <Users className="h-3 w-3" />{tour.seatsLeft} мест
                   </span>
                   {tour.reviewCount > 0 && (
-                    <span className="inline-flex items-center gap-1">
+                    <span className="inline-flex items-center gap-0.5">
                       <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                       {tour.rating} ({tour.reviewCount})
                     </span>
                   )}
-                  <span className="text-turquoise-600 dark:text-turquoise-400 font-medium">
+                  <span className="text-turquoise-600 dark:text-turquoise-400 font-semibold">
                     {tour.priceRub.toLocaleString("ru-RU")} ₽
                   </span>
                   {tour.category && (
-                    <span className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
+                    <span className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded-full">
                       {tour.category}
                     </span>
                   )}
@@ -135,10 +131,10 @@ export default function AdminToursPage() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center gap-1 flex-shrink-0">
                 <Link
                   href={`/admin/tours/${tour.id}/edit`}
-                  className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="p-2 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors"
                   title="Редактировать"
                 >
                   <Pencil className="h-4 w-4" />
