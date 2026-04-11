@@ -178,7 +178,7 @@ export function HotOffers() {
               onClick={() => scrollBy("left")}
               disabled={!canScrollLeft}
               aria-label="Предыдущий тур"
-              className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-muted-foreground disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -186,7 +186,7 @@ export function HotOffers() {
               onClick={() => scrollBy("right")}
               disabled={!canScrollRight}
               aria-label="Следующий тур"
-              className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-muted-foreground disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronRight className="h-4 w-4" />
             </button>

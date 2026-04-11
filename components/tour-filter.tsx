@@ -72,7 +72,7 @@ export function TourFilter({ onFilter, initialCategory = "all" }: TourFilterProp
             transition={{ delay: i * 0.04, duration: 0.35 }}
             onClick={() => handleCategory(cat.value)}
             className={cn(
-              "px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 border",
+              "px-4 py-2.5 min-h-[44px] rounded-full text-sm font-semibold transition-all duration-200 border",
               selected === cat.value
                 ? "bg-[#0A1628] text-white border-[#0A1628] dark:bg-white dark:text-[#0A1628] dark:border-white shadow-sm"
                 : "bg-background text-muted-foreground border-border hover:border-[#0A1628]/40 hover:text-foreground dark:hover:border-white/30"

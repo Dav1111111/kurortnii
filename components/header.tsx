@@ -31,13 +31,14 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const { scrollY } = useScroll();
-
-  // Hide site header on admin pages — admin has its own layout
-  if (pathname.startsWith("/admin")) return null;
+  const isAdmin = pathname.startsWith("/admin");
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 40);
   });
+
+  // Hide site header on admin pages — admin has its own layout
+  if (isAdmin) return null;
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -186,6 +187,7 @@ export function Header() {
                 className="relative z-50 w-11 h-11 flex items-center justify-center rounded-full transition-colors"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Меню"
+                aria-expanded={mobileMenuOpen}
               >
                 <AnimatePresence mode="wait">
                   {mobileMenuOpen ? (
@@ -225,6 +227,8 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
+            role="dialog"
+            aria-modal="true"
             className="lg:hidden fixed inset-0 z-40 bg-[#0A1628]"
           >
             <div className="absolute top-0 right-0 w-80 h-80 bg-turquoise-500/10 rounded-full blur-3xl pointer-events-none" />

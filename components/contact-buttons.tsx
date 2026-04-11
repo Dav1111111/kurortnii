@@ -10,12 +10,16 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-export function ContactButtons() {
+export function ContactButtons({ tourTitle }: { tourTitle?: string }) {
+  const waText = tourTitle
+    ? encodeURIComponent(`Здравствуйте! Интересует тур: ${tourTitle}`)
+    : '%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%82%20%D1%8D%D0%BA%D1%81%D0%BA%D1%83%D1%80%D1%81%D0%B8%D0%B8.';
+
   return (
     <div className="space-y-3">
       {/* WhatsApp */}
       <a
-        href="https://wa.me/79891668631?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%82%20%D1%8D%D0%BA%D1%81%D0%BA%D1%83%D1%80%D1%81%D0%B8%D0%B8."
+        href={`https://wa.me/79891668631?text=${waText}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center gap-3 w-full p-3 rounded-xl text-white transition-all hover:shadow-[0_6px_24px_rgba(37,211,102,0.3)]"

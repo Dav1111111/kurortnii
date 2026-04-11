@@ -7,7 +7,7 @@ import { TourGallery } from "@/components/tour-gallery";
 import { TourChecklist } from "@/components/tour-checklist";
 import { ContactButtons } from "@/components/contact-buttons";
 import { TourSchema, BreadcrumbSchema } from "@/components/tour-schema";
-import { Star, Clock, Users, ChevronLeft, CalendarIcon, MapPin, Check, AlertTriangle } from "lucide-react";
+import { Star, Clock, Users, ChevronLeft, CalendarIcon, MapPin, Check, AlertTriangle, Phone } from "lucide-react";
 import Link from "next/link";
 
 export async function generateStaticParams() {
@@ -304,9 +304,16 @@ export default function TourPage({ params }: { params: { slug: string } }) {
                   </span>
                   <span className="text-muted-foreground text-sm ml-1">/{t.priceUnit || "чел."}</span>
                   {t.priceNote && <p className="text-xs text-amber-600 mt-1">ⓘ {t.priceNote}</p>}
+                  {t.seatsLeft <= 5 && (
+                    <p className="text-xs font-semibold text-coral-500 mt-1">Осталось {t.seatsLeft} мест!</p>
+                  )}
                 </div>
-                <ContactButtons />
+                <ContactButtons tourTitle={t.title} />
               </div>
+
+              {/* Sticky mobile bottom CTA bar */}
+              <div className="lg:hidden h-[4.5rem]" />
+
             </div>
 
             {/* ── RIGHT: sticky sidebar ──────────────── */}
@@ -334,7 +341,10 @@ export default function TourPage({ params }: { params: { slug: string } }) {
 
                 {/* Form */}
                 <div className="p-6">
-                  <ContactButtons />
+                  {t.seatsLeft <= 5 && (
+                    <p className="text-xs font-semibold text-coral-500 mb-3 text-center">Осталось {t.seatsLeft} мест!</p>
+                  )}
+                  <ContactButtons tourTitle={t.title} />
                   <p className="text-center text-xs text-muted-foreground mt-4">
                     Бесплатная отмена за 24 часа
                   </p>
@@ -344,6 +354,30 @@ export default function TourPage({ params }: { params: { slug: string } }) {
 
           </div>
         </div>
+      </div>
+
+      {/* Sticky mobile bottom CTA */}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 dark:bg-card/95 backdrop-blur-md border-t border-border px-4 py-3 flex items-center gap-3">
+        <div className="flex-1 min-w-0">
+          <span className="text-lg font-extrabold">{t.priceRub.toLocaleString("ru-RU")} ₽</span>
+          <span className="text-muted-foreground text-xs ml-1">/{t.priceUnit || "чел."}</span>
+        </div>
+        <a
+          href={`https://wa.me/79891668631?text=${encodeURIComponent(`Здравствуйте! Интересует тур: ${t.title}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-semibold"
+          style={{ background: "linear-gradient(135deg, #25D366, #128C7E)" }}
+        >
+          WhatsApp
+        </a>
+        <a
+          href="tel:89891668631"
+          className="flex items-center justify-center w-10 h-10 rounded-full border border-border text-turquoise-600"
+          aria-label="Позвонить"
+        >
+          <Phone className="h-4 w-4" />
+        </a>
       </div>
     </>
   );

@@ -124,7 +124,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
             className="text-white/60 text-lg max-w-2xl mb-10 leading-relaxed"
           >
-            15 авторских маршрутов по Сочи, Абхазии и горам. Бесплатный трансфер из любого отеля.
+            15 авторских маршрутов от 900 ₽ — Сочи, Абхазия и горы. Бесплатный трансфер из любого отеля.
           </motion.p>
 
           {/* CTA row */}

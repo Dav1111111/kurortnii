@@ -15,14 +15,14 @@ export default function Home() {
 
       <HotOffers />
 
-      <WhyUs />
-      
-      <AboutSection />
-      
-      <FAQ />
-      
       <Testimonials />
-      
+
+      <WhyUs />
+
+      <AboutSection />
+
+      <FAQ />
+
       <BookingForm />
     </>
   );
