@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+export const dynamic = 'force-dynamic';
 import { readTours, writeTours, slugify } from '@/lib/tours';
 import type { Tour } from '@/lib/tours';
 

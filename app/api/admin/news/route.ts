@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+export const dynamic = 'force-dynamic';
 import { readNews, writeNews, slugify } from '@/lib/news';
 import type { NewsArticle } from '@/lib/news';
 

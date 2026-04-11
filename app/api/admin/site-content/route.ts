@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { readSiteContent, writeSiteContent } from '@/lib/site-content';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const data = await readSiteContent();
