@@ -15,6 +15,11 @@ const NAV = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+
+  // Login page renders without sidebar
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
   const [open, setOpen] = useState(false);
 
   async function handleLogout() {
