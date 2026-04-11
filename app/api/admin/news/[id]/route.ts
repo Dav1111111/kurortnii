@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 import { readNews, writeNews } from '@/lib/news';
 import { logAudit } from '@/lib/audit';
+import { pingIndexNow } from '@/lib/indexnow';
 
 export async function GET(
   _request: NextRequest,
@@ -41,7 +42,11 @@ export async function PUT(
 
     await writeNews(data);
     await logAudit('update', 'news', params.id, request.headers.get('x-forwarded-for') ?? undefined);
-    return NextResponse.json(data.articles[idx]);
+    const updated = data.articles[idx];
+    if (updated.published) {
+      pingIndexNow([`/news/${updated.slug}`, '/news']);
+    }
+    return NextResponse.json(updated);
   } catch {
     return NextResponse.json({ error: 'Ошибка обновления' }, { status: 500 });
   }
@@ -55,9 +60,11 @@ export async function DELETE(
     const data = await readNews();
     const idx = data.articles.findIndex((a) => a.id === params.id);
     if (idx === -1) return NextResponse.json({ error: 'Не найдено' }, { status: 404 });
+    const deletedSlug = data.articles[idx].slug;
     data.articles.splice(idx, 1);
     await writeNews(data);
     await logAudit('delete', 'news', params.id, request.headers.get('x-forwarded-for') ?? undefined);
+    pingIndexNow([`/news/${deletedSlug}`, '/news']);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: 'Ошибка удаления' }, { status: 500 });

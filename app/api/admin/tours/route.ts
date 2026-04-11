@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { readTours, writeTours, slugify } from '@/lib/tours';
 import type { Tour } from '@/lib/tours';
 import { logAudit } from '@/lib/audit';
+import { pingIndexNow } from '@/lib/indexnow';
 
 export async function GET() {
   try {
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
     data.tours.push(tour);
     await writeTours(data);
     await logAudit('create', 'tour', id, request.headers.get('x-forwarded-for') ?? undefined);
+    pingIndexNow([`/tours/${slug}`, '/tours']);
     return NextResponse.json(tour, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Ошибка создания' }, { status: 500 });

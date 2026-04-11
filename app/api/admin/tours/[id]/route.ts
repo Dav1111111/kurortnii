@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { readTours, writeTours, slugify } from '@/lib/tours';
 import type { Tour } from '@/lib/tours';
 import { logAudit } from '@/lib/audit';
+import { pingIndexNow } from '@/lib/indexnow';
 
 export async function GET(
   _request: NextRequest,
@@ -66,6 +67,7 @@ export async function PUT(
     data.tours[idx] = updated;
     await writeTours(data);
     await logAudit('update', 'tour', params.id, request.headers.get('x-forwarded-for') ?? undefined);
+    pingIndexNow([`/tours/${updated.slug}`, '/tours']);
     return NextResponse.json(updated);
   } catch {
     return NextResponse.json({ error: 'Ошибка обновления' }, { status: 500 });
@@ -81,9 +83,11 @@ export async function DELETE(
     const idx = data.tours.findIndex((t) => t.id === params.id);
     if (idx === -1) return NextResponse.json({ error: 'Не найдено' }, { status: 404 });
 
+    const deletedSlug = data.tours[idx].slug;
     data.tours.splice(idx, 1);
     await writeTours(data);
     await logAudit('delete', 'tour', params.id, request.headers.get('x-forwarded-for') ?? undefined);
+    pingIndexNow([`/tours/${deletedSlug}`, '/tours']);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: 'Ошибка удаления' }, { status: 500 });

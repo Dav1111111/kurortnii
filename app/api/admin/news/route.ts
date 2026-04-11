@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { readNews, writeNews, slugify } from '@/lib/news';
 import type { NewsArticle } from '@/lib/news';
 import { logAudit } from '@/lib/audit';
+import { pingIndexNow } from '@/lib/indexnow';
 
 export async function GET() {
   try {
@@ -39,6 +40,9 @@ export async function POST(request: NextRequest) {
     data.articles.unshift(article);
     await writeNews(data);
     await logAudit('create', 'news', id, request.headers.get('x-forwarded-for') ?? undefined);
+    if (article.published) {
+      pingIndexNow([`/news/${slug}`, '/news']);
+    }
     return NextResponse.json(article, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Ошибка создания' }, { status: 500 });
