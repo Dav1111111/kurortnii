@@ -13,8 +13,14 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Folder parameter is required' }, { status: 400 });
     }
 
-    const imagesDir = path.join(process.cwd(), 'public', 'images', folder);
-    
+    const imagesRoot = path.join(process.cwd(), 'public', 'images');
+    const imagesDir = path.resolve(imagesRoot, folder);
+
+    // Prevent path traversal
+    if (!imagesDir.startsWith(imagesRoot + path.sep) && imagesDir !== imagesRoot) {
+      return NextResponse.json({ error: 'Недопустимая папка' }, { status: 400 });
+    }
+
     // Проверяем существует ли папка
     try {
       await fs.access(imagesDir);

@@ -60,8 +60,19 @@ export interface SiteContent {
 }
 
 export async function readSiteContent(): Promise<SiteContent> {
-  const raw = await fs.readFile(CONTENT_PATH, 'utf-8');
-  return JSON.parse(raw);
+  let raw: string;
+  try {
+    raw = await fs.readFile(CONTENT_PATH, 'utf-8');
+  } catch (err) {
+    console.error('Failed to read site-content.json:', err);
+    throw new Error('Не удалось прочитать файл контента');
+  }
+  try {
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error('site-content.json corrupted:', err);
+    throw new Error('Файл контента повреждён');
+  }
 }
 
 let writeLock = Promise.resolve();
@@ -71,6 +82,9 @@ export async function writeSiteContent(data: SiteContent): Promise<void> {
     const tmp = CONTENT_PATH + '.tmp';
     await fs.writeFile(tmp, JSON.stringify(data, null, 2), 'utf-8');
     await fs.rename(tmp, CONTENT_PATH);
+  }).catch(err => {
+    console.error('Failed to write site-content.json:', err);
+    throw err;
   });
   await writeLock;
 

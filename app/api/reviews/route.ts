@@ -40,6 +40,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Слишком много отзывов. Подождите минуту.' }, { status: 429 });
         }
         if (!entry || now > entry.resetAt) {
+            // Cleanup expired entries to prevent memory leak
+            if (reviewAttempts.size > 500) {
+                reviewAttempts.forEach((v, k) => {
+                    if (now > v.resetAt) reviewAttempts.delete(k);
+                });
+            }
             reviewAttempts.set(ip, { count: 1, resetAt: now + 60_000 });
         } else {
             entry.count++;

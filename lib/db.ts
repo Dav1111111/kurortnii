@@ -71,4 +71,7 @@ export function deleteReview(id: number): boolean {
     return result.changes > 0;
 }
 
+// Graceful shutdown — close DB connection on process exit
+process.on('exit', () => { try { db.close(); } catch {} });
+
 export default db;

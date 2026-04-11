@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 import { readNews, writeNews, slugify } from '@/lib/news';
 import type { NewsArticle } from '@/lib/news';
+import { logAudit } from '@/lib/audit';
 
 export async function GET() {
   try {
@@ -37,6 +38,7 @@ export async function POST(request: NextRequest) {
 
     data.articles.unshift(article);
     await writeNews(data);
+    await logAudit('create', 'news', id, request.headers.get('x-forwarded-for') ?? undefined);
     return NextResponse.json(article, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Ошибка создания' }, { status: 500 });

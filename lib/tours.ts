@@ -34,8 +34,19 @@ export interface Tour {
 let writeLock: Promise<void> = Promise.resolve();
 
 export async function readTours(): Promise<{ tours: Tour[] }> {
-  const raw = await fs.readFile(TOURS_PATH, 'utf-8');
-  return JSON.parse(raw);
+  let raw: string;
+  try {
+    raw = await fs.readFile(TOURS_PATH, 'utf-8');
+  } catch (err) {
+    console.error('Failed to read tours.json:', err);
+    throw new Error('Не удалось прочитать файл туров');
+  }
+  try {
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error('tours.json corrupted:', err);
+    throw new Error('Файл туров повреждён');
+  }
 }
 
 export async function writeTours(data: { tours: Tour[] }): Promise<void> {
@@ -43,6 +54,9 @@ export async function writeTours(data: { tours: Tour[] }): Promise<void> {
     const tmp = TOURS_PATH + '.tmp';
     await fs.writeFile(tmp, JSON.stringify(data, null, 2), 'utf-8');
     await fs.rename(tmp, TOURS_PATH);
+  }).catch(err => {
+    console.error('Failed to write tours.json:', err);
+    throw err;
   });
   await writeLock;
   revalidatePath('/');

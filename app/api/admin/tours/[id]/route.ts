@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 import { readTours, writeTours, slugify } from '@/lib/tours';
 import type { Tour } from '@/lib/tours';
+import { logAudit } from '@/lib/audit';
 
 export async function GET(
   _request: NextRequest,
@@ -64,6 +65,7 @@ export async function PUT(
 
     data.tours[idx] = updated;
     await writeTours(data);
+    await logAudit('update', 'tour', params.id, request.headers.get('x-forwarded-for') ?? undefined);
     return NextResponse.json(updated);
   } catch {
     return NextResponse.json({ error: 'Ошибка обновления' }, { status: 500 });
@@ -71,7 +73,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -81,6 +83,7 @@ export async function DELETE(
 
     data.tours.splice(idx, 1);
     await writeTours(data);
+    await logAudit('delete', 'tour', params.id, request.headers.get('x-forwarded-for') ?? undefined);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: 'Ошибка удаления' }, { status: 500 });

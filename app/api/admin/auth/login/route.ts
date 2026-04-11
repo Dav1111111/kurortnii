@@ -9,6 +9,12 @@ function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const entry = attempts.get(ip);
   if (!entry || now > entry.resetAt) {
+    // Cleanup expired entries to prevent memory leak
+    if (attempts.size > 500) {
+      attempts.forEach((v, k) => {
+        if (now > v.resetAt) attempts.delete(k);
+      });
+    }
     attempts.set(ip, { count: 1, resetAt: now + 60_000 });
     return true;
   }

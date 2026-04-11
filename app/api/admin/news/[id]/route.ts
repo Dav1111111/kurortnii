@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 import { readNews, writeNews } from '@/lib/news';
+import { logAudit } from '@/lib/audit';
 
 export async function GET(
   _request: NextRequest,
@@ -39,6 +40,7 @@ export async function PUT(
     };
 
     await writeNews(data);
+    await logAudit('update', 'news', params.id, request.headers.get('x-forwarded-for') ?? undefined);
     return NextResponse.json(data.articles[idx]);
   } catch {
     return NextResponse.json({ error: 'Ошибка обновления' }, { status: 500 });
@@ -46,7 +48,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -55,6 +57,7 @@ export async function DELETE(
     if (idx === -1) return NextResponse.json({ error: 'Не найдено' }, { status: 404 });
     data.articles.splice(idx, 1);
     await writeNews(data);
+    await logAudit('delete', 'news', params.id, request.headers.get('x-forwarded-for') ?? undefined);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: 'Ошибка удаления' }, { status: 500 });
