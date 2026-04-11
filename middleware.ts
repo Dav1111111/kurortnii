@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
 
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
     const cookie = request.cookies.get(SESSION_COOKIE)?.value;
-    const secret = process.env.ADMIN_PASSWORD ?? '';
+    const secret = process.env.SESSION_SECRET ?? process.env.ADMIN_PASSWORD ?? '';
 
     if (!cookie || !secret || !(await verifySessionEdge(cookie, secret))) {
       if (pathname.startsWith('/api/')) {
