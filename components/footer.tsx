@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Phone, MapPin, Clock, Send } from "lucide-react";
 
 function WhatsAppIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
@@ -28,6 +31,11 @@ const companyLinks = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Hide site footer on admin pages
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <footer className="bg-ink text-white relative overflow-hidden">
       {/* Decorative blobs */}

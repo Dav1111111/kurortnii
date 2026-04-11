@@ -32,6 +32,9 @@ export function Header() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
 
+  // Hide site header on admin pages — admin has its own layout
+  if (pathname.startsWith("/admin")) return null;
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 40);
   });
